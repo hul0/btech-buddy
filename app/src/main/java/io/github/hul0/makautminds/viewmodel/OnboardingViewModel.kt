@@ -7,7 +7,7 @@ import io.github.hul0.makautminds.data.repository.UserPreferencesRepository
 class OnboardingViewModel(private val userPreferencesRepository: UserPreferencesRepository) : ViewModel() {
 
     suspend fun saveUserPreferences(branch: String, interests: String) {
-        userPreferencesRepository.saveUserPreferences(branch, interests)
+        userPreferencesRepository.updateUserPreferences(branch, interests)
     }
 
     companion object {
