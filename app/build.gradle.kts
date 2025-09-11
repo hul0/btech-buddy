@@ -62,8 +62,10 @@ dependencies {
     implementation("com.google.code.gson:gson:2.13.2")
     // Jetpack DataStore
     implementation("androidx.datastore:datastore-preferences:1.1.7")
-
-
+    // For Rich Link Preview
+    // Unfurl for link previews
+    implementation("me.saket.unfurl:unfurl:2.2.0")    // Coil for loading images in Unfurl
+    implementation("io.coil-kt:coil-compose:2.7.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.3.0")

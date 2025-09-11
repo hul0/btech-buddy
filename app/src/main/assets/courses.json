@@ -1,0 +1,26 @@
+[
+  {
+    "id": "c1",
+    "title": "Data Structures and Algorithms by Apna College",
+    "description": "A comprehensive playlist covering all important DSA topics for placements.",
+    "url": "https://www.youtube.com/playlist?list=PLfqMhTW1LM_awp5mrK6AyH_5dA08eQsS0"
+  },
+  {
+    "id": "c2",
+    "title": "Android Development for Beginners by freeCodeCamp",
+    "description": "Learn the basics of Android development with Kotlin in this full course.",
+    "url": "https://www.youtube.com/watch?v=fis26HvvDII"
+  },
+  {
+    "id": "c3",
+    "title": "Machine Learning by Andrew Ng (Stanford)",
+    "description": "The classic, highly-rated introductory course on Machine Learning.",
+    "url": "https://www.youtube.com/playlist?list=PLLssT5z_DsK-h9vRTCsuyajdL5J5NaCj0"
+  },
+  {
+    "id": "c4",
+    "title": "Full Stack Web Development by CodeWithHarry",
+    "description": "A complete playlist for full stack web development using HTML, CSS, JS, and backend technologies.",
+    "url": "https://www.youtube.com/playlist?list=PLu0W_9lII9agpFUAlP-xJEqyDT3KicPNc"
+  }
+]

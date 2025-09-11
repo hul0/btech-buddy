@@ -2,10 +2,7 @@ package io.github.hul0.makautminds.ui.screens
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Dashboard
-import androidx.compose.material.icons.filled.Explore
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.School
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -16,14 +13,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import io.github.hul0.makautminds.viewmodel.DashboardViewModel
-import io.github.hul0.makautminds.viewmodel.GuidanceViewModel
-import io.github.hul0.makautminds.viewmodel.LearningViewModel
-import io.github.hul0.makautminds.viewmodel.ProfileViewModel
+import io.github.hul0.makautminds.viewmodel.*
 
 sealed class BottomNavScreen(val route: String, val icon: ImageVector, val label: String) {
     object Dashboard : BottomNavScreen("dashboard", Icons.Default.Dashboard, "Dashboard")
     object Learning : BottomNavScreen("learning", Icons.Default.School, "Learning")
+    object Courses : BottomNavScreen("courses", Icons.Default.VideoLibrary, "Courses")
     object Guidance : BottomNavScreen("guidance", Icons.Default.Explore, "Guidance")
     object Profile : BottomNavScreen("profile", Icons.Default.Person, "Profile")
 }
@@ -36,7 +31,8 @@ fun MainScreen(
     dashboardViewModel: DashboardViewModel,
     learningViewModel: LearningViewModel,
     guidanceViewModel: GuidanceViewModel,
-    profileViewModel: ProfileViewModel
+    profileViewModel: ProfileViewModel,
+    coursesViewModel: CoursesViewModel
 ) {
     // This is a NEW, local NavController specifically for the bottom bar tabs.
     val bottomNavController = rememberNavController()
@@ -44,6 +40,7 @@ fun MainScreen(
     val items = listOf(
         BottomNavScreen.Dashboard,
         BottomNavScreen.Learning,
+        BottomNavScreen.Courses,
         BottomNavScreen.Guidance,
         BottomNavScreen.Profile,
     )
@@ -92,9 +89,9 @@ fun MainScreen(
             composable(BottomNavScreen.Dashboard.route) { DashboardScreen(dashboardViewModel) }
             // LearningScreen needs the mainNavController to navigate to the detail page
             composable(BottomNavScreen.Learning.route) { LearningScreen(learningViewModel, mainNavController) }
+            composable(BottomNavScreen.Courses.route) { CoursesScreen(coursesViewModel) }
             composable(BottomNavScreen.Guidance.route) { GuidanceScreen(guidanceViewModel) }
             composable(BottomNavScreen.Profile.route) { ProfileScreen(profileViewModel) }
         }
     }
 }
-

@@ -50,6 +50,9 @@ fun AppNavigation(context: Context, startDestination: String) {
             val profileViewModel: ProfileViewModel = viewModel(
                 factory = ProfileViewModel.provideFactory(userPreferencesRepository)
             )
+            val coursesViewModel: CoursesViewModel = viewModel(
+                factory = CoursesViewModel.provideFactory(contentRepository)
+            )
             val dashboardViewModel: DashboardViewModel = viewModel(
                 factory = DashboardViewModel.provideFactory(
                     learningViewModel = learningViewModel,
@@ -63,7 +66,8 @@ fun AppNavigation(context: Context, startDestination: String) {
                 dashboardViewModel = dashboardViewModel,
                 learningViewModel = learningViewModel,
                 guidanceViewModel = guidanceViewModel,
-                profileViewModel = profileViewModel
+                profileViewModel = profileViewModel,
+                coursesViewModel = coursesViewModel
             )
         }
         composable(
@@ -84,4 +88,3 @@ fun AppNavigation(context: Context, startDestination: String) {
         }
     }
 }
-
