@@ -12,7 +12,6 @@ import io.github.hul0.makautminds.data.repository.ContentRepository
 import io.github.hul0.makautminds.data.repository.UserPreferencesRepository
 import io.github.hul0.makautminds.ui.screens.LearningPathDetailScreen
 import io.github.hul0.makautminds.ui.screens.MainScreen
-// Corrected import from 'hulo' to 'hul0'
 import io.github.hul0.makautminds.ui.screens.OnboardingScreen
 import io.github.hul0.makautminds.viewmodel.*
 
@@ -50,9 +49,6 @@ fun AppNavigation(context: Context, startDestination: String) {
             val profileViewModel: ProfileViewModel = viewModel(
                 factory = ProfileViewModel.provideFactory(userPreferencesRepository)
             )
-            val coursesViewModel: CoursesViewModel = viewModel(
-                factory = CoursesViewModel.provideFactory(contentRepository)
-            )
             val dashboardViewModel: DashboardViewModel = viewModel(
                 factory = DashboardViewModel.provideFactory(
                     learningViewModel = learningViewModel,
@@ -60,14 +56,18 @@ fun AppNavigation(context: Context, startDestination: String) {
                     contentRepository = contentRepository
                 )
             )
+            // Create the CoursesViewModel
+            val coursesViewModel: CoursesViewModel = viewModel(
+                factory = CoursesViewModel.provideFactory(contentRepository)
+            )
 
             MainScreen(
                 mainNavController = navController,
                 dashboardViewModel = dashboardViewModel,
                 learningViewModel = learningViewModel,
+                coursesViewModel = coursesViewModel, // Pass it to the MainScreen
                 guidanceViewModel = guidanceViewModel,
-                profileViewModel = profileViewModel,
-                coursesViewModel = coursesViewModel
+                profileViewModel = profileViewModel
             )
         }
         composable(

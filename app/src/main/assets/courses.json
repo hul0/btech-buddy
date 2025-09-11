@@ -1,26 +1,99 @@
 [
   {
-    "id": "c1",
-    "title": "Data Structures and Algorithms by Apna College",
-    "description": "A comprehensive playlist covering all important DSA topics for placements.",
-    "url": "https://www.youtube.com/playlist?list=PLfqMhTW1LM_awp5mrK6AyH_5dA08eQsS0"
+    "category": "Programming & Development",
+    "subcategories": [
+      {
+        "subcategory": "Data Structures & Algorithms",
+        "courses": [
+          {
+            "id": "c1",
+            "title": "Complete DSA in Java",
+            "description": "Master DSA from scratch with this comprehensive Java-based playlist. Perfect for cracking technical interviews.",
+            "url": "https://www.youtube.com/playlist?list=PL9gnSGHSqcnr_DxHsP7AW9ftq0AtAyYqJ",
+            "difficulty": "Intermediate",
+            "tags": ["Java", "DSA", "Interview Prep"]
+          },
+          {
+            "id": "c2",
+            "title": "Striver's A2Z DSA Course",
+            "description": "A highly-rated DSA sheet and video series that is famous among students preparing for top tech companies.",
+            "url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BGG",
+            "difficulty": "Intermediate",
+            "tags": ["C++", "DSA", "Problem Solving"]
+          }
+        ]
+      },
+      {
+        "subcategory": "Web Development",
+        "courses": [
+          {
+            "id": "c3",
+            "title": "Full Stack Web Dev Course",
+            "description": "Learn the MERN stack (MongoDB, Express, React, Node.js) in this intensive bootcamp-style course.",
+            "url": "https://www.youtube.com/playlist?list=PLwGdqUZWnOp3aROg4wypcRhZqJG3ajZWJ",
+            "difficulty": "Beginner",
+            "tags": ["JavaScript", "React", "Node.js", "Full Stack"]
+          },
+          {
+            "id": "c4",
+            "title": "Next.js 14 Tutorial",
+            "description": "A complete tutorial on the latest version of Next.js, covering App Router, Server Actions, and more.",
+            "url": "https://www.youtube.com/watch?v=ZjAqacSmv_E",
+            "difficulty": "Advanced",
+            "tags": ["Next.js", "React", "Web Dev"]
+          }
+        ]
+      }
+    ]
   },
   {
-    "id": "c2",
-    "title": "Android Development for Beginners by freeCodeCamp",
-    "description": "Learn the basics of Android development with Kotlin in this full course.",
-    "url": "https://www.youtube.com/watch?v=fis26HvvDII"
+    "category": "Core Computer Science",
+    "subcategories": [
+      {
+        "subcategory": "Operating Systems",
+        "courses": [
+          {
+            "id": "c5",
+            "title": "Gate Smashers - Operating Systems",
+            "description": "A very popular playlist that covers all the essential topics of Operating Systems for GATE and university exams.",
+            "url": "https://www.youtube.com/playlist?list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p",
+            "difficulty": "Intermediate",
+            "tags": ["OS", "Gate Prep", "Core CS"]
+          }
+        ]
+      },
+      {
+        "subcategory": "Database Management",
+        "courses": [
+          {
+            "id": "c6",
+            "title": "Complete SQL Tutorial",
+            "description": "Learn SQL from the ground up in this comprehensive tutorial that covers everything from basic queries to advanced topics.",
+            "url": "https://www.youtube.com/watch?v=HXV3zeQKqGY",
+            "difficulty": "Beginner",
+            "tags": ["SQL", "DBMS", "Databases"]
+          }
+        ]
+      }
+    ]
   },
   {
-    "id": "c3",
-    "title": "Machine Learning by Andrew Ng (Stanford)",
-    "description": "The classic, highly-rated introductory course on Machine Learning.",
-    "url": "https://www.youtube.com/playlist?list=PLLssT5z_DsK-h9vRTCsuyajdL5J5NaCj0"
-  },
-  {
-    "id": "c4",
-    "title": "Full Stack Web Development by CodeWithHarry",
-    "description": "A complete playlist for full stack web development using HTML, CSS, JS, and backend technologies.",
-    "url": "https://www.youtube.com/playlist?list=PLu0W_9lII9agpFUAlP-xJEqyDT3KicPNc"
+    "category": "Aptitude & Competitive Exams",
+    "subcategories": [
+      {
+        "subcategory": "Quantitative Aptitude",
+        "courses": [
+          {
+            "id": "c7",
+            "title": "CAT Quantitative Aptitude",
+            "description": "A complete playlist for CAT aspirants focusing on the quantitative aptitude section.",
+            "url": "https://www.youtube.com/playlist?list=PLpyc33gCcbVAD2Rj9nLw-n3g0I-d5A2aF",
+            "difficulty": "Advanced",
+            "tags": ["Aptitude", "CAT", "MBA Prep"]
+          }
+        ]
+      }
+    ]
   }
 ]
+

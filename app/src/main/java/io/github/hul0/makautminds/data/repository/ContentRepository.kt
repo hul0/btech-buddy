@@ -4,7 +4,7 @@ import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import io.github.hul0.makautminds.data.model.CareerRoadmap
-import io.github.hul0.makautminds.data.model.Course
+import io.github.hul0.makautminds.data.model.CourseCategory
 import io.github.hul0.makautminds.data.model.LearningPath
 import java.io.IOException
 
@@ -31,9 +31,10 @@ class ContentRepository(private val context: Context) {
         return Gson().fromJson(jsonString, listType) ?: emptyList()
     }
 
-    fun getCourses(): List<Course> {
+    fun getCourses(): List<CourseCategory> {
         val jsonString = getJsonDataFromAsset("courses.json")
-        val listType = object : TypeToken<List<Course>>() {}.type
+        val listType = object : TypeToken<List<CourseCategory>>() {}.type
         return Gson().fromJson(jsonString, listType) ?: emptyList()
     }
 }
+
