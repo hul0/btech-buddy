@@ -52,15 +52,7 @@ fun MainScreen(
     )
 
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("MAKAUT MINDS") },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimary
-                )
-            )
-        },
+
         bottomBar = {
             NavigationBar {
                 val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
