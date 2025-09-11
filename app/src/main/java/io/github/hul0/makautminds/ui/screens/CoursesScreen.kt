@@ -20,6 +20,8 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import io.github.hul0.makautminds.viewmodel.CoursesViewModel
 import me.saket.unfurl.UnfurlResult
+import io.github.hul0.makautminds.data.model.Course // Assuming this is the correct import
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -59,7 +62,7 @@ fun CoursesScreen(viewModel: CoursesViewModel) {
                             MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.4f),
                             MaterialTheme.colorScheme.surface
                         ),
-                        radius = 1200f
+                        radius = 840f // 1200 * 0.7
                     )
                 )
         )
@@ -69,13 +72,13 @@ fun CoursesScreen(viewModel: CoursesViewModel) {
             Surface(
                 modifier = Modifier.fillMaxWidth(),
                 color = MaterialTheme.colorScheme.surface,
-                shadowElevation = 12.dp,
-                tonalElevation = 2.dp
+                shadowElevation = 8.dp, // 12 * 0.7
+                tonalElevation = 1.dp // 2 * 0.7 (approx)
             ) {
                 Column(
                     modifier = Modifier.padding(
-                        horizontal = 24.dp,
-                        vertical = 20.dp
+                        horizontal = 17.dp, // 24 * 0.7
+                        vertical = 14.dp // 20 * 0.7
                     )
                 ) {
                     // Hero Section
@@ -87,13 +90,13 @@ fun CoursesScreen(viewModel: CoursesViewModel) {
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
                                 text = "Discover Courses",
-                                style = MaterialTheme.typography.headlineLarge,
+                                style = MaterialTheme.typography.headlineMedium, // Adjusted for smaller feel
                                 fontWeight = FontWeight.ExtraBold,
                                 color = MaterialTheme.colorScheme.onSurface
                             )
                             Text(
                                 text = "Unlock your potential with expert-curated learning",
-                                style = MaterialTheme.typography.titleMedium,
+                                style = MaterialTheme.typography.titleSmall, // Adjusted for smaller feel
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 fontWeight = FontWeight.Medium
                             )
@@ -101,7 +104,7 @@ fun CoursesScreen(viewModel: CoursesViewModel) {
 
                         // Decorative element
                         Surface(
-                            modifier = Modifier.size(56.dp),
+                            modifier = Modifier.size(39.dp), // 56 * 0.7
                             shape = CircleShape,
                             color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f)
                         ) {
@@ -110,13 +113,13 @@ fun CoursesScreen(viewModel: CoursesViewModel) {
                                     Icons.Outlined.School,
                                     contentDescription = null,
                                     tint = MaterialTheme.colorScheme.primary,
-                                    modifier = Modifier.size(28.dp)
+                                    modifier = Modifier.size(20.dp) // 28 * 0.7
                                 )
                             }
                         }
                     }
 
-                    Spacer(modifier = Modifier.height(24.dp))
+                    Spacer(modifier = Modifier.height(17.dp)) // 24 * 0.7
 
                     // Premium Search Bar
                     OutlinedTextField(
@@ -125,19 +128,20 @@ fun CoursesScreen(viewModel: CoursesViewModel) {
                         modifier = Modifier
                             .fillMaxWidth()
                             .shadow(
-                                elevation = 6.dp,
-                                shape = RoundedCornerShape(20.dp),
+                                elevation = 4.dp, // 6 * 0.7
+                                shape = RoundedCornerShape(14.dp), // 20 * 0.7
                                 clip = false
                             ),
                         placeholder = {
                             Text(
                                 "Explore courses, skills, and topics...",
+                                style = MaterialTheme.typography.bodySmall, // Adjusted for smaller feel
                                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
                             )
                         },
                         leadingIcon = {
                             Surface(
-                                modifier = Modifier.size(36.dp),
+                                modifier = Modifier.size(25.dp), // 36 * 0.7
                                 shape = CircleShape,
                                 color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
                             ) {
@@ -146,7 +150,7 @@ fun CoursesScreen(viewModel: CoursesViewModel) {
                                         Icons.Default.Search,
                                         contentDescription = "Search",
                                         tint = MaterialTheme.colorScheme.primary,
-                                        modifier = Modifier.size(20.dp)
+                                        modifier = Modifier.size(14.dp) // 20 * 0.7
                                     )
                                 }
                             }
@@ -160,13 +164,13 @@ fun CoursesScreen(viewModel: CoursesViewModel) {
                                         Icons.Outlined.Close,
                                         contentDescription = "Clear",
                                         tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                                        modifier = Modifier.size(20.dp)
+                                        modifier = Modifier.size(14.dp) // 20 * 0.7
                                     )
                                 }
                             }
                         } else null,
                         singleLine = true,
-                        shape = RoundedCornerShape(20.dp),
+                        shape = RoundedCornerShape(14.dp), // 20 * 0.7
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = MaterialTheme.colorScheme.primary,
                             unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
@@ -176,7 +180,7 @@ fun CoursesScreen(viewModel: CoursesViewModel) {
                         )
                     )
 
-                    Spacer(modifier = Modifier.height(20.dp))
+                    Spacer(modifier = Modifier.height(14.dp)) // 20 * 0.7
 
                     // Enhanced Filter Tags
                     AnimatedVisibility(
@@ -189,26 +193,26 @@ fun CoursesScreen(viewModel: CoursesViewModel) {
                         Column {
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                horizontalArrangement = Arrangement.spacedBy(6.dp) // 8 * 0.7
                             ) {
                                 Icon(
                                     Icons.Outlined.FilterAlt,
                                     contentDescription = null,
                                     tint = MaterialTheme.colorScheme.primary,
-                                    modifier = Modifier.size(18.dp)
+                                    modifier = Modifier.size(13.dp) // 18 * 0.7
                                 )
                                 Text(
                                     text = "Categories",
-                                    style = MaterialTheme.typography.titleSmall,
+                                    style = MaterialTheme.typography.labelLarge, // Adjusted for smaller feel
                                     fontWeight = FontWeight.SemiBold,
                                     color = MaterialTheme.colorScheme.onSurface
                                 )
                             }
 
-                            Spacer(modifier = Modifier.height(12.dp))
+                            Spacer(modifier = Modifier.height(8.dp)) // 12 * 0.7
 
                             LazyRow(
-                                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                                horizontalArrangement = Arrangement.spacedBy(8.dp) // 12 * 0.7
                             ) {
                                 items(uiState.allTags) { tag ->
                                     PremiumFilterChip(
@@ -229,8 +233,8 @@ fun CoursesScreen(viewModel: CoursesViewModel) {
             // Enhanced Courses List
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(24.dp),
-                verticalArrangement = Arrangement.spacedBy(24.dp)
+                contentPadding = PaddingValues(17.dp), // 24 * 0.7
+                verticalArrangement = Arrangement.spacedBy(17.dp) // 24 * 0.7
             ) {
                 uiState.filteredCourses.forEach { category ->
                     item {
@@ -272,7 +276,7 @@ fun PremiumFilterChip(
     onClick: () -> Unit
 ) {
     val animatedScale by animateFloatAsState(
-        targetValue = if (isSelected) 1.08f else 1f,
+        targetValue = if (isSelected) 1.05f else 1f, // Adjusted scale
         animationSpec = spring(
             dampingRatio = Spring.DampingRatioMediumBouncy,
             stiffness = Spring.StiffnessLow
@@ -281,7 +285,7 @@ fun PremiumFilterChip(
     )
 
     val animatedElevation by animateFloatAsState(
-        targetValue = if (isSelected) 8f else 2f,
+        targetValue = if (isSelected) 5f else 1f, // 8 * 0.7 (approx), 2 * 0.7 (approx)
         animationSpec = tween(200),
         label = "chip_elevation"
     )
@@ -291,7 +295,7 @@ fun PremiumFilterChip(
             .scale(animatedScale)
             .shadow(
                 elevation = animatedElevation.dp,
-                shape = RoundedCornerShape(16.dp),
+                shape = RoundedCornerShape(11.dp), // 16 * 0.7
                 clip = false
             )
             .clickable(
@@ -299,7 +303,7 @@ fun PremiumFilterChip(
                 indication = null,
                 onClick = onClick
             ),
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(11.dp), // 16 * 0.7
         color = if (isSelected) {
             MaterialTheme.colorScheme.primaryContainer
         } else {
@@ -307,21 +311,21 @@ fun PremiumFilterChip(
         }
     ) {
         Row(
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+            modifier = Modifier.padding(horizontal = 11.dp, vertical = 8.dp), // 16*0.7, 12*0.7
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(6.dp) // 8 * 0.7
         ) {
             if (isSelected) {
                 Icon(
                     Icons.Outlined.CheckCircle,
                     contentDescription = null,
-                    modifier = Modifier.size(16.dp),
+                    modifier = Modifier.size(11.dp), // 16 * 0.7
                     tint = MaterialTheme.colorScheme.primary
                 )
             }
             Text(
                 text = tag,
-                style = MaterialTheme.typography.labelLarge,
+                style = MaterialTheme.typography.labelMedium, // Adjusted for smaller feel
                 fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
                 color = if (isSelected) {
                     MaterialTheme.colorScheme.onPrimaryContainer
@@ -338,13 +342,13 @@ fun PremiumCategoryHeader(category: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 12.dp),
+            .padding(vertical = 8.dp), // 12 * 0.7
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
+        horizontalArrangement = Arrangement.spacedBy(11.dp) // 16 * 0.7
     ) {
         Surface(
-            modifier = Modifier.size(40.dp),
-            shape = RoundedCornerShape(12.dp),
+            modifier = Modifier.size(28.dp), // 40 * 0.7
+            shape = RoundedCornerShape(8.dp), // 12 * 0.7
             color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
         ) {
             Box(contentAlignment = Alignment.Center) {
@@ -352,7 +356,7 @@ fun PremiumCategoryHeader(category: String) {
                     Icons.Outlined.Category,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier.size(14.dp) // 20 * 0.7
                 )
             }
         }
@@ -360,13 +364,13 @@ fun PremiumCategoryHeader(category: String) {
         Column {
             Text(
                 text = category,
-                style = MaterialTheme.typography.headlineSmall,
+                style = MaterialTheme.typography.titleMedium, // Adjusted for smaller feel
                 fontWeight = FontWeight.ExtraBold,
                 color = MaterialTheme.colorScheme.onSurface
             )
             Text(
                 text = "Curated learning paths",
-                style = MaterialTheme.typography.bodySmall,
+                style = MaterialTheme.typography.labelSmall, // Adjusted for smaller feel
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontWeight = FontWeight.Medium
             )
@@ -377,22 +381,22 @@ fun PremiumCategoryHeader(category: String) {
 @Composable
 fun PremiumSubcategoryHeader(subcategory: String) {
     Row(
-        modifier = Modifier.padding(vertical = 12.dp, horizontal = 8.dp),
+        modifier = Modifier.padding(vertical = 8.dp, horizontal = 6.dp), // 12*0.7, 8*0.7
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
+        horizontalArrangement = Arrangement.spacedBy(8.dp) // 12 * 0.7
     ) {
         Box(
             modifier = Modifier
-                .size(24.dp)
+                .size(17.dp) // 24 * 0.7
                 .background(
                     MaterialTheme.colorScheme.tertiary.copy(alpha = 0.2f),
-                    RoundedCornerShape(6.dp)
+                    RoundedCornerShape(4.dp) // 6 * 0.7
                 ),
             contentAlignment = Alignment.Center
         ) {
             Box(
                 modifier = Modifier
-                    .size(8.dp)
+                    .size(6.dp) // 8 * 0.7
                     .background(
                         MaterialTheme.colorScheme.tertiary,
                         CircleShape
@@ -402,7 +406,7 @@ fun PremiumSubcategoryHeader(subcategory: String) {
 
         Text(
             text = subcategory,
-            style = MaterialTheme.typography.titleLarge,
+            style = MaterialTheme.typography.titleSmall, // Adjusted for smaller feel
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurface
         )
@@ -411,14 +415,14 @@ fun PremiumSubcategoryHeader(subcategory: String) {
 
 @Composable
 fun PremiumCourseCard(
-    course: io.github.hul0.makautminds.data.model.Course,
+    course: Course,
     preview: UnfurlResult?,
     isLoading: Boolean,
     onClick: () -> Unit
 ) {
     var isPressed by remember { mutableStateOf(false) }
     val scale by animateFloatAsState(
-        targetValue = if (isPressed) 0.97f else 1f,
+        targetValue = if (isPressed) 0.98f else 1f, // Slightly adjusted for smaller card
         animationSpec = spring(
             dampingRatio = Spring.DampingRatioMediumBouncy,
             stiffness = Spring.StiffnessMedium
@@ -427,7 +431,7 @@ fun PremiumCourseCard(
     )
 
     val elevation by animateFloatAsState(
-        targetValue = if (isPressed) 4f else 12f,
+        targetValue = if (isPressed) 3f else 8f, // 4*0.7, 12*0.7
         animationSpec = tween(150),
         label = "card_elevation"
     )
@@ -438,7 +442,7 @@ fun PremiumCourseCard(
             .scale(scale)
             .shadow(
                 elevation = elevation.dp,
-                shape = RoundedCornerShape(24.dp),
+                shape = RoundedCornerShape(17.dp), // 24 * 0.7
                 clip = false
             )
             .clickable(
@@ -449,15 +453,15 @@ fun PremiumCourseCard(
                     onClick()
                 }
             )
-            .padding(2.dp),
-        shape = RoundedCornerShape(24.dp),
+            .padding(1.dp), // 2 * 0.7 (approx)
+        shape = RoundedCornerShape(17.dp), // 24 * 0.7
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
         )
     ) {
         Column {
             // Premium Course Content
-            Column(modifier = Modifier.padding(24.dp)) {
+            Column(modifier = Modifier.padding(17.dp)) { // 24 * 0.7
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -466,7 +470,7 @@ fun PremiumCourseCard(
                     Column(modifier = Modifier.weight(1f)) {
                         // Course difficulty indicator
                         Surface(
-                            shape = RoundedCornerShape(8.dp),
+                            shape = RoundedCornerShape(6.dp), // 8 * 0.7
                             color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.6f)
                         ) {
                             Text(
@@ -474,29 +478,29 @@ fun PremiumCourseCard(
                                 style = MaterialTheme.typography.labelSmall,
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.onSecondaryContainer,
-                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                                modifier = Modifier.padding(horizontal = 6.dp, vertical = 3.dp) // 8*0.7, 4*0.7
                             )
                         }
 
-                        Spacer(modifier = Modifier.height(12.dp))
+                        Spacer(modifier = Modifier.height(8.dp)) // 12 * 0.7
 
                         Text(
                             text = course.title,
-                            style = MaterialTheme.typography.headlineSmall,
+                            style = MaterialTheme.typography.titleMedium, // Adjusted for smaller feel
                             fontWeight = FontWeight.ExtraBold,
                             color = MaterialTheme.colorScheme.onSurface,
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis,
-                            lineHeight = MaterialTheme.typography.headlineSmall.lineHeight * 1.1
+                            lineHeight = MaterialTheme.typography.titleMedium.lineHeight * 1.1
                         )
 
-                        Spacer(modifier = Modifier.height(12.dp))
+                        Spacer(modifier = Modifier.height(8.dp)) // 12 * 0.7
 
                         Text(
                             text = course.description,
-                            style = MaterialTheme.typography.bodyLarge,
+                            style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            lineHeight = MaterialTheme.typography.bodyLarge.lineHeight * 1.4,
+                            lineHeight = MaterialTheme.typography.bodyMedium.lineHeight * 1.4,
                             maxLines = 3,
                             overflow = TextOverflow.Ellipsis,
                             fontWeight = FontWeight.Medium
@@ -506,8 +510,8 @@ fun PremiumCourseCard(
                     // Bookmark with enhanced design
                     Surface(
                         modifier = Modifier
-                            .padding(start = 12.dp)
-                            .size(48.dp),
+                            .padding(start = 8.dp) // 12 * 0.7
+                            .size(34.dp), // 48 * 0.7
                         shape = CircleShape,
                         color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f)
                     ) {
@@ -516,33 +520,33 @@ fun PremiumCourseCard(
                                 Icons.Outlined.BookmarkBorder,
                                 contentDescription = "Bookmark",
                                 tint = MaterialTheme.colorScheme.primary,
-                                modifier = Modifier.size(24.dp)
+                                modifier = Modifier.size(17.dp) // 24 * 0.7
                             )
                         }
                     }
                 }
 
-                Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(14.dp)) // 20 * 0.7
 
                 // Enhanced Tags
                 if (course.tags.isNotEmpty()) {
                     LazyRow(
-                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                        horizontalArrangement = Arrangement.spacedBy(7.dp) // 10 * 0.7
                     ) {
                         items(course.tags.take(3)) { tag -> // Limit to 3 tags for cleaner look
                             Surface(
-                                shape = RoundedCornerShape(16.dp),
+                                shape = RoundedCornerShape(11.dp), // 16 * 0.7
                                 color = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.7f),
-                                modifier = Modifier.padding(vertical = 2.dp)
+                                modifier = Modifier.padding(vertical = 1.dp) // 2 * 0.7 (approx)
                             ) {
                                 Row(
-                                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+                                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 6.dp), // 12*0.7, 8*0.7
                                     verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                    horizontalArrangement = Arrangement.spacedBy(4.dp) // 6 * 0.7
                                 ) {
                                     Box(
                                         modifier = Modifier
-                                            .size(6.dp)
+                                            .size(4.dp) // 6 * 0.7
                                             .background(
                                                 MaterialTheme.colorScheme.onTertiaryContainer,
                                                 CircleShape
@@ -550,7 +554,7 @@ fun PremiumCourseCard(
                                     )
                                     Text(
                                         text = tag,
-                                        style = MaterialTheme.typography.labelMedium,
+                                        style = MaterialTheme.typography.labelSmall, // Adjusted for smaller feel
                                         color = MaterialTheme.colorScheme.onTertiaryContainer,
                                         fontWeight = FontWeight.SemiBold
                                     )
@@ -560,15 +564,15 @@ fun PremiumCourseCard(
                         if (course.tags.size > 3) {
                             item {
                                 Surface(
-                                    shape = RoundedCornerShape(16.dp),
+                                    shape = RoundedCornerShape(11.dp), // 16 * 0.7
                                     color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f)
                                 ) {
                                     Text(
                                         text = "+${course.tags.size - 3}",
-                                        style = MaterialTheme.typography.labelMedium,
+                                        style = MaterialTheme.typography.labelSmall, // Adjusted for smaller feel
                                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                                         fontWeight = FontWeight.Medium,
-                                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
+                                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 6.dp) // 12*0.7, 8*0.7
                                     )
                                 }
                             }
@@ -602,7 +606,7 @@ fun PremiumLoadingState() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(140.dp)
+            .height(98.dp) // 140 * 0.7
             .background(
                 brush = Brush.linearGradient(
                     colors = listOf(
@@ -613,25 +617,25 @@ fun PremiumLoadingState() {
                     start = androidx.compose.ui.geometry.Offset.Zero,
                     end = androidx.compose.ui.geometry.Offset.Infinite
                 ),
-                shape = RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp)
+                shape = RoundedCornerShape(bottomStart = 17.dp, bottomEnd = 17.dp) // 24 * 0.7
             ),
         contentAlignment = Alignment.Center
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp) // 12 * 0.7
         ) {
             // Custom animated loading indicator
             Box {
                 CircularProgressIndicator(
-                    modifier = Modifier.size(40.dp),
-                    strokeWidth = 4.dp,
+                    modifier = Modifier.size(28.dp), // 40 * 0.7
+                    strokeWidth = 3.dp, // 4 * 0.7 (approx)
                     color = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f),
                     trackColor = Color.Transparent
                 )
                 CircularProgressIndicator(
-                    modifier = Modifier.size(40.dp),
-                    strokeWidth = 4.dp,
+                    modifier = Modifier.size(28.dp), // 40 * 0.7
+                    strokeWidth = 3.dp, // 4 * 0.7 (approx)
                     color = MaterialTheme.colorScheme.primary
                 )
             }
@@ -639,13 +643,13 @@ fun PremiumLoadingState() {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
                     text = "Loading preview...",
-                    style = MaterialTheme.typography.titleSmall,
+                    style = MaterialTheme.typography.labelLarge, // Adjusted for smaller feel
                     fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
                     text = "Fetching course details",
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MaterialTheme.typography.labelSmall, // Adjusted for smaller feel
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
@@ -668,8 +672,8 @@ fun PremiumLinkPreview(data: UnfurlResult, onClick: () -> Unit) {
                     contentDescription = data.title,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(220.dp)
-                        .clip(RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp)),
+                        .height(154.dp) // 220 * 0.7
+                        .clip(RoundedCornerShape(bottomStart = 17.dp, bottomEnd = 17.dp)), // 24 * 0.7
                     contentScale = ContentScale.Crop
                 )
 
@@ -677,7 +681,7 @@ fun PremiumLinkPreview(data: UnfurlResult, onClick: () -> Unit) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(220.dp)
+                        .height(154.dp) // 220 * 0.7
                         .background(
                             brush = Brush.verticalGradient(
                                 colors = listOf(
@@ -685,9 +689,9 @@ fun PremiumLinkPreview(data: UnfurlResult, onClick: () -> Unit) {
                                     Color.Black.copy(alpha = 0.1f),
                                     Color.Black.copy(alpha = 0.4f)
                                 ),
-                                startY = 50f
+                                startY = 35f // 50 * 0.7
                             ),
-                            shape = RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp)
+                            shape = RoundedCornerShape(bottomStart = 17.dp, bottomEnd = 17.dp) // 24 * 0.7
                         )
                 )
 
@@ -695,14 +699,14 @@ fun PremiumLinkPreview(data: UnfurlResult, onClick: () -> Unit) {
                 Surface(
                     modifier = Modifier
                         .align(Alignment.Center)
-                        .size(72.dp),
+                        .size(50.dp), // 72 * 0.7
                     shape = CircleShape,
                     color = MaterialTheme.colorScheme.primary.copy(alpha = 0.95f),
-                    shadowElevation = 12.dp
+                    shadowElevation = 8.dp // 12 * 0.7
                 ) {
                     Box(contentAlignment = Alignment.Center) {
                         Surface(
-                            modifier = Modifier.size(64.dp),
+                            modifier = Modifier.size(45.dp), // 64 * 0.7
                             shape = CircleShape,
                             color = Color.White.copy(alpha = 0.1f)
                         ) {
@@ -711,7 +715,7 @@ fun PremiumLinkPreview(data: UnfurlResult, onClick: () -> Unit) {
                                     Icons.Outlined.PlayArrow,
                                     contentDescription = "Play",
                                     tint = MaterialTheme.colorScheme.onPrimary,
-                                    modifier = Modifier.size(32.dp)
+                                    modifier = Modifier.size(22.dp) // 32 * 0.7
                                 )
                             }
                         }
@@ -722,24 +726,24 @@ fun PremiumLinkPreview(data: UnfurlResult, onClick: () -> Unit) {
                 Surface(
                     modifier = Modifier
                         .align(Alignment.TopEnd)
-                        .padding(16.dp),
-                    shape = RoundedCornerShape(12.dp),
+                        .padding(11.dp), // 16 * 0.7
+                    shape = RoundedCornerShape(8.dp), // 12 * 0.7
                     color = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f)
                 ) {
                     Row(
-                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp), // 12*0.7, 6*0.7
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        horizontalArrangement = Arrangement.spacedBy(3.dp) // 4 * 0.7 (approx)
                     ) {
                         Icon(
                             Icons.Outlined.OndemandVideo,
                             contentDescription = null,
-                            modifier = Modifier.size(14.dp),
+                            modifier = Modifier.size(10.dp), // 14 * 0.7
                             tint = MaterialTheme.colorScheme.primary
                         )
                         Text(
                             text = "Video Course",
-                            style = MaterialTheme.typography.labelSmall,
+                            style = MaterialTheme.typography.labelSmall, // Adjusted for smaller feel
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurface
                         )
@@ -753,53 +757,53 @@ fun PremiumLinkPreview(data: UnfurlResult, onClick: () -> Unit) {
             Surface(
                 modifier = Modifier.fillMaxWidth(),
                 color = MaterialTheme.colorScheme.surfaceContainerLow,
-                shape = RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp)
+                shape = RoundedCornerShape(bottomStart = 17.dp, bottomEnd = 17.dp) // 24 * 0.7
             ) {
                 Column(
-                    modifier = Modifier.padding(24.dp)
+                    modifier = Modifier.padding(17.dp) // 24 * 0.7
                 ) {
                     data.title?.let { title ->
                         Text(
                             text = title,
-                            style = MaterialTheme.typography.titleLarge,
+                            style = MaterialTheme.typography.titleMedium, // Adjusted for smaller feel
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurface,
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis,
-                            lineHeight = MaterialTheme.typography.titleLarge.lineHeight * 1.2
+                            lineHeight = MaterialTheme.typography.titleMedium.lineHeight * 1.2
                         )
                     }
 
                     data.description?.let { description ->
-                        Spacer(modifier = Modifier.height(12.dp))
+                        Spacer(modifier = Modifier.height(8.dp)) // 12 * 0.7
                         Text(
                             text = description,
-                            style = MaterialTheme.typography.bodyMedium,
+                            style = MaterialTheme.typography.bodySmall, // Adjusted for smaller feel
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis,
-                            lineHeight = MaterialTheme.typography.bodyMedium.lineHeight * 1.4,
+                            lineHeight = MaterialTheme.typography.bodySmall.lineHeight * 1.4,
                             fontWeight = FontWeight.Medium
                         )
                     }
 
                     // Enhanced CTA
                     data.url.let {
-                        Spacer(modifier = Modifier.height(16.dp))
+                        Spacer(modifier = Modifier.height(11.dp)) // 16 * 0.7
                         Surface(
-                            shape = RoundedCornerShape(12.dp),
+                            shape = RoundedCornerShape(8.dp), // 12 * 0.7
                             color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
                         ) {
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(16.dp),
+                                    .padding(11.dp), // 16 * 0.7
                                 horizontalArrangement = Arrangement.SpaceBetween,
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(
                                     text = "Start Learning Now",
-                                    style = MaterialTheme.typography.titleSmall,
+                                    style = MaterialTheme.typography.labelLarge, // Adjusted for smaller feel
                                     fontWeight = FontWeight.Bold,
                                     color = MaterialTheme.colorScheme.primary
                                 )
@@ -807,7 +811,7 @@ fun PremiumLinkPreview(data: UnfurlResult, onClick: () -> Unit) {
                                     Icons.Outlined.ArrowForward,
                                     contentDescription = null,
                                     tint = MaterialTheme.colorScheme.primary,
-                                    modifier = Modifier.size(20.dp)
+                                    modifier = Modifier.size(14.dp) // 20 * 0.7
                                 )
                             }
                         }
