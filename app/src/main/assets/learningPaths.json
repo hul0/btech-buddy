@@ -1,39 +1,70 @@
 [
   {
     "id": "lp1",
-    "title": "DSA Roadmap for Placements",
+    "title": "DSA for Placements",
     "description": "Master Data Structures and Algorithms from basics to advanced for your upcoming placement interviews.",
     "modules": [
-      { "id": "m1", "title": "Arrays & Strings", "resources": [] },
-      { "id": "m2", "title": "Linked Lists", "resources": [] },
-      { "id": "m3", "title": "Stacks & Queues", "resources": [] },
-      { "id": "m4", "title": "Trees & Graphs", "resources": [] },
-      { "id": "m5", "title": "Dynamic Programming", "resources": [] }
+      { "id": "lp1m1", "title": "Arrays & Strings", "resources": [] },
+      { "id": "lp1m2", "title": "Linked Lists", "resources": [] },
+      { "id": "lp1m3", "title": "Stacks & Queues", "resources": [] },
+      { "id": "lp1m4", "title": "Recursion & Backtracking", "resources": [] },
+      { "id": "lp1m5", "title": "Trees & Binary Search Trees", "resources": [] },
+      { "id": "lp1m6", "title": "Heaps & Hashing", "resources": [] },
+      { "id": "lp1m7", "title": "Graphs", "resources": [] },
+      { "id": "lp1m8", "title": "Dynamic Programming", "resources": [] },
+      { "id": "lp1m9", "title": "Tries & Segment Trees", "resources": [] }
     ],
-    "completedModules": 2
+    "completedModules": 0
   },
   {
     "id": "lp2",
-    "title": "Aptitude Preparation",
-    "description": "Sharpen your quantitative, logical, and verbal reasoning skills. A must for every competitive exam.",
+    "title": "Full-Stack Web Development",
+    "description": "Become a complete web developer by learning both frontend and backend technologies.",
     "modules": [
-      { "id": "m1", "title": "Quantitative Aptitude", "resources": [] },
-      { "id": "m2", "title": "Logical Reasoning", "resources": [] },
-      { "id": "m3", "title": "Verbal Ability", "resources": [] },
-      { "id": "m4", "title": "Data Interpretation", "resources": [] }
+      { "id": "lp2m1", "title": "HTML, CSS, & JavaScript Fundamentals", "resources": [] },
+      { "id": "lp2m2", "title": "Frontend Frameworks (React/Angular/Vue)", "resources": [] },
+      { "id": "lp2m3", "title": "Backend Development (Node.js/Django/Spring)", "resources": [] },
+      { "id": "lp2m4", "title": "Databases (SQL & NoSQL)", "resources": [] },
+      { "id": "lp2m5", "title": "APIs & RESTful Services", "resources": [] },
+      { "id": "lp2m6", "title": "Deployment & DevOps Basics", "resources": [] }
     ],
-    "completedModules": 1
+    "completedModules": 0
   },
   {
     "id": "lp3",
+    "title": "Aptitude & Reasoning",
+    "description": "Sharpen your quantitative, logical, and verbal reasoning skills. A must for every competitive exam.",
+    "modules": [
+      { "id": "lp3m1", "title": "Quantitative Aptitude", "resources": [] },
+      { "id": "lp3m2", "title": "Logical Reasoning", "resources": [] },
+      { "id": "lp3m3", "title": "Verbal Ability & Reading Comprehension", "resources": [] },
+      { "id": "lp3m4", "title": "Data Interpretation", "resources": [] }
+    ],
+    "completedModules": 0
+  },
+  {
+    "id": "lp4",
     "title": "Core CS Subjects",
     "description": "Build a strong foundation in core computer science subjects like OS, DBMS, and Computer Networks.",
     "modules": [
-      { "id": "m1", "title": "Operating Systems", "resources": [] },
-      { "id": "m2", "title": "Database Management Systems", "resources": [] },
-      { "id": "m3", "title": "Computer Networks", "resources": [] },
-      { "id": "m4", "title": "Object Oriented Programming", "resources": [] }
+      { "id": "lp4m1", "title": "Operating Systems", "resources": [] },
+      { "id": "lp4m2", "title": "Database Management Systems (DBMS)", "resources": [] },
+      { "id": "lp4m3", "title": "Computer Networks (CN)", "resources": [] },
+      { "id": "lp4m4", "title": "Object-Oriented Programming (OOPs)", "resources": [] }
     ],
-    "completedModules": 3
+    "completedModules": 0
+  },
+  {
+    "id": "lp5",
+    "title": "Mechanical Engineering Core",
+    "description": "Strengthen your grasp on fundamental concepts required for mechanical engineering roles and exams.",
+    "modules": [
+      { "id": "lp5m1", "title": "Thermodynamics", "resources": [] },
+      { "id": "lp5m2", "title": "Strength of Materials", "resources": [] },
+      { "id": "lp5m3", "title": "Fluid Mechanics", "resources": [] },
+      { "id": "lp5m4", "title": "Theory of Machines", "resources": [] },
+      { "id": "lp5m5", "title": "Manufacturing Processes", "resources": [] }
+    ],
+    "completedModules": 0
   }
 ]

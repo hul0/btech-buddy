@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -19,27 +20,43 @@ import io.github.hul0.makautminds.viewmodel.GuidanceViewModel
 
 @Composable
 fun GuidanceScreen(viewModel: GuidanceViewModel) {
-    val roadmaps by viewModel.careerRoadmaps.collectAsState()
+    val roadmaps by viewModel.filteredCareerRoadmaps.collectAsState()
+    val searchText by viewModel.searchText.collectAsState()
 
-    if (roadmaps.isEmpty()) {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            CircularProgressIndicator()
-        }
-    } else {
-        LazyColumn(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            roadmaps.forEach { category ->
-                item {
-                    Text(
-                        text = category.category,
-                        style = MaterialTheme.typography.headlineSmall,
-                        modifier = Modifier.padding(bottom = 8.dp)
-                    )
-                }
-                items(category.roadmaps) { roadmap ->
-                    RoadmapCard(roadmap = roadmap)
+    Column(modifier = Modifier.padding(16.dp)) {
+        OutlinedTextField(
+            value = searchText,
+            onValueChange = viewModel::onSearchTextChanged,
+            modifier = Modifier.fillMaxWidth(),
+            label = { Text("Search Roadmaps") },
+            leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Search") },
+            singleLine = true
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        if (roadmaps.isEmpty() && searchText.isNotBlank()) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Text("No results found.")
+            }
+        } else if (roadmaps.isEmpty()) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+            }
+        } else {
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                roadmaps.forEach { category ->
+                    item {
+                        Text(
+                            text = category.category,
+                            style = MaterialTheme.typography.headlineSmall,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+                    }
+                    items(category.roadmaps) { roadmap ->
+                        RoadmapCard(roadmap = roadmap)
+                    }
                 }
             }
         }

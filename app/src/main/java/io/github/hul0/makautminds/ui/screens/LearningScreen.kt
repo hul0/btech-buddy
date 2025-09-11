@@ -11,11 +11,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import io.github.hul0.makautminds.data.model.LearningPath
+import io.github.hul0.makautminds.navigation.Screen
 import io.github.hul0.makautminds.viewmodel.LearningViewModel
 
 @Composable
-fun LearningScreen(viewModel: LearningViewModel) {
+fun LearningScreen(viewModel: LearningViewModel, navController: NavController) {
     val learningPaths by viewModel.learningPaths.collectAsState()
 
     if (learningPaths.isEmpty()) {
@@ -28,7 +30,10 @@ fun LearningScreen(viewModel: LearningViewModel) {
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             items(learningPaths) { path ->
-                LearningPathCard(path = path, onClick = { /* TODO: Navigate to detail screen */ })
+                LearningPathCard(
+                    path = path,
+                    onClick = { navController.navigate(Screen.LearningPathDetail.createRoute(path.id)) }
+                )
             }
         }
     }
@@ -54,12 +59,19 @@ fun LearningPathCard(path: LearningPath, onClick: () -> Unit) {
                 style = MaterialTheme.typography.bodyMedium
             )
             Spacer(modifier = Modifier.height(16.dp))
+
+            val progress = if (path.modules.isNotEmpty()) {
+                path.completedModules.toFloat() / path.modules.size
+            } else {
+                0f
+            }
+
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 LinearProgressIndicator(
-                    progress = path.completedModules.toFloat() / path.modules.size,
+                    progress = progress,
                     modifier = Modifier.weight(1f)
                 )
                 Text(

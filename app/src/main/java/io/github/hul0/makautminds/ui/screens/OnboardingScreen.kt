@@ -8,13 +8,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import io.github.hul0.makautminds.data.repository.UserPreferencesRepository
 import io.github.hul0.makautminds.navigation.Screen
 import io.github.hul0.makautminds.ui.theme.MAKAUTMINDSTheme
+import io.github.hul0.makautminds.viewmodel.OnboardingViewModel
+import kotlinx.coroutines.launch
 
 @Composable
-fun OnboardingScreen(navController: NavController) {
+fun OnboardingScreen(
+    navController: NavController,
+    userPreferencesRepository: UserPreferencesRepository
+) {
+    val viewModel: OnboardingViewModel = viewModel(
+        factory = OnboardingViewModel.provideFactory(userPreferencesRepository)
+    )
+    val coroutineScope = rememberCoroutineScope()
+    var selectedBranch by remember { mutableStateOf("") }
+    var selectedInterests by remember { mutableStateOf("") }
+
+
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
@@ -36,23 +51,29 @@ fun OnboardingScreen(navController: NavController) {
             )
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Placeholder for branch selection
-            OnboardingSelection("Select Your Branch")
+            OnboardingSelection("Select Your Branch", selectedBranch) {
+                selectedBranch = it
+            }
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Placeholder for interests selection
-            OnboardingSelection("Select Your Interests")
+            OnboardingSelection("Select Your Interests", selectedInterests) {
+                selectedInterests = it
+            }
 
             Spacer(modifier = Modifier.height(48.dp))
 
             Button(
                 onClick = {
-                    navController.navigate(Screen.Main.route) {
-                        popUpTo(Screen.Onboarding.route) { inclusive = true }
+                    coroutineScope.launch {
+                        viewModel.saveUserPreferences(selectedBranch, selectedInterests)
+                        navController.navigate(Screen.Main.route) {
+                            popUpTo(Screen.Onboarding.route) { inclusive = true }
+                        }
                     }
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                enabled = selectedBranch.isNotBlank() && selectedInterests.isNotBlank()
             ) {
                 Text("Get Started")
             }
@@ -62,10 +83,13 @@ fun OnboardingScreen(navController: NavController) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OnboardingSelection(label: String) {
+fun OnboardingSelection(label: String, selectedText: String, onSelectionChanged: (String) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
-    var selectedText by remember { mutableStateOf("") }
-    val options = listOf("Computer Science", "Mechanical", "Civil", "Electronics", "Other")
+    val options = when (label) {
+        "Select Your Branch" -> listOf("Computer Science", "Mechanical", "Civil", "Electronics", "Other")
+        else -> listOf("Development", "Data Science", "Cybersecurity", "Core Engineering", "Government Exams")
+    }
+
 
     ExposedDropdownMenuBox(
         expanded = expanded,
@@ -91,19 +115,11 @@ fun OnboardingSelection(label: String) {
                 DropdownMenuItem(
                     text = { Text(option) },
                     onClick = {
-                        selectedText = option
+                        onSelectionChanged(option)
                         expanded = false
                     }
                 )
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun OnboardingScreenPreview() {
-    MAKAUTMINDSTheme {
-        OnboardingScreen(rememberNavController())
     }
 }

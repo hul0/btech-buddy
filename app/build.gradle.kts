@@ -60,6 +60,9 @@ dependencies {
 
     // For reading local JSON
     implementation("com.google.code.gson:gson:2.13.2")
+    // Jetpack DataStore
+    implementation("androidx.datastore:datastore-preferences:1.1.7")
+
 
 
     testImplementation("junit:junit:4.13.2")

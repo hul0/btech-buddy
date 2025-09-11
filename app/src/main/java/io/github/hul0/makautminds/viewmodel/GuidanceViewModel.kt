@@ -5,14 +5,33 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import io.github.hul0.makautminds.data.model.CareerRoadmap
 import io.github.hul0.makautminds.data.repository.ContentRepository
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class GuidanceViewModel(private val repository: ContentRepository) : ViewModel() {
 
     private val _careerRoadmaps = MutableStateFlow<List<CareerRoadmap>>(emptyList())
-    val careerRoadmaps: StateFlow<List<CareerRoadmap>> = _careerRoadmaps
+    private val _searchText = MutableStateFlow("")
+    val searchText = _searchText.asStateFlow()
+
+    val filteredCareerRoadmaps: StateFlow<List<CareerRoadmap>> =
+        combine(_careerRoadmaps, _searchText) { roadmaps, text ->
+            if (text.isBlank()) {
+                roadmaps
+            } else {
+                roadmaps.mapNotNull { category ->
+                    val filteredRoadmaps = category.roadmaps.filter {
+                        it.title.contains(text, ignoreCase = true)
+                    }
+                    if (filteredRoadmaps.isNotEmpty()) {
+                        category.copy(roadmaps = filteredRoadmaps)
+                    } else {
+                        null
+                    }
+                }
+            }
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
 
     init {
         loadCareerRoadmaps()
@@ -22,6 +41,10 @@ class GuidanceViewModel(private val repository: ContentRepository) : ViewModel()
         viewModelScope.launch {
             _careerRoadmaps.value = repository.getCareerRoadmaps()
         }
+    }
+
+    fun onSearchTextChanged(text: String) {
+        _searchText.value = text
     }
 
     companion object {

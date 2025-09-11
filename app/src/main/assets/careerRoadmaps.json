@@ -10,8 +10,9 @@
           "Master one programming language (C++/Java/Python)",
           "Complete DSA Roadmap",
           "Learn Core CS Subjects (OS, DBMS, CN)",
-          "Build 2-3 strong projects",
-          "Prepare your resume and apply"
+          "Build 2-3 strong projects (e.g., E-commerce site, Web Scraper)",
+          "Learn System Design basics",
+          "Prepare your resume and practice mock interviews"
         ]
       },
       {
@@ -19,28 +20,74 @@
         "title": "Data Scientist",
         "description": "A step-by-step guide to landing a job in the exciting field of Data Science.",
         "steps": [
-          "Learn Python and its data science libraries (Pandas, NumPy, Scikit-learn)",
+          "Learn Python and its data science libraries (Pandas, NumPy, Scikit-learn, Matplotlib)",
           "Master Statistics and Probability",
-          "Understand Machine Learning algorithms",
+          "Understand Machine Learning algorithms (Supervised, Unsupervised)",
+          "Learn Deep Learning concepts (Neural Networks, TensorFlow/PyTorch)",
           "Build a portfolio of data science projects",
-          "Learn SQL for data manipulation"
+          "Learn SQL for data manipulation and querying"
+        ]
+      },
+      {
+        "id": "cr3",
+        "title": "Cybersecurity Analyst",
+        "description": "Your roadmap to becoming a defender of digital systems and networks.",
+        "steps": [
+          "Build a strong foundation in Computer Networks and Operating Systems",
+          "Learn about common security principles and threats",
+          "Master at least one scripting language (Python is recommended)",
+          "Get hands-on with tools like Wireshark, Nmap, Metasploit",
+          "Study for certifications like CompTIA Security+ or CEH",
+          "Participate in Capture The Flag (CTF) competitions"
         ]
       }
     ]
   },
   {
-    "category": "Government Exams",
+    "category": "Government Exams (India)",
     "roadmaps": [
       {
-        "id": "cr3",
-        "title": "UPSC Civil Services",
+        "id": "cr4",
+        "title": "UPSC Civil Services (IAS/IPS)",
         "description": "A comprehensive preparation strategy for one of the toughest exams in India.",
         "steps": [
-          "Understand the exam pattern and syllabus",
-          "Build a strong foundation with NCERTs",
-          "Cover standard reference books",
-          "Focus on current affairs and newspaper reading",
-          "Practice answer writing and mock tests"
+          "Thoroughly understand the exam pattern and syllabus",
+          "Build a strong foundation with NCERTs (Class 6-12)",
+          "Cover standard reference books for each subject (e.g., Laxmikanth for Polity)",
+          "Focus on daily current affairs and newspaper reading (The Hindu/Indian Express)",
+          "Practice answer writing for Mains and solve previous year papers",
+          "Regularly attempt mock tests for both Prelims and Mains"
+        ]
+      },
+      {
+        "id": "cr5",
+        "title": "SSC CGL (Combined Graduate Level)",
+        "description": "A focused plan to crack the SSC CGL exam for various Group 'B' and 'C' posts.",
+        "steps": [
+          "Master the four sections: Quantitative Aptitude, Reasoning, English, General Awareness",
+          "Develop speed and accuracy in solving math problems",
+          "Improve vocabulary and grammar for the English section",
+          "Stay updated with static GK and current events for General Awareness",
+          "Solve a large number of previous year question papers",
+          "Take online mock tests to manage time effectively"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Management & Other Roles",
+    "roadmaps": [
+      {
+        "id": "cr6",
+        "title": "Product Manager (Entry-Level)",
+        "description": "A guide to breaking into the field of Product Management, a blend of tech, business, and user experience.",
+        "steps": [
+          "Understand the role of a Product Manager and the product lifecycle",
+          "Develop business acumen and market analysis skills",
+          "Learn about UI/UX principles and user-centric design",
+          "Practice case studies (e.g., 'Improve product X', 'Design product Y')",
+          "Build a side project or gain experience through internships",
+          "Network with existing Product Managers"
         ]
       }
     ]
