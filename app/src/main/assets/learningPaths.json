@@ -1,0 +1,39 @@
+[
+  {
+    "id": "lp1",
+    "title": "DSA Roadmap for Placements",
+    "description": "Master Data Structures and Algorithms from basics to advanced for your upcoming placement interviews.",
+    "modules": [
+      { "id": "m1", "title": "Arrays & Strings", "resources": [] },
+      { "id": "m2", "title": "Linked Lists", "resources": [] },
+      { "id": "m3", "title": "Stacks & Queues", "resources": [] },
+      { "id": "m4", "title": "Trees & Graphs", "resources": [] },
+      { "id": "m5", "title": "Dynamic Programming", "resources": [] }
+    ],
+    "completedModules": 2
+  },
+  {
+    "id": "lp2",
+    "title": "Aptitude Preparation",
+    "description": "Sharpen your quantitative, logical, and verbal reasoning skills. A must for every competitive exam.",
+    "modules": [
+      { "id": "m1", "title": "Quantitative Aptitude", "resources": [] },
+      { "id": "m2", "title": "Logical Reasoning", "resources": [] },
+      { "id": "m3", "title": "Verbal Ability", "resources": [] },
+      { "id": "m4", "title": "Data Interpretation", "resources": [] }
+    ],
+    "completedModules": 1
+  },
+  {
+    "id": "lp3",
+    "title": "Core CS Subjects",
+    "description": "Build a strong foundation in core computer science subjects like OS, DBMS, and Computer Networks.",
+    "modules": [
+      { "id": "m1", "title": "Operating Systems", "resources": [] },
+      { "id": "m2", "title": "Database Management Systems", "resources": [] },
+      { "id": "m3", "title": "Computer Networks", "resources": [] },
+      { "id": "m4", "title": "Object Oriented Programming", "resources": [] }
+    ],
+    "completedModules": 3
+  }
+]

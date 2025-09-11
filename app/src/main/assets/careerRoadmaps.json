@@ -1,0 +1,48 @@
+[
+  {
+    "category": "Tech Roles",
+    "roadmaps": [
+      {
+        "id": "cr1",
+        "title": "SDE-1 (Software Development Engineer)",
+        "description": "The definitive path to becoming a Software Development Engineer at top product-based companies.",
+        "steps": [
+          "Master one programming language (C++/Java/Python)",
+          "Complete DSA Roadmap",
+          "Learn Core CS Subjects (OS, DBMS, CN)",
+          "Build 2-3 strong projects",
+          "Prepare your resume and apply"
+        ]
+      },
+      {
+        "id": "cr2",
+        "title": "Data Scientist",
+        "description": "A step-by-step guide to landing a job in the exciting field of Data Science.",
+        "steps": [
+          "Learn Python and its data science libraries (Pandas, NumPy, Scikit-learn)",
+          "Master Statistics and Probability",
+          "Understand Machine Learning algorithms",
+          "Build a portfolio of data science projects",
+          "Learn SQL for data manipulation"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Government Exams",
+    "roadmaps": [
+      {
+        "id": "cr3",
+        "title": "UPSC Civil Services",
+        "description": "A comprehensive preparation strategy for one of the toughest exams in India.",
+        "steps": [
+          "Understand the exam pattern and syllabus",
+          "Build a strong foundation with NCERTs",
+          "Cover standard reference books",
+          "Focus on current affairs and newspaper reading",
+          "Practice answer writing and mock tests"
+        ]
+      }
+    ]
+  }
+]
