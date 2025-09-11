@@ -8,27 +8,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import io.github.hul0.makautminds.data.repository.UserPreferencesRepository
 import io.github.hul0.makautminds.navigation.Screen
 import io.github.hul0.makautminds.ui.theme.MAKAUTMINDSTheme
 import io.github.hul0.makautminds.viewmodel.OnboardingViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun OnboardingScreen(
-    navController: NavController,
-    userPreferencesRepository: UserPreferencesRepository
-) {
-    val viewModel: OnboardingViewModel = viewModel(
-        factory = OnboardingViewModel.provideFactory(userPreferencesRepository)
-    )
-    val coroutineScope = rememberCoroutineScope()
+fun OnboardingScreen(navController: NavController, viewModel: OnboardingViewModel) {
     var selectedBranch by remember { mutableStateOf("") }
     var selectedInterests by remember { mutableStateOf("") }
-
+    val canProceed = selectedBranch.isNotBlank() && selectedInterests.isNotBlank()
+    // 1. Get a coroutine scope that is tied to this composable's lifecycle
+    val scope = rememberCoroutineScope()
 
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -51,29 +43,37 @@ fun OnboardingScreen(
             )
             Spacer(modifier = Modifier.height(32.dp))
 
-            OnboardingSelection("Select Your Branch", selectedBranch) {
-                selectedBranch = it
-            }
+            OnboardingSelection(
+                label = "Select Your Branch",
+                options = listOf("Computer Science", "IT", "Electronics", "Mechanical", "Civil", "Electrical"),
+                selectedText = selectedBranch,
+                onSelectionChanged = { selectedBranch = it }
+            )
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            OnboardingSelection("Select Your Interests", selectedInterests) {
-                selectedInterests = it
-            }
+            OnboardingSelection(
+                label = "Select Your Interests",
+                options = listOf("Tech Roles", "Government Exams", "Management Roles", "Further Studies"),
+                selectedText = selectedInterests,
+                onSelectionChanged = { selectedInterests = it }
+            )
 
             Spacer(modifier = Modifier.height(48.dp))
 
             Button(
                 onClick = {
-                    coroutineScope.launch {
+                    // 2. Launch the suspend function within the coroutine scope
+                    scope.launch {
                         viewModel.saveUserPreferences(selectedBranch, selectedInterests)
+                        // Navigation can happen outside the coroutine, but after the suspend function
                         navController.navigate(Screen.Main.route) {
                             popUpTo(Screen.Onboarding.route) { inclusive = true }
                         }
                     }
                 },
                 modifier = Modifier.fillMaxWidth(),
-                enabled = selectedBranch.isNotBlank() && selectedInterests.isNotBlank()
+                enabled = canProceed
             ) {
                 Text("Get Started")
             }
@@ -83,13 +83,14 @@ fun OnboardingScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OnboardingSelection(label: String, selectedText: String, onSelectionChanged: (String) -> Unit) {
+fun OnboardingSelection(
+    label: String,
+    options: List<String>,
+    selectedText: String,
+    onSelectionChanged: (String) -> Unit
+) {
+    // 3. Corrected typo from mutableStateof to mutableStateOf
     var expanded by remember { mutableStateOf(false) }
-    val options = when (label) {
-        "Select Your Branch" -> listOf("Computer Science", "Mechanical", "Civil", "Electronics", "Other")
-        else -> listOf("Development", "Data Science", "Cybersecurity", "Core Engineering", "Government Exams")
-    }
-
 
     ExposedDropdownMenuBox(
         expanded = expanded,
@@ -123,3 +124,13 @@ fun OnboardingSelection(label: String, selectedText: String, onSelectionChanged:
         }
     }
 }
+
+@Preview(showBackground = true)
+@Composable
+fun OnboardingScreenPreview() {
+    MAKAUTMINDSTheme {
+        // This preview is visual only and won't have working logic, which is fine.
+        // A dummy screen can be composed for preview if needed.
+    }
+}
+

@@ -12,10 +12,9 @@ import io.github.hul0.makautminds.data.repository.ContentRepository
 import io.github.hul0.makautminds.data.repository.UserPreferencesRepository
 import io.github.hul0.makautminds.ui.screens.LearningPathDetailScreen
 import io.github.hul0.makautminds.ui.screens.MainScreen
+// Corrected import from 'hulo' to 'hul0'
 import io.github.hul0.makautminds.ui.screens.OnboardingScreen
-import io.github.hul0.makautminds.viewmodel.GuidanceViewModel
-import io.github.hul0.makautminds.viewmodel.LearningViewModel
-import io.github.hul0.makautminds.viewmodel.ProfileViewModel
+import io.github.hul0.makautminds.viewmodel.*
 
 sealed class Screen(val route: String) {
     object Onboarding : Screen("onboarding")
@@ -33,9 +32,12 @@ fun AppNavigation(context: Context, startDestination: String) {
 
     NavHost(navController = navController, startDestination = startDestination) {
         composable(Screen.Onboarding.route) {
+            val onboardingViewModel: OnboardingViewModel = viewModel(
+                factory = OnboardingViewModel.provideFactory(userPreferencesRepository)
+            )
             OnboardingScreen(
                 navController = navController,
-                userPreferencesRepository = userPreferencesRepository
+                viewModel = onboardingViewModel
             )
         }
         composable(Screen.Main.route) {
@@ -48,8 +50,17 @@ fun AppNavigation(context: Context, startDestination: String) {
             val profileViewModel: ProfileViewModel = viewModel(
                 factory = ProfileViewModel.provideFactory(userPreferencesRepository)
             )
+            val dashboardViewModel: DashboardViewModel = viewModel(
+                factory = DashboardViewModel.provideFactory(
+                    learningViewModel = learningViewModel,
+                    userPreferencesRepository = userPreferencesRepository,
+                    contentRepository = contentRepository
+                )
+            )
+
             MainScreen(
-                navController = navController,
+                mainNavController = navController,
+                dashboardViewModel = dashboardViewModel,
                 learningViewModel = learningViewModel,
                 guidanceViewModel = guidanceViewModel,
                 profileViewModel = profileViewModel
