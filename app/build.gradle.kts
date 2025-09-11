@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "io.github.hul0.makautminds"
+    namespace = "io.github.hul0.btechbuddy"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "io.github.hul0.makautminds"
+        applicationId = "io.github.hul0.btechbuddy"
         minSdk = 24
         targetSdk = 36
         versionCode = 1

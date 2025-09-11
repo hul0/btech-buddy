@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "MAKAUT MINDS"
+rootProject.name = "B.Tech Buddy"
 include(":app")
