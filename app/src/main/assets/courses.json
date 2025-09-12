@@ -20,6 +20,22 @@
             "url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BGG",
             "difficulty": "Intermediate",
             "tags": ["C++", "DSA", "Problem Solving"]
+          },
+          {
+            "id": "c8",
+            "title": "The Ultimate DSA Course for 2025",
+            "description": "Learn algorithmic thinking and problem solving with this new 2025-focused DSA course covering all trending topics.",
+            "url": "https://www.youtube.com/watch?v=DMeD8trbj6A",
+            "difficulty": "Intermediate",
+            "tags": ["DSA", "Algorithms", "2025"]
+          },
+          {
+            "id": "c9",
+            "title": "DSA Python Course 2025",
+            "description": "Free, modern DSA course focused on Python for up-to-date coding interviews and placements in 2025.",
+            "url": "https://www.youtube.com/watch?v=OtYEY2htIjM",
+            "difficulty": "Beginner",
+            "tags": ["Python", "DSA", "Coding Interviews", "2025"]
           }
         ]
       },
@@ -41,6 +57,22 @@
             "url": "https://www.youtube.com/watch?v=ZjAqacSmv_E",
             "difficulty": "Advanced",
             "tags": ["Next.js", "React", "Web Dev"]
+          },
+          {
+            "id": "c10",
+            "title": "Web Development Full Course 2025 | Intellipaat",
+            "description": "Master Full Stack Web Development from basics to advanced with the latest tools and frameworks in 2025.",
+            "url": "https://www.youtube.com/watch?v=F4zr1aMevB4",
+            "difficulty": "Beginner",
+            "tags": ["Web Development", "Full Stack", "2025"]
+          },
+          {
+            "id": "c11",
+            "title": "Web Developer Course | Simplilearn",
+            "description": "All-in-one web development course with AI integration, updated for technologies and tools relevant in 2025.",
+            "url": "https://www.youtube.com/watch?v=l_Ky-Ow8aWU",
+            "difficulty": "Beginner",
+            "tags": ["Web Development", "AI Tools", "2025"]
           }
         ]
       }
@@ -72,6 +104,19 @@
             "url": "https://www.youtube.com/watch?v=HXV3zeQKqGY",
             "difficulty": "Beginner",
             "tags": ["SQL", "DBMS", "Databases"]
+          }
+        ]
+      },
+      {
+        "subcategory": "Artificial Intelligence & Machine Learning",
+        "courses": [
+          {
+            "id": "c12",
+            "title": "AI & ML Full Course 2025 | edureka!",
+            "description": "Complete AI and ML live course with hands-on Python, real-world projects, deep learning and interview prep for 2025.",
+            "url": "https://www.youtube.com/watch?v=N8svLoC2eNA",
+            "difficulty": "Intermediate",
+            "tags": ["AI", "ML", "Python", "2025"]
           }
         ]
       }

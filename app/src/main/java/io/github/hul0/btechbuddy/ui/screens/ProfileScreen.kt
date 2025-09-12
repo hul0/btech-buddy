@@ -1,36 +1,48 @@
 package io.github.hul0.btechbuddy.ui.screens
 
-import androidx.compose.animation.*
-import androidx.compose.animation.core.*
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.outlined.*
+import androidx.compose.material.icons.filled.Psychology
+import androidx.compose.material.icons.filled.School
+import androidx.compose.material.icons.filled.Work
+import androidx.compose.material.icons.outlined.AccessTime
+import androidx.compose.material.icons.outlined.Apartment
+import androidx.compose.material.icons.outlined.Business
+import androidx.compose.material.icons.outlined.DateRange
+import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material.icons.outlined.Engineering
+import androidx.compose.material.icons.outlined.Event
+import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.Flag
+import androidx.compose.material.icons.outlined.Palette
+import androidx.compose.material.icons.outlined.Tag
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import io.github.hul0.btechbuddy.viewmodel.ProfileViewModel
-import io.github.hul0.btechbuddy.ui.theme.*
+import io.github.hul0.btechbuddy.ui.theme.* // Color.kt palette
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
@@ -42,12 +54,8 @@ fun ProfileScreen(
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val listState = rememberLazyListState()
 
-    // Animation for content appearance
     var contentVisible by remember { mutableStateOf(false) }
-
-    LaunchedEffect(Unit) {
-        contentVisible = true
-    }
+    LaunchedEffect(Unit) { contentVisible = true }
 
     Scaffold(
         modifier = Modifier
@@ -55,190 +63,180 @@ fun ProfileScreen(
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TopAppBar(
-                title = {
-                    Text(
-                        text = "My Profile",
-                        fontWeight = FontWeight.Bold
-                    )
-                },
+                title = { Text(text = "My Profile", fontWeight = FontWeight.Bold, color = Gray900) },
                 actions = {
                     IconButton(
                         onClick = onEditProfile,
-                        modifier = Modifier.semantics {
-                            contentDescription = "Edit Profile"
-                        }
+                        modifier = Modifier.semantics { contentDescription = "Edit Profile" }
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.Edit,
                             contentDescription = "Edit Profile",
-                            tint = MaterialTheme.colorScheme.primary
+                            tint = Blue700
                         )
                     }
                 },
                 scrollBehavior = scrollBehavior,
-                colors = TopAppBarDefaults.largeTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    scrolledContainerColor = MaterialTheme.colorScheme.surfaceContainer
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Gray50,
+                    titleContentColor = Gray900,
+                    navigationIconContentColor = Blue700,
+                    actionIconContentColor = Gray800
                 )
             )
         }
     ) { innerPadding ->
-        AnimatedVisibility(
-            visible = contentVisible,
-            enter = fadeIn(animationSpec = tween(600)) + slideInVertically(
-                animationSpec = tween(600),
-                initialOffsetY = { it / 4 }
-            )
-        ) {
-            LazyColumn(
-                state = listState,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding),
-                contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(20.dp)
+        Column(Modifier.fillMaxSize().padding(innerPadding)) {
+            Divider(color = Gray200, thickness = 1.dp)
+            AnimatedVisibility(
+                visible = contentVisible,
+                enter = fadeIn(animationSpec = spring(stiffness = Spring.StiffnessMedium, dampingRatio = Spring.DampingRatioNoBouncy)) +
+                        slideInVertically(
+                            animationSpec = spring(stiffness = Spring.StiffnessMedium, dampingRatio = Spring.DampingRatioNoBouncy),
+                            initialOffsetY = { it / 6 }
+                        )
             ) {
-                // Enhanced Header
-                item {
-                    EnhancedProfileHeader(
-                        name = userPreferences.name,
-                        branch = userPreferences.branch,
-                        college = userPreferences.college
-                    )
-                }
-
-                // Academic Section
-                item {
-                    AnimatedSectionTitle(
-                        text = "Academic Information",
-                        icon = Icons.Filled.School
-                    )
-                }
-
-                if (userPreferences.college.isNotBlank()) {
+                LazyColumn(
+                    state = listState,
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
                     item {
-                        EnhancedInfoCard(
-                            title = "College",
-                            value = userPreferences.college,
-                            icon = Icons.Outlined.Apartment,
-                            containerColor = Blue100,
-                            contentColor = Blue700
+                        EnhancedProfileHeader(
+                            name = userPreferences.name,
+                            branch = userPreferences.branch,
+                            college = userPreferences.college
                         )
                     }
-                }
 
-                if (userPreferences.branch.isNotBlank()) {
                     item {
-                        EnhancedInfoCard(
-                            title = "Branch of Study",
-                            value = userPreferences.branch,
-                            icon = Icons.Outlined.Engineering,
-                            containerColor = Purple100,
-                            contentColor = Purple700
+                        AnimatedSectionTitle(
+                            text = "Academic Information",
+                            icon = Icons.Filled.School
                         )
                     }
-                }
 
-                if (userPreferences.yearOfStudy.isNotBlank()) {
+                    if (userPreferences.college.isNotBlank()) {
+                        item {
+                            EnhancedInfoCard(
+                                title = "College",
+                                value = userPreferences.college,
+                                icon = Icons.Outlined.Apartment,
+                                containerColor = Blue50,
+                                contentColor = Blue700
+                            )
+                        }
+                    }
+
+                    if (userPreferences.branch.isNotBlank()) {
+                        item {
+                            EnhancedInfoCard(
+                                title = "Branch of Study",
+                                value = userPreferences.branch,
+                                icon = Icons.Outlined.Engineering,
+                                containerColor = Purple50,
+                                contentColor = Purple700
+                            )
+                        }
+                    }
+
+                    if (userPreferences.yearOfStudy.isNotBlank()) {
+                        item {
+                            EnhancedInfoCard(
+                                title = "Current Year",
+                                value = userPreferences.yearOfStudy,
+                                icon = Icons.Outlined.DateRange,
+                                containerColor = Green50,
+                                contentColor = Green700
+                            )
+                        }
+                    }
+
+                    if (userPreferences.expectedGraduationYear.isNotBlank()) {
+                        item {
+                            EnhancedInfoCard(
+                                title = "Expected Graduation",
+                                value = userPreferences.expectedGraduationYear,
+                                icon = Icons.Outlined.Event,
+                                containerColor = Orange50,
+                                contentColor = Orange700
+                            )
+                        }
+                    }
+
                     item {
-                        EnhancedInfoCard(
-                            title = "Current Year",
-                            value = userPreferences.yearOfStudy,
-                            icon = Icons.Outlined.DateRange,
-                            containerColor = Green100,
-                            contentColor = Green700
+                        AnimatedSectionTitle(
+                            text = "Learning Preferences",
+                            icon = Icons.Filled.Psychology
                         )
                     }
-                }
 
-                if (userPreferences.expectedGraduationYear.isNotBlank()) {
+                    if (userPreferences.preferredLearningStyle.isNotBlank()) {
+                        item {
+                            EnhancedInfoCard(
+                                title = "Learning Style",
+                                value = userPreferences.preferredLearningStyle,
+                                icon = Icons.Outlined.Palette,
+                                containerColor = Teal100,
+                                contentColor = Teal700
+                            )
+                        }
+                    }
+
+                    if (userPreferences.hoursPerWeek.isNotBlank()) {
+                        item {
+                            EnhancedInfoCard(
+                                title = "Weekly Study Hours",
+                                value = "${userPreferences.hoursPerWeek} hours",
+                                icon = Icons.Outlined.AccessTime,
+                                containerColor = Indigo100,
+                                contentColor = Indigo700
+                            )
+                        }
+                    }
+
+                    if (userPreferences.learningGoals.isNotBlank()) {
+                        item {
+                            EnhancedChipInfoCard(
+                                title = "Learning Goals",
+                                csv = userPreferences.learningGoals,
+                                icon = Icons.Outlined.Flag,
+                                headerColor = Pink700
+                            )
+                        }
+                    }
+
                     item {
-                        EnhancedInfoCard(
-                            title = "Expected Graduation",
-                            value = userPreferences.expectedGraduationYear,
-                            icon = Icons.Outlined.Event,
-                            containerColor = Orange100,
-                            contentColor = Orange700
+                        AnimatedSectionTitle(
+                            text = "Interests & Career",
+                            icon = Icons.Filled.Work
                         )
                     }
-                }
 
-                // Learning Preferences Section
-                item {
-                    AnimatedSectionTitle(
-                        text = "Learning Preferences",
-                        icon = Icons.Filled.Psychology
-                    )
-                }
-
-                if (userPreferences.preferredLearningStyle.isNotBlank()) {
-                    item {
-                        EnhancedInfoCard(
-                            title = "Learning Style",
-                            value = userPreferences.preferredLearningStyle,
-                            icon = Icons.Outlined.Palette,
-                            containerColor = Teal100,
-                            contentColor = Teal700
-                        )
+                    if (userPreferences.interests.isNotBlank()) {
+                        item {
+                            EnhancedChipInfoCard(
+                                title = "My Interests",
+                                csv = userPreferences.interests,
+                                icon = Icons.Outlined.Favorite,
+                                headerColor = DeepOrange700
+                            )
+                        }
                     }
-                }
 
-                if (userPreferences.hoursPerWeek.isNotBlank()) {
-                    item {
-                        EnhancedInfoCard(
-                            title = "Weekly Study Hours",
-                            value = "${userPreferences.hoursPerWeek} hours",
-                            icon = Icons.Outlined.AccessTime,
-                            containerColor = Indigo100,
-                            contentColor = Indigo700
-                        )
+                    if (userPreferences.dreamCompanies.isNotBlank()) {
+                        item {
+                            EnhancedChipInfoCard(
+                                title = "Dream Companies",
+                                csv = userPreferences.dreamCompanies,
+                                icon = Icons.Outlined.Business,
+                                headerColor = Cyan700
+                            )
+                        }
                     }
-                }
 
-                if (userPreferences.learningGoals.isNotBlank()) {
-                    item {
-                        EnhancedChipInfoCard(
-                            title = "Learning Goals",
-                            csv = userPreferences.learningGoals,
-                            icon = Icons.Outlined.Flag,
-                            headerColor = Pink700
-                        )
-                    }
-                }
-
-                // Interests & Career Section
-                item {
-                    AnimatedSectionTitle(
-                        text = "Interests & Career",
-                        icon = Icons.Filled.Work
-                    )
-                }
-
-                if (userPreferences.interests.isNotBlank()) {
-                    item {
-                        EnhancedChipInfoCard(
-                            title = "My Interests",
-                            csv = userPreferences.interests,
-                            icon = Icons.Outlined.Favorite,
-                            headerColor = DeepOrange700
-                        )
-                    }
-                }
-
-                if (userPreferences.dreamCompanies.isNotBlank()) {
-                    item {
-                        EnhancedChipInfoCard(
-                            title = "Dream Companies",
-                            csv = userPreferences.dreamCompanies,
-                            icon = Icons.Outlined.Business,
-                            headerColor = Cyan700
-                        )
-                    }
-                }
-
-                // Add some bottom spacing
-                item {
-                    Spacer(modifier = Modifier.height(32.dp))
+                    item { Spacer(modifier = Modifier.height(24.dp)) }
                 }
             }
         }
@@ -251,44 +249,45 @@ private fun AnimatedSectionTitle(
     icon: ImageVector
 ) {
     var visible by remember { mutableStateOf(false) }
-
-    LaunchedEffect(Unit) {
-        visible = true
-    }
+    LaunchedEffect(Unit) { visible = true }
 
     AnimatedVisibility(
         visible = visible,
-        enter = slideInHorizontally(
-            animationSpec = tween(500),
-            initialOffsetX = { -it / 2 }
-        ) + fadeIn(animationSpec = tween(500))
+        enter = fadeIn(animationSpec = spring(stiffness = Spring.StiffnessMedium)) +
+                slideInVertically(
+                    animationSpec = spring(stiffness = Spring.StiffnessMedium),
+                    initialOffsetY = { -it / 8 }
+                )
     ) {
-        Card(
+        OutlinedCard(
             modifier = Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f)
-            ),
-            shape = RoundedCornerShape(12.dp)
+            shape = RoundedCornerShape(12.dp),
+            colors = CardDefaults.cardColors(containerColor = Gray50),
+            border = BorderStroke(1.dp, Gray200)
         ) {
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
+                modifier = Modifier.fillMaxWidth().padding(12.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(24.dp)
-                )
-                Spacer(modifier = Modifier.width(12.dp))
+                Box(
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clip(CircleShape)
+                        .background(Blue100),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null,
+                        tint = Blue700
+                    )
+                }
+                Spacer(modifier = Modifier.width(10.dp))
                 Text(
                     text = text,
-                    style = MaterialTheme.typography.titleMedium.copy(
-                        fontWeight = FontWeight.Bold
-                    ),
-                    color = MaterialTheme.colorScheme.primary
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.Bold,
+                    color = Gray900
                 )
             }
         }
@@ -301,98 +300,63 @@ private fun EnhancedProfileHeader(
     branch: String,
     college: String
 ) {
-    val gradient = Brush.linearGradient(
-        colors = listOf(
-            MaterialTheme.colorScheme.primary,
-            MaterialTheme.colorScheme.secondary,
-            MaterialTheme.colorScheme.tertiary
-        )
-    )
-
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .shadow(
-                elevation = 12.dp,
-                shape = RoundedCornerShape(24.dp),
-                ambientColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
-                spotColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
-            ),
-        shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.Transparent)
+    OutlinedCard(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = Blue50),
+        border = BorderStroke(1.dp, Blue100)
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(gradient)
-                .padding(24.dp)
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth().padding(16.dp)
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
+            // Avatar with initials (no shadow)
+            Box(
+                modifier = Modifier
+                    .size(72.dp)
+                    .clip(CircleShape)
+                    .background(Blue100),
+                contentAlignment = Alignment.Center
             ) {
-                // Enhanced Profile Avatar
-                Card(
-                    modifier = Modifier
-                        .size(80.dp)
-                        .shadow(8.dp, CircleShape),
-                    shape = CircleShape,
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color.White
-                    )
-                ) {
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        Text(
-                            text = getInitials(name),
-                            style = MaterialTheme.typography.headlineMedium.copy(
-                                fontWeight = FontWeight.Bold
-                            ),
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                    }
-                }
+                Text(
+                    text = getInitials(name),
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.Bold,
+                    color = Blue900
+                )
+            }
 
-                Spacer(modifier = Modifier.width(20.dp))
+            Spacer(modifier = Modifier.width(16.dp))
 
-                // Enhanced Profile Info
-                Column(
-                    modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Text(
+                    text = if (name.isNotBlank()) name else "Dear Student",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = Gray900,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+                if (branch.isNotBlank()) {
                     Text(
-                        text = if (name.isNotBlank()) name else "Dear Student",
-                        style = MaterialTheme.typography.headlineSmall.copy(
-                            fontWeight = FontWeight.Bold
-                        ),
-                        color = Color.White,
+                        text = branch,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Gray800,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+                if (college.isNotBlank()) {
+                    Text(
+                        text = college,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Gray700,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis
                     )
-
-                    if (branch.isNotBlank()) {
-                        Text(
-                            text = branch,
-                            style = MaterialTheme.typography.bodyLarge.copy(
-                                fontWeight = FontWeight.Medium
-                            ),
-                            color = Color.White.copy(alpha = 0.9f),
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    }
-
-                    if (college.isNotBlank()) {
-                        Text(
-                            text = college,
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = Color.White.copy(alpha = 0.8f),
-                            maxLines = 2,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    }
                 }
             }
         }
@@ -404,53 +368,39 @@ private fun EnhancedInfoCard(
     title: String,
     value: String,
     icon: ImageVector,
-    containerColor: Color = MaterialTheme.colorScheme.surfaceContainer,
-    contentColor: Color = MaterialTheme.colorScheme.onSurface
+    containerColor: androidx.compose.ui.graphics.Color = Gray50,
+    contentColor: androidx.compose.ui.graphics.Color = Gray900
 ) {
     if (value.isBlank()) return
 
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .shadow(
-                elevation = 4.dp,
-                shape = RoundedCornerShape(16.dp),
-                ambientColor = contentColor.copy(alpha = 0.1f)
-            ),
-        shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        )
+    OutlinedCard(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(containerColor = containerColor),
+        border = BorderStroke(1.dp, containerColor.copy(alpha = 0.8f))
     ) {
         ListItem(
             leadingContent = {
-                Card(
-                    shape = CircleShape,
-                    colors = CardDefaults.cardColors(
-                        containerColor = containerColor
-                    ),
-                    modifier = Modifier.size(56.dp)
+                Box(
+                    modifier = Modifier
+                        .size(40.dp)
+                        .clip(CircleShape)
+                        .background(containerColor.copy(alpha = 0.6f)),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        Icon(
-                            imageVector = icon,
-                            contentDescription = null,
-                            tint = contentColor,
-                            modifier = Modifier.size(24.dp)
-                        )
-                    }
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null,
+                        tint = contentColor
+                    )
                 }
             },
             headlineContent = {
                 Text(
                     text = value,
-                    style = MaterialTheme.typography.titleMedium.copy(
-                        fontWeight = FontWeight.SemiBold
-                    ),
-                    color = MaterialTheme.colorScheme.onSurface,
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Gray900,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -458,8 +408,8 @@ private fun EnhancedInfoCard(
             supportingContent = {
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Gray700
                 )
             },
             modifier = Modifier.padding(8.dp)
@@ -473,111 +423,68 @@ private fun EnhancedChipInfoCard(
     title: String,
     csv: String,
     icon: ImageVector,
-    headerColor: Color = MaterialTheme.colorScheme.primary
+    headerColor: androidx.compose.ui.graphics.Color = Blue700
 ) {
-    val items = csv.split(",")
-        .map { it.trim() }
-        .filter { it.isNotEmpty() }
-
+    val items = csv.split(",").map { it.trim() }.filter { it.isNotEmpty() }
     if (items.isEmpty()) return
 
-    val chipColors = listOf(
-        MaterialTheme.colorScheme.primary to MaterialTheme.colorScheme.primaryContainer,
-        MaterialTheme.colorScheme.secondary to MaterialTheme.colorScheme.secondaryContainer,
-        MaterialTheme.colorScheme.tertiary to MaterialTheme.colorScheme.tertiaryContainer,
-        MaterialTheme.colorScheme.error to MaterialTheme.colorScheme.errorContainer,
-        Color(0xFF6750A4) to Color(0xFFE8DEF8), // Purple variant
-        Color(0xFF7D5260) to Color(0xFFFFD8E4)  // Pink variant
-    )
-
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .shadow(
-                elevation = 4.dp,
-                shape = RoundedCornerShape(18.dp)
-            ),
-        shape = RoundedCornerShape(18.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        )
+    OutlinedCard(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(containerColor = Gray50),
+        border = BorderStroke(1.dp, Gray200)
     ) {
         Column(
-            modifier = Modifier.padding(20.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            modifier = Modifier.padding(14.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            // Enhanced Header
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Card(
-                    shape = CircleShape,
-                    colors = CardDefaults.cardColors(
-                        containerColor = headerColor.copy(alpha = 0.1f)
-                    ),
-                    modifier = Modifier.size(48.dp)
+                Box(
+                    modifier = Modifier
+                        .size(36.dp)
+                        .clip(CircleShape)
+                        .background(headerColor.copy(alpha = 0.12f)),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        Icon(
-                            imageVector = icon,
-                            contentDescription = null,
-                            tint = headerColor,
-                            modifier = Modifier.size(24.dp)
-                        )
-                    }
+                    Icon(imageVector = icon, contentDescription = null, tint = headerColor)
                 }
-
-                Spacer(modifier = Modifier.width(12.dp))
-
+                Spacer(modifier = Modifier.width(10.dp))
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.titleMedium.copy(
-                        fontWeight = FontWeight.SemiBold
-                    ),
-                    color = headerColor
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Gray900
                 )
             }
 
-            // Enhanced Chips
             FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items.forEachIndexed { index, label ->
-                    val colorPair = chipColors[index % chipColors.size]
-
+                items.forEach { label ->
                     AssistChip(
                         onClick = { /* UI only */ },
                         label = {
                             Text(
                                 text = label,
-                                style = MaterialTheme.typography.labelLarge.copy(
-                                    fontWeight = FontWeight.Medium
-                                ),
-                                color = colorPair.first
+                                style = MaterialTheme.typography.labelLarge
                             )
                         },
                         leadingIcon = {
                             Icon(
-                                imageVector = Icons.Default.Tag,
-                                contentDescription = null,
-                                modifier = Modifier.size(16.dp),
-                                tint = colorPair.first
+                                imageVector = Icons.Outlined.Tag,
+                                contentDescription = null
                             )
                         },
                         colors = AssistChipDefaults.assistChipColors(
-                            containerColor = colorPair.second,
-                            labelColor = colorPair.first,
-                            leadingIconContentColor = colorPair.first
+                            containerColor = Blue100,
+                            labelColor = Blue900,
+                            leadingIconContentColor = Blue700
                         ),
-                        shape = RoundedCornerShape(20.dp),
-                        modifier = Modifier.semantics {
-                            contentDescription = "$label chip"
-                        }
+                        shape = RoundedCornerShape(20.dp)
                     )
                 }
             }
@@ -586,19 +493,12 @@ private fun EnhancedChipInfoCard(
 }
 
 private fun getInitials(name: String): String {
-    if (name.isBlank()) return "U"
-
-    val parts = name.trim().split(" ").filter { it.isNotBlank() }
+    val parts = name.trim().split(Regex("\\s+")).filter { it.isNotEmpty() }
     return when {
-        parts.size >= 2 -> "${parts.first().first().uppercaseChar()}${parts[1].first().uppercaseChar()}"
-        parts.size == 1 -> {
-            val firstName = parts.first()
-            if (firstName.length >= 2) {
-                "${firstName[0].uppercaseChar()}${firstName[1].uppercaseChar()}"
-            } else {
-                firstName.first().uppercaseChar().toString()
-            }
-        }
+        // Two or more words: first letter of first two words
+        parts.size >= 2 -> parts[0].take(1).uppercase() + parts[1].take(1).uppercase()
+        // Single word: first two letters
+        parts.size == 1 -> parts[0].take(2).uppercase()
         else -> "U"
     }
 }
