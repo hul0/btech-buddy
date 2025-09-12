@@ -47,7 +47,9 @@ class DashboardViewModel(
         }
 
         // 2. Create Personalized Greeting
-        val greeting = if (userPrefs.branch.isNotBlank()) {
+        val greeting = if (userPrefs.name.isNotBlank()) {
+            "Welcome, ${userPrefs.name}!"
+        } else if (userPrefs.branch.isNotBlank()) {
             "Welcome, ${userPrefs.branch} Engineer!"
         } else {
             "Welcome to B.Tech Buddy !"

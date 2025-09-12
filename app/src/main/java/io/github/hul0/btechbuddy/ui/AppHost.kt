@@ -24,7 +24,7 @@ fun AppHost() {
 
     // Check if onboarding is complete. Start with `null` to represent the loading state.
     val onboardingComplete by userPreferencesRepository.userPreferences.map {
-        it.branch.isNotBlank() && it.interests.isNotBlank()
+        it.branch.isNotBlank() && it.interests.isNotBlank() && it.name.isNotBlank() && it.college.isNotBlank()
     }.collectAsState(initial = null)
 
     Surface(modifier = Modifier.fillMaxSize()) {

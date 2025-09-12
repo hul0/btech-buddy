@@ -1,10 +1,13 @@
 package io.github.hul0.btechbuddy.ui.screens
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -16,66 +19,150 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun OnboardingScreen(navController: NavController, viewModel: OnboardingViewModel) {
+    var name by remember { mutableStateOf("") }
+    var college by remember { mutableStateOf("") }
+    var yearOfStudy by remember { mutableStateOf("") }
+    var expectedGraduationYear by remember { mutableStateOf("") }
+    var learningGoals by remember { mutableStateOf("") }
+    var preferredLearningStyle by remember { mutableStateOf("") }
+    var hoursPerWeek by remember { mutableStateOf("") }
+    var dreamCompanies by remember { mutableStateOf("") }
     var selectedBranch by remember { mutableStateOf("") }
     var selectedInterests by remember { mutableStateOf("") }
-    val canProceed = selectedBranch.isNotBlank() && selectedInterests.isNotBlank()
-    // 1. Get a coroutine scope that is tied to this composable's lifecycle
+    val canProceed = selectedBranch.isNotBlank() && selectedInterests.isNotBlank() && name.isNotBlank() && college.isNotBlank()
     val scope = rememberCoroutineScope()
 
     Surface(modifier = Modifier.fillMaxSize()) {
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = "Welcome to Your Learning & Career Companion",
-                style = MaterialTheme.typography.headlineSmall,
-                textAlign = TextAlign.Center
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = "Let's personalize your journey. Select your branch and interests.",
-                style = MaterialTheme.typography.bodyLarge,
-                textAlign = TextAlign.Center
-            )
-            Spacer(modifier = Modifier.height(32.dp))
+            item {
+                Text(
+                    text = "Welcome to Your Learning & Career Companion",
+                    style = MaterialTheme.typography.headlineSmall,
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = "Let's personalize your journey. Please fill in your details.",
+                    style = MaterialTheme.typography.bodyLarge,
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(32.dp))
 
-            OnboardingSelection(
-                label = "Select Your Branch",
-                options = listOf("Computer Science", "IT", "Electronics", "Mechanical", "Civil", "Electrical"),
-                selectedText = selectedBranch,
-                onSelectionChanged = { selectedBranch = it }
-            )
+                OutlinedTextField(
+                    value = name,
+                    onValueChange = { name = it },
+                    label = { Text("Full Name") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(16.dp))
 
-            Spacer(modifier = Modifier.height(16.dp))
+                OutlinedTextField(
+                    value = college,
+                    onValueChange = { college = it },
+                    label = { Text("College Name") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(16.dp))
 
-            OnboardingSelection(
-                label = "Select Your Interests",
-                options = listOf("Tech Roles", "Government Exams", "Management Roles", "Further Studies"),
-                selectedText = selectedInterests,
-                onSelectionChanged = { selectedInterests = it }
-            )
+                OnboardingSelection(
+                    label = "Select Your Branch",
+                    options = listOf("Computer Science", "IT", "Electronics", "Mechanical", "Civil", "Electrical"),
+                    selectedText = selectedBranch,
+                    onSelectionChanged = { selectedBranch = it }
+                )
+                Spacer(modifier = Modifier.height(16.dp))
 
-            Spacer(modifier = Modifier.height(48.dp))
+                OutlinedTextField(
+                    value = yearOfStudy,
+                    onValueChange = { yearOfStudy = it },
+                    label = { Text("Current Year of Study") },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(16.dp))
 
-            Button(
-                onClick = {
-                    // 2. Launch the suspend function within the coroutine scope
-                    scope.launch {
-                        viewModel.saveUserPreferences(selectedBranch, selectedInterests)
-                        // Navigation can happen outside the coroutine, but after the suspend function
-                        navController.navigate(Screen.Main.route) {
-                            popUpTo(Screen.Onboarding.route) { inclusive = true }
+                OutlinedTextField(
+                    value = expectedGraduationYear,
+                    onValueChange = { expectedGraduationYear = it },
+                    label = { Text("Expected Graduation Year") },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+
+                OnboardingSelection(
+                    label = "Select Your Interests",
+                    options = listOf("Tech Roles", "Government Exams", "Management Roles", "Further Studies"),
+                    selectedText = selectedInterests,
+                    onSelectionChanged = { selectedInterests = it }
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+
+                OutlinedTextField(
+                    value = learningGoals,
+                    onValueChange = { learningGoals = it },
+                    label = { Text("Learning Goals (e.g., Learn DSA, Web Dev)") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+
+                OnboardingSelection(
+                    label = "Preferred Learning Style",
+                    options = listOf("Visual (Videos)", "Practical (Projects)", "Reading (Articles)", "Balanced"),
+                    selectedText = preferredLearningStyle,
+                    onSelectionChanged = { preferredLearningStyle = it }
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+
+                OutlinedTextField(
+                    value = hoursPerWeek,
+                    onValueChange = { hoursPerWeek = it },
+                    label = { Text("Hours per week for learning") },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+
+                OutlinedTextField(
+                    value = dreamCompanies,
+                    onValueChange = { dreamCompanies = it },
+                    label = { Text("Dream Companies (comma-separated)") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(48.dp))
+
+                Button(
+                    onClick = {
+                        scope.launch {
+                            viewModel.saveUserPreferences(
+                                name,
+                                college,
+                                yearOfStudy,
+                                expectedGraduationYear,
+                                learningGoals,
+                                preferredLearningStyle,
+                                hoursPerWeek,
+                                dreamCompanies,
+                                selectedBranch,
+                                selectedInterests
+                            )
+                            navController.navigate(Screen.Main.route) {
+                                popUpTo(Screen.Onboarding.route) { inclusive = true }
+                            }
                         }
-                    }
-                },
-                modifier = Modifier.fillMaxWidth(),
-                enabled = canProceed
-            ) {
-                Text("Get Started")
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = canProceed
+                ) {
+                    Text("Get Started")
+                }
+                Spacer(modifier = Modifier.height(16.dp))
             }
         }
     }
@@ -89,7 +176,6 @@ fun OnboardingSelection(
     selectedText: String,
     onSelectionChanged: (String) -> Unit
 ) {
-    // 3. Corrected typo from mutableStateof to mutableStateOf
     var expanded by remember { mutableStateOf(false) }
 
     ExposedDropdownMenuBox(
@@ -133,4 +219,3 @@ fun OnboardingScreenPreview() {
         // A dummy screen can be composed for preview if needed.
     }
 }
-

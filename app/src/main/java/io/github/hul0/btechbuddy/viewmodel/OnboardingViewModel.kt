@@ -8,10 +8,31 @@ import kotlinx.coroutines.launch
 
 class OnboardingViewModel(private val userPreferencesRepository: UserPreferencesRepository) : ViewModel() {
 
-    fun saveUserPreferences(branch: String, interests: String) {
+    fun saveUserPreferences(
+        name: String,
+        college: String,
+        yearOfStudy: String,
+        expectedGraduationYear: String,
+        learningGoals: String,
+        preferredLearningStyle: String,
+        hoursPerWeek: String,
+        dreamCompanies: String,
+        branch: String,
+        interests: String
+    ) {
         viewModelScope.launch {
-            // Corrected method name from saveUserPreferences to updateUserPreferences
-            userPreferencesRepository.updateUserPreferences(branch, interests)
+            userPreferencesRepository.updateUserPreferences(
+                name,
+                college,
+                yearOfStudy,
+                expectedGraduationYear,
+                learningGoals,
+                preferredLearningStyle,
+                hoursPerWeek,
+                dreamCompanies,
+                branch,
+                interests
+            )
         }
     }
 
@@ -26,4 +47,3 @@ class OnboardingViewModel(private val userPreferencesRepository: UserPreferences
         }
     }
 }
-

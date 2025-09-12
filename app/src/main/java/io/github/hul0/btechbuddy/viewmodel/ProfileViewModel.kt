@@ -19,7 +19,7 @@ class ProfileViewModel(userPreferencesRepository: UserPreferencesRepository) : V
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = UserPreferences("", "")
+            initialValue = UserPreferences("", "", "", "", "", "", "", "", "", "")
         )
 
     companion object {

@@ -2,6 +2,7 @@ package io.github.hul0.btechbuddy.ui.screens
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Checklist
 import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.Explore
 import androidx.compose.material.icons.filled.Person
@@ -22,12 +23,14 @@ import io.github.hul0.btechbuddy.viewmodel.DashboardViewModel
 import io.github.hul0.btechbuddy.viewmodel.GuidanceViewModel
 import io.github.hul0.btechbuddy.viewmodel.LearningViewModel
 import io.github.hul0.btechbuddy.viewmodel.ProfileViewModel
+import io.github.hul0.btechbuddy.viewmodel.TodoViewModel
 
 sealed class BottomNavScreen(val route: String, val icon: ImageVector, val label: String) {
     object Dashboard : BottomNavScreen("dashboard", Icons.Default.Dashboard, "Dashboard")
     object Learning : BottomNavScreen("learning", Icons.Default.School, "Learning")
     object Courses : BottomNavScreen("courses", Icons.Default.VideoLibrary, "Courses")
     object Guidance : BottomNavScreen("guidance", Icons.Default.Explore, "Guidance")
+    object Todo : BottomNavScreen("todo", Icons.Default.Checklist, "To-Do")
     object Profile : BottomNavScreen("profile", Icons.Default.Person, "Profile")
 }
 
@@ -39,7 +42,8 @@ fun MainScreen(
     learningViewModel: LearningViewModel,
     coursesViewModel: CoursesViewModel,
     guidanceViewModel: GuidanceViewModel,
-    profileViewModel: ProfileViewModel
+    profileViewModel: ProfileViewModel,
+    todoViewModel: TodoViewModel
 ) {
     val bottomNavController = rememberNavController()
 
@@ -48,11 +52,11 @@ fun MainScreen(
         BottomNavScreen.Learning,
         BottomNavScreen.Courses,
         BottomNavScreen.Guidance,
+        BottomNavScreen.Todo,
         BottomNavScreen.Profile,
     )
 
     Scaffold(
-
         bottomBar = {
             NavigationBar {
                 val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
@@ -85,6 +89,7 @@ fun MainScreen(
             composable(BottomNavScreen.Learning.route) { LearningScreen(learningViewModel, mainNavController) }
             composable(BottomNavScreen.Courses.route) { CoursesScreen(coursesViewModel) }
             composable(BottomNavScreen.Guidance.route) { GuidanceScreen(guidanceViewModel) }
+            composable(BottomNavScreen.Todo.route) { TodoScreen(todoViewModel) }
             composable(BottomNavScreen.Profile.route) { ProfileScreen(profileViewModel) }
         }
     }

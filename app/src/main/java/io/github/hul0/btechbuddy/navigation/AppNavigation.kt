@@ -10,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import io.github.hul0.btechbuddy.data.repository.ContentRepository
 import io.github.hul0.btechbuddy.data.repository.UserPreferencesRepository
+import io.github.hul0.btechbuddy.ui.screens.AboutScreen
 import io.github.hul0.btechbuddy.ui.screens.LearningPathDetailScreen
 import io.github.hul0.btechbuddy.ui.screens.MainScreen
 import io.github.hul0.btechbuddy.ui.screens.OnboardingScreen
@@ -21,6 +22,7 @@ sealed class Screen(val route: String) {
     object LearningPathDetail : Screen("learningPathDetail/{pathId}") {
         fun createRoute(pathId: String) = "learningPathDetail/$pathId"
     }
+    object About : Screen("about")
 }
 
 @Composable
@@ -56,18 +58,21 @@ fun AppNavigation(context: Context, startDestination: String) {
                     contentRepository = contentRepository
                 )
             )
-            // Create the CoursesViewModel
             val coursesViewModel: CoursesViewModel = viewModel(
                 factory = CoursesViewModel.provideFactory(contentRepository)
+            )
+            val todoViewModel: TodoViewModel = viewModel(
+                factory = TodoViewModel.provideFactory(userPreferencesRepository)
             )
 
             MainScreen(
                 mainNavController = navController,
                 dashboardViewModel = dashboardViewModel,
                 learningViewModel = learningViewModel,
-                coursesViewModel = coursesViewModel, // Pass it to the MainScreen
+                coursesViewModel = coursesViewModel,
                 guidanceViewModel = guidanceViewModel,
-                profileViewModel = profileViewModel
+                profileViewModel = profileViewModel,
+                todoViewModel = todoViewModel
             )
         }
         composable(
@@ -86,5 +91,9 @@ fun AppNavigation(context: Context, startDestination: String) {
                 )
             }
         }
+        composable(Screen.About.route) {
+            AboutScreen(navController = navController)
+        }
     }
 }
+
