@@ -4,47 +4,41 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import io.github.hul0.btechbuddy.data.model.CareerRoadmap
+import io.github.hul0.btechbuddy.data.model.FaqCategory
 import io.github.hul0.btechbuddy.data.repository.ContentRepository
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
+enum class Tab(val title: String) {
+    ROADMAPS("Roadmaps"),
+    FAQS("FAQs")
+}
+
+data class GuidanceUiState(
+    val selectedTab: Tab = Tab.ROADMAPS,
+    val roadmaps: List<CareerRoadmap> = emptyList(),
+    val faqs: List<FaqCategory> = emptyList()
+)
+
 class GuidanceViewModel(private val repository: ContentRepository) : ViewModel() {
 
-    private val _careerRoadmaps = MutableStateFlow<List<CareerRoadmap>>(emptyList())
-    private val _searchText = MutableStateFlow("")
-    val searchText = _searchText.asStateFlow()
-
-    val filteredCareerRoadmaps: StateFlow<List<CareerRoadmap>> =
-        combine(_careerRoadmaps, _searchText) { roadmaps, text ->
-            if (text.isBlank()) {
-                roadmaps
-            } else {
-                roadmaps.mapNotNull { category ->
-                    val filteredRoadmaps = category.roadmaps.filter {
-                        it.title.contains(text, ignoreCase = true)
-                    }
-                    if (filteredRoadmaps.isNotEmpty()) {
-                        category.copy(roadmaps = filteredRoadmaps)
-                    } else {
-                        null
-                    }
-                }
-            }
-        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
-
+    private val _uiState = MutableStateFlow(GuidanceUiState())
+    val uiState: StateFlow<GuidanceUiState> = _uiState.asStateFlow()
 
     init {
-        loadCareerRoadmaps()
+        loadContent()
     }
 
-    private fun loadCareerRoadmaps() {
+    private fun loadContent() {
         viewModelScope.launch {
-            _careerRoadmaps.value = repository.getCareerRoadmaps()
+            val roadmaps = repository.getCareerRoadmaps()
+            val faqs = repository.getFaqs()
+            _uiState.update { it.copy(roadmaps = roadmaps, faqs = faqs) }
         }
     }
 
-    fun onSearchTextChanged(text: String) {
-        _searchText.value = text
+    fun selectTab(tab: Tab) {
+        _uiState.update { it.copy(selectedTab = tab) }
     }
 
     companion object {

@@ -5,6 +5,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import io.github.hul0.btechbuddy.data.model.CareerRoadmap
 import io.github.hul0.btechbuddy.data.model.CourseCategory
+import io.github.hul0.btechbuddy.data.model.FaqCategory
 import io.github.hul0.btechbuddy.data.model.LearningPath
 import java.io.IOException
 
@@ -36,5 +37,10 @@ class ContentRepository(private val context: Context) {
         val listType = object : TypeToken<List<CourseCategory>>() {}.type
         return Gson().fromJson(jsonString, listType) ?: emptyList()
     }
-}
 
+    fun getFaqs(): List<FaqCategory> {
+        val jsonString = getJsonDataFromAsset("faqs.json")
+        val listType = object : TypeToken<List<FaqCategory>>() {}.type
+        return Gson().fromJson(jsonString, listType) ?: emptyList()
+    }
+}

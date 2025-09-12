@@ -1,0 +1,27 @@
+[
+  {
+    "category": "Placements & Interviews",
+    "faqs": [
+      {
+        "id": "faq1",
+        "question": "What is the best programming language for coding interviews?",
+        "answer": "C++, Java, and Python are the most popular choices. C++ is often preferred for its speed in competitive programming. Java is widely used in enterprise applications, making it a valuable skill. Python is praised for its simplicity and readability, allowing you to write code faster."
+      },
+      {
+        "id": "faq2",
+        "question": "How many projects should I have on my resume?",
+        "answer": "Aim for 2-3 high-quality, impactful projects. Quality over quantity is key. Make sure you can explain your projects in depth, including the technologies used, your specific contributions, and the challenges you faced."
+      }
+    ]
+  },
+  {
+    "category": "Academics",
+    "faqs": [
+      {
+        "id": "faq3",
+        "question": "How to maintain a good CGPA?",
+        "answer": "Attend classes regularly, take good notes, and clear your doubts with professors. Start studying for exams early and solve previous year question papers to understand the pattern. Consistency is more effective than last-minute cramming."
+      }
+    ]
+  }
+]

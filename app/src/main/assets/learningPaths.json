@@ -4,7 +4,7 @@
     "title": "DSA for Placements",
     "description": "Master Data Structures and Algorithms from basics to advanced for your upcoming placement interviews.",
     "modules": [
-      { "id": "lp1m1", "title": "Arrays & Strings", "resources": [] },
+      { "id": "lp1m1", "title": "Arrays & Strings", "resources": [], "youtubeUrl": "https://www.youtube.com/watch?v=5_5oE5lgrTA" },
       { "id": "lp1m2", "title": "Linked Lists", "resources": [] },
       { "id": "lp1m3", "title": "Stacks & Queues", "resources": [] },
       { "id": "lp1m4", "title": "Recursion & Backtracking", "resources": [] },
@@ -22,7 +22,7 @@
     "description": "Become a complete web developer by learning both frontend and backend technologies.",
     "modules": [
       { "id": "lp2m1", "title": "HTML, CSS, & JavaScript Fundamentals", "resources": [] },
-      { "id": "lp2m2", "title": "Frontend Frameworks (React/Angular/Vue)", "resources": [] },
+      { "id": "lp2m2", "title": "Frontend Frameworks (React/Angular/Vue)", "resources": [], "youtubeUrl": "https://www.youtube.com/watch?v=SqcY0GlETPk" },
       { "id": "lp2m3", "title": "Backend Development (Node.js/Django/Spring)", "resources": [] },
       { "id": "lp2m4", "title": "Databases (SQL & NoSQL)", "resources": [] },
       { "id": "lp2m5", "title": "APIs & RESTful Services", "resources": [] },

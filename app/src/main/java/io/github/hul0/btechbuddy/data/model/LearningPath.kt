@@ -11,5 +11,6 @@ data class LearningPath(
 data class Module(
     val id: String,
     val title: String,
-    val resources: List<String>
+    val resources: List<String>,
+    val youtubeUrl: String? = null
 )

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import io.github.hul0.btechbuddy.data.model.Course
 import io.github.hul0.btechbuddy.data.model.CourseCategory
+import io.github.hul0.btechbuddy.data.model.CourseSubcategory
 import io.github.hul0.btechbuddy.data.repository.ContentRepository
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -18,10 +19,9 @@ data class CourseWithPreview(
 )
 
 data class CoursesUiState(
-    val searchInput: String = "",
-    val selectedTag: String? = null,
-    val filteredCourses: List<CourseCategory> = emptyList(),
-    val allTags: List<String> = emptyList(),
+    val selectedCategory: String? = null,
+    val allCategories: List<CourseCategory> = emptyList(),
+    val filteredCourses: List<CourseSubcategory> = emptyList(),
     val coursePreviews: Map<String, CourseWithPreview> = emptyMap()
 )
 
@@ -34,75 +34,42 @@ class CoursesViewModel(private val repository: ContentRepository) : ViewModel() 
     private val allCourseCategories: List<CourseCategory> by lazy { repository.getCourses() }
 
     init {
-        // Initialize with all courses shown
-        val allCourses = allCourseCategories
-        _uiState.update { it.copy(filteredCourses = allCourses) }
-        prefetchPreviews(allCourses)
+        _uiState.update { it.copy(allCategories = allCourseCategories) }
 
-
-        val allTags = allCourseCategories
-            .flatMap { it.subcategories }
-            .flatMap { it.courses }
-            .flatMap { it.tags }
-            .distinct()
-            .sorted()
-        _uiState.update { it.copy(allTags = allTags) }
-
-        // Combine flows for search and filter
         viewModelScope.launch {
-            combine(
-                _uiState.map { it.searchInput }.distinctUntilChanged(),
-                _uiState.map { it.selectedTag }.distinctUntilChanged()
-            ) { search, tag ->
-                filterCourses(search, tag)
-            }.collect { filtered ->
-                _uiState.update { it.copy(filteredCourses = filtered) }
-                prefetchPreviews(filtered)
+            _uiState.map { it.selectedCategory }.distinctUntilChanged().collect { category ->
+                filterCourses(category)
             }
         }
     }
 
-    private fun filterCourses(search: String, tag: String?): List<CourseCategory> {
-        if (search.isBlank() && tag == null) {
-            return allCourseCategories
+    private fun filterCourses(categoryName: String?) {
+        if (categoryName == null) {
+            _uiState.update { it.copy(filteredCourses = emptyList()) }
+            return
         }
-        val searchLower = search.lowercase()
-        return allCourseCategories.mapNotNull { category ->
-            val filteredSubcategories = category.subcategories.mapNotNull { subcategory ->
-                val courses = subcategory.courses.filter { course ->
-                    val matchesSearch = if (search.isBlank()) true else {
-                        course.title.lowercase().contains(searchLower) ||
-                                course.description.lowercase().contains(searchLower)
-                    }
-                    val matchesTag = if (tag == null) true else course.tags.contains(tag)
-                    matchesSearch && matchesTag
-                }
-                if (courses.isNotEmpty()) subcategory.copy(courses = courses) else null
-            }
-            if (filteredSubcategories.isNotEmpty()) category.copy(subcategories = filteredSubcategories) else null
-        }
+
+        val category = allCourseCategories.find { it.category == categoryName }
+        val subcategories = category?.subcategories ?: emptyList()
+        _uiState.update { it.copy(filteredCourses = subcategories) }
+        prefetchPreviews(subcategories.flatMap { it.courses })
     }
 
-    private fun prefetchPreviews(categories: List<CourseCategory>) {
-        val allCourses = categories.flatMap { it.subcategories }.flatMap { it.courses }
-        allCourses.forEach { course ->
+    private fun prefetchPreviews(courses: List<Course>) {
+        courses.forEach { course ->
             if (!_uiState.value.coursePreviews.containsKey(course.id)) {
                 viewModelScope.launch {
-                    // Set loading state
                     _uiState.update {
                         val newPreviews = it.coursePreviews + (course.id to CourseWithPreview(course, isLoading = true))
                         it.copy(coursePreviews = newPreviews)
                     }
 
-                    // Fetch with error handling
                     val result = try {
                         unfurler.unfurl(course.url)
                     } catch (e: Exception) {
-                        // On error, result is null
                         null
                     }
 
-                    // Update with result or failure state
                     _uiState.update {
                         val finalPreview = CourseWithPreview(course, result, isLoading = false)
                         val newPreviews = it.coursePreviews + (course.id to finalPreview)
@@ -113,15 +80,8 @@ class CoursesViewModel(private val repository: ContentRepository) : ViewModel() 
         }
     }
 
-    fun onSearchInputChanged(input: String) {
-        _uiState.update { it.copy(searchInput = input) }
-    }
-
-    fun onTagSelected(tag: String) {
-        _uiState.update {
-            val newTag = if (it.selectedTag == tag) null else tag
-            it.copy(selectedTag = newTag)
-        }
+    fun onCategorySelected(category: String?) {
+        _uiState.update { it.copy(selectedCategory = category) }
     }
 
     companion object {
@@ -135,4 +95,3 @@ class CoursesViewModel(private val repository: ContentRepository) : ViewModel() 
         }
     }
 }
-

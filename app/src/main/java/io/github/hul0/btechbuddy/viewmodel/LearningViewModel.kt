@@ -9,17 +9,23 @@ import io.github.hul0.btechbuddy.data.repository.UserPreferencesRepository
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
+data class LearningUiState(
+    val searchInput: String = "",
+    val selectedTag: String? = null,
+    val filteredLearningPaths: List<LearningPath> = emptyList(),
+    val allTags: List<String> = emptyList()
+)
+
 class LearningViewModel(
     private val contentRepository: ContentRepository,
     private val userPreferencesRepository: UserPreferencesRepository
 ) : ViewModel() {
 
-    // Get the static list of paths just once.
+    private val _uiState = MutableStateFlow(LearningUiState())
+    val uiState: StateFlow<LearningUiState> = _uiState.asStateFlow()
+
     private val baseLearningPaths = contentRepository.getLearningPaths()
 
-    // This is the reactive flow. It combines the static path data with the dynamic
-    // set of completed module IDs from DataStore. Whenever the set of completed IDs changes,
-    // it re-calculates the progress for all paths and emits a new list to the UI.
     val learningPaths: StateFlow<List<LearningPath>> = userPreferencesRepository.completedModuleIds
         .map { completedIds ->
             baseLearningPaths.map { path ->
@@ -30,11 +36,38 @@ class LearningViewModel(
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = baseLearningPaths // Show the initial list immediately
+            initialValue = baseLearningPaths
         )
 
+    init {
+        val allTags = baseLearningPaths.map { it.title.split(" ").first() }.distinct()
+        _uiState.update { it.copy(allTags = allTags) }
+
+        viewModelScope.launch {
+            combine(
+                learningPaths,
+                _uiState.map { it.searchInput }.distinctUntilChanged(),
+                _uiState.map { it.selectedTag }.distinctUntilChanged()
+            ) { paths, search, tag ->
+                filterLearningPaths(paths, search, tag)
+            }.collect { filtered ->
+                _uiState.update { it.copy(filteredLearningPaths = filtered) }
+            }
+        }
+    }
+    private fun filterLearningPaths(paths: List<LearningPath>, search: String, tag: String?): List<LearningPath> {
+        val searchLower = search.lowercase()
+        return paths.filter { path ->
+            val matchesSearch = if (search.isBlank()) true else {
+                path.title.lowercase().contains(searchLower) || path.description.lowercase().contains(searchLower)
+            }
+            val matchesTag = if (tag == null) true else path.title.contains(tag, ignoreCase = true)
+            matchesSearch && matchesTag
+        }
+    }
+
+
     fun getLearningPathById(id: String): Flow<LearningPath?> {
-        // Find the specific path from the reactive flow
         return learningPaths.map { paths ->
             paths.find { it.id == id }
         }
@@ -44,11 +77,19 @@ class LearningViewModel(
         return userPreferencesRepository.isModuleCompleted(moduleId)
     }
 
-    // This function is now much simpler. It just tells the repository to update the data.
-    // The reactive flow in 'learningPaths' will automatically handle the UI update.
     fun setModuleCompleted(moduleId: String, isCompleted: Boolean) {
         viewModelScope.launch {
             userPreferencesRepository.setModuleCompleted(moduleId, isCompleted)
+        }
+    }
+    fun onSearchInputChanged(input: String) {
+        _uiState.update { it.copy(searchInput = input) }
+    }
+
+    fun onTagSelected(tag: String) {
+        _uiState.update {
+            val newTag = if (it.selectedTag == tag) null else tag
+            it.copy(selectedTag = newTag)
         }
     }
 
@@ -64,4 +105,3 @@ class LearningViewModel(
         }
     }
 }
-

@@ -8,56 +8,78 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import io.github.hul0.btechbuddy.data.model.Faq
 import io.github.hul0.btechbuddy.data.model.Roadmap
 import io.github.hul0.btechbuddy.viewmodel.GuidanceViewModel
+import io.github.hul0.btechbuddy.viewmodel.Tab
 
 @Composable
 fun GuidanceScreen(viewModel: GuidanceViewModel) {
-    val roadmaps by viewModel.filteredCareerRoadmaps.collectAsState()
-    val searchText by viewModel.searchText.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
-    Column(modifier = Modifier.padding(16.dp)) {
-        OutlinedTextField(
-            value = searchText,
-            onValueChange = viewModel::onSearchTextChanged,
-            modifier = Modifier.fillMaxWidth(),
-            label = { Text("Search Roadmaps") },
-            leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Search") },
-            singleLine = true
-        )
-        Spacer(modifier = Modifier.height(16.dp))
+    Column(modifier = Modifier.fillMaxSize()) {
+        TabRow(selectedTabIndex = uiState.selectedTab.ordinal) {
+            Tab.values().forEach { tab ->
+                Tab(
+                    selected = uiState.selectedTab == tab,
+                    onClick = { viewModel.selectTab(tab) },
+                    text = { Text(tab.title) }
+                )
+            }
+        }
 
-        if (roadmaps.isEmpty() && searchText.isNotBlank()) {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text("No results found.")
+        when (uiState.selectedTab) {
+            Tab.ROADMAPS -> RoadmapsContent(uiState.roadmaps)
+            Tab.FAQS -> FaqsContent(uiState.faqs)
+        }
+    }
+}
+
+@Composable
+fun RoadmapsContent(roadmaps: List<io.github.hul0.btechbuddy.data.model.CareerRoadmap>) {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        roadmaps.forEach { category ->
+            item {
+                Text(
+                    text = category.category,
+                    style = MaterialTheme.typography.headlineSmall,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
             }
-        } else if (roadmaps.isEmpty()) {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator()
+            items(category.roadmaps) { roadmap ->
+                RoadmapCard(roadmap = roadmap)
             }
-        } else {
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                roadmaps.forEach { category ->
-                    item {
-                        Text(
-                            text = category.category,
-                            style = MaterialTheme.typography.headlineSmall,
-                            modifier = Modifier.padding(bottom = 8.dp)
-                        )
-                    }
-                    items(category.roadmaps) { roadmap ->
-                        RoadmapCard(roadmap = roadmap)
-                    }
-                }
+        }
+    }
+}
+
+@Composable
+fun FaqsContent(faqs: List<io.github.hul0.btechbuddy.data.model.FaqCategory>) {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        faqs.forEach { category ->
+            item {
+                Text(
+                    text = category.category,
+                    style = MaterialTheme.typography.headlineSmall,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
+            }
+            items(category.faqs) { faq ->
+                FaqCard(faq = faq)
             }
         }
     }
@@ -69,7 +91,7 @@ fun RoadmapCard(roadmap: Roadmap) {
 
     Card(
         modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(4.dp)
+        elevation = CardDefaults.cardElevation(2.dp)
     ) {
         Column(
             modifier = Modifier
@@ -108,6 +130,47 @@ fun RoadmapCard(roadmap: Roadmap) {
                         )
                     }
                 }
+            }
+        }
+    }
+}
+
+@Composable
+fun FaqCard(faq: Faq) {
+    var expanded by remember { mutableStateOf(false) }
+
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(2.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .clickable { expanded = !expanded }
+                .padding(16.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = faq.question,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier.weight(1f)
+                )
+                Icon(
+                    imageVector = if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                    contentDescription = if (expanded) "Collapse" else "Expand"
+                )
+            }
+
+            AnimatedVisibility(visible = expanded) {
+                Text(
+                    text = faq.answer,
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(top = 16.dp)
+                )
             }
         }
     }
