@@ -6,6 +6,7 @@ import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -33,7 +34,7 @@ import io.github.hul0.btechbuddy.data.model.LearningPath
 import io.github.hul0.btechbuddy.navigation.Screen
 import io.github.hul0.btechbuddy.viewmodel.LearningViewModel
 import me.saket.unfurl.UnfurlResult
-import io.github.hul0.btechbuddy.ui.theme.* // Color.kt palette
+import io.github.hul0.btechbuddy.ui.theme.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -42,11 +43,10 @@ fun LearningScreen(viewModel: LearningViewModel, navController: NavController) {
     val context = LocalContext.current
 
     Column(modifier = Modifier.fillMaxSize()) {
-        // Header: compact, no elevation/shadow/gradient
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Gray50)
+                .background(MaterialTheme.colorScheme.surface)
                 .padding(horizontal = 16.dp, vertical = 12.dp)
         ) {
             OutlinedTextField(
@@ -54,27 +54,27 @@ fun LearningScreen(viewModel: LearningViewModel, navController: NavController) {
                 onValueChange = viewModel::onSearchInputChanged,
                 modifier = Modifier.fillMaxWidth(),
                 placeholder = { Text("Search learning paths...") },
-                leadingIcon = { Icon(Icons.Filled.Search, contentDescription = "Search", tint = Blue700) },
+                leadingIcon = { Icon(Icons.Filled.Search, contentDescription = "Search", tint = MaterialTheme.colorScheme.primary) },
                 trailingIcon = if (uiState.searchInput.isNotEmpty()) {
                     {
                         IconButton(onClick = { viewModel.onSearchInputChanged("") }) {
-                            Icon(Icons.Outlined.Close, contentDescription = "Clear", tint = Gray700)
+                            Icon(Icons.Outlined.Close, contentDescription = "Clear", tint = MaterialTheme.colorScheme.onSurface)
                         }
                     }
                 } else null,
                 singleLine = true,
                 shape = RoundedCornerShape(12.dp),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Blue700,
-                    unfocusedBorderColor = Gray300,
-                    focusedLabelColor = Blue700,
-                    cursorColor = Blue700,
-                    focusedTextColor = Gray900,
-                    unfocusedTextColor = Gray900,
-                    focusedContainerColor = Gray50,
-                    unfocusedContainerColor = Gray50,
-                    focusedPlaceholderColor = Gray500,
-                    unfocusedPlaceholderColor = Gray500
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                    focusedLabelColor = MaterialTheme.colorScheme.primary,
+                    cursorColor = MaterialTheme.colorScheme.primary,
+                    focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    focusedContainerColor = MaterialTheme.colorScheme.surface,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                    focusedPlaceholderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                    unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                 )
             )
             Spacer(modifier = Modifier.height(10.dp))
@@ -88,28 +88,28 @@ fun LearningScreen(viewModel: LearningViewModel, navController: NavController) {
                             Icon(
                                 imageVector = Icons.Filled.Label,
                                 contentDescription = null,
-                                tint = if (uiState.selectedTag == tag) Blue700 else Gray700
+                                tint = if (uiState.selectedTag == tag) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
                             )
                         },
                         colors = FilterChipDefaults.filterChipColors(
-                            containerColor = Gray100,
-                            labelColor = Gray800,
-                            iconColor = Gray700,
-                            selectedContainerColor = Blue100,
-                            selectedLabelColor = Blue900,
-                            selectedLeadingIconColor = Blue700
+                            containerColor = MaterialTheme.colorScheme.surface,
+                            labelColor = MaterialTheme.colorScheme.onSurface,
+                            iconColor = MaterialTheme.colorScheme.onSurface,
+                            selectedContainerColor = MaterialTheme.colorScheme.primary,
+                            selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
+                            selectedLeadingIconColor = MaterialTheme.colorScheme.onPrimary
                         ),
                         shape = RoundedCornerShape(12.dp),
-                        border = BorderStroke(1.dp, if (uiState.selectedTag == tag) Blue100 else Gray200)
+                        border = BorderStroke(1.dp, if (uiState.selectedTag == tag) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline)
                     )
                 }
             }
         }
-        Divider(color = Gray200, thickness = 1.dp)
+        Divider(color = MaterialTheme.colorScheme.outline, thickness = 1.dp)
 
         if (uiState.filteredLearningPaths.isEmpty()) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text("No matching learning paths found.", color = Gray700)
+                Text("No matching learning paths found.", color = MaterialTheme.colorScheme.onSurface)
             }
         } else {
             LazyColumn(
@@ -139,13 +139,12 @@ fun LearningScreen(viewModel: LearningViewModel, navController: NavController) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LearningPathCard(path: LearningPath, onClick: () -> Unit, onYoutubeClick: (String) -> Unit) {
-    // Outlined, compact, no elevation/shadow
     OutlinedCard(
         onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = Blue50),
-        border = BorderStroke(1.dp, Blue100)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -153,10 +152,11 @@ fun LearningPathCard(path: LearningPath, onClick: () -> Unit, onYoutubeClick: (S
                     modifier = Modifier
                         .size(36.dp)
                         .clip(CircleShape)
-                        .background(Blue100),
+                        .background(MaterialTheme.colorScheme.surface)
+                        .border(1.dp, MaterialTheme.colorScheme.outline, CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
-                    Icon(Icons.Filled.Timeline, contentDescription = null, tint = Blue700)
+                    Icon(Icons.Filled.Timeline, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
                 }
                 Spacer(Modifier.width(10.dp))
                 Column(modifier = Modifier.weight(1f)) {
@@ -164,21 +164,20 @@ fun LearningPathCard(path: LearningPath, onClick: () -> Unit, onYoutubeClick: (S
                         text = path.title,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
-                        color = Blue900
+                        color = MaterialTheme.colorScheme.primary
                     )
                     Spacer(Modifier.height(2.dp))
                     Text(
                         text = path.description,
                         style = MaterialTheme.typography.bodySmall,
-                        color = Gray800,
+                        color = MaterialTheme.colorScheme.onSurface,
                         maxLines = 3
                     )
                 }
-                // Minimal forward affordance without shadow
                 Icon(
                     imageVector = Icons.Filled.Sell,
                     contentDescription = null,
-                    tint = Blue700,
+                    tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(18.dp)
                 )
             }
@@ -198,13 +197,13 @@ fun LearningPathCard(path: LearningPath, onClick: () -> Unit, onYoutubeClick: (S
                     modifier = Modifier
                         .weight(1f)
                         .height(6.dp),
-                    color = Blue700,
-                    trackColor = Blue100
+                    color = MaterialTheme.colorScheme.primary,
+                    trackColor = MaterialTheme.colorScheme.surface
                 )
                 Text(
                     text = "${path.completedModules}/${path.modules.size} done",
                     style = MaterialTheme.typography.labelSmall,
-                    color = Gray800
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
         }

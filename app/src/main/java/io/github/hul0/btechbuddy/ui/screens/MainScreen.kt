@@ -4,6 +4,7 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -56,7 +57,6 @@ sealed class BottomNavScreen(
     object Learning : BottomNavScreen("learning", "Learning", Icons.Filled.School, Icons.Outlined.School)
     object Courses : BottomNavScreen("courses", "Courses", Icons.Filled.VideoLibrary, Icons.Outlined.VideoLibrary)
     object Guidance : BottomNavScreen("guidance", "Guidance", Icons.Filled.Explore, Icons.Outlined.Explore)
-    // Use CheckCircle to avoid missing icon issues with Checklist
     object Todo : BottomNavScreen("todo", "To-Do", Icons.Filled.CheckCircle, Icons.Outlined.CheckCircle)
     object Profile : BottomNavScreen("profile", "Profile", Icons.Filled.Person, Icons.Outlined.Person)
 }
@@ -118,11 +118,9 @@ fun EnhancedCoolBottomNavBar(
     var containerSize by remember { mutableStateOf(IntSize.Zero) }
     val density = LocalDensity.current
 
-    // Indicator dimensions
     val indicatorWidth = 22.dp
     val indicatorHeight = 3.dp
 
-    // Smooth spring-based indicator offset (no delays/tweens)
     val indicatorOffset: Dp by animateDpAsState(
         targetValue = with(density) {
             if (containerSize.width > 0 && items.isNotEmpty()) {
@@ -149,16 +147,16 @@ fun EnhancedCoolBottomNavBar(
                 .height(70.dp)
                 .fillMaxWidth(),
             shape = RoundedCornerShape(35.dp),
-            color = MaterialTheme.colorScheme.surfaceColorAtElevation(4.dp),
-            shadowElevation = 10.dp,
-            tonalElevation = 2.dp
+            color = MaterialTheme.colorScheme.surface,
+            shadowElevation = 0.dp,
+            tonalElevation = 0.dp,
+            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
         ) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .onSizeChanged { containerSize = it }
             ) {
-                // Underline-style active indicator (no gradient)
                 Box(
                     modifier = Modifier
                         .align(Alignment.BottomStart)
@@ -209,7 +207,6 @@ fun EnhancedCoolBottomNavItem(
 ) {
     val haptic = LocalHapticFeedback.current
 
-    // Smooth, no-delay spring animations (no tween)
     val scale by animateFloatAsState(
         targetValue = if (isSelected) 1.12f else 1.0f,
         animationSpec = spring(dampingRatio = 1f, stiffness = 300f),
@@ -227,7 +224,7 @@ fun EnhancedCoolBottomNavItem(
         modifier = modifier
             .clickable(
                 interactionSource = interaction,
-                indication = null, // no ripple (deprecated rememberRipple avoided)
+                indication = null,
                 role = Role.Tab,
                 onClick = {
                     haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
@@ -240,7 +237,7 @@ fun EnhancedCoolBottomNavItem(
             imageVector = if (isSelected) screen.selectedIcon else screen.unselectedIcon,
             contentDescription = screen.label,
             tint = if (isSelected) MaterialTheme.colorScheme.primary
-            else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f),
+            else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f),
             modifier = Modifier
                 .scale(scale)
                 .size(iconSize)

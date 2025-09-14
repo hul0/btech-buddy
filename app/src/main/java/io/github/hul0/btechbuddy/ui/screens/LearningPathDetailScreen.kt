@@ -160,7 +160,7 @@ fun ModuleItem(
                 onCheckedChange = { viewModel.setModuleCompleted(module.id, it) },
                 colors = CheckboxDefaults.colors(
                     checkedColor = Green700,
-                    uncheckedColor = Gray500,
+                    uncheckedColor = Gray50.copy(0.5f),
                     checkmarkColor = Gray50
                 )
             )

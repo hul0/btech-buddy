@@ -3,6 +3,7 @@ package io.github.hul0.btechbuddy.ui.screens
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -30,18 +31,17 @@ import io.github.hul0.btechbuddy.data.model.Faq
 import io.github.hul0.btechbuddy.data.model.Roadmap
 import io.github.hul0.btechbuddy.viewmodel.GuidanceViewModel
 import io.github.hul0.btechbuddy.viewmodel.Tab
-import io.github.hul0.btechbuddy.ui.theme.* // Color.kt palette
+import io.github.hul0.btechbuddy.ui.theme.*
 
 @Composable
 fun GuidanceScreen(viewModel: GuidanceViewModel) {
     val uiState by viewModel.uiState.collectAsState()
 
     Column(modifier = Modifier.fillMaxSize()) {
-        // Compact TabRow with thin indicator and no elevation/shadow
         TabRow(
             selectedTabIndex = uiState.selectedTab.ordinal,
-            containerColor = Gray50,
-            contentColor = Gray900,
+            containerColor = MaterialTheme.colorScheme.surface,
+            contentColor = MaterialTheme.colorScheme.onSurface,
             indicator = { tabPositions ->
                 if (uiState.selectedTab.ordinal < tabPositions.size) {
                     val tabPos = tabPositions[uiState.selectedTab.ordinal]
@@ -55,30 +55,30 @@ fun GuidanceScreen(viewModel: GuidanceViewModel) {
                                 .width(tabPos.width)
                                 .height(2.dp)
                                 .offset(x = tabPos.left)
-                                .background(Blue700)
+                                .background(MaterialTheme.colorScheme.primary)
                         )
                     }
                 }
             },
             divider = {
-                HorizontalDivider(color = Gray200, thickness = 1.dp)
+                HorizontalDivider(color = MaterialTheme.colorScheme.outline, thickness = 1.dp)
             }
         ) {
             Tab.entries.forEach { tab ->
-                val (iconTint, icon) = when (tab) {
-                    Tab.ROADMAPS -> Blue700 to Icons.Default.Explore
-                    Tab.FAQS -> Indigo700 to Icons.AutoMirrored.Filled.Help
+                val icon = when (tab) {
+                    Tab.ROADMAPS -> Icons.Default.Explore
+                    Tab.FAQS -> Icons.AutoMirrored.Filled.Help
                 }
                 Tab(
                     selected = uiState.selectedTab == tab,
                     onClick = { viewModel.selectTab(tab) },
-                    selectedContentColor = iconTint,
-                    unselectedContentColor = Gray700,
+                    selectedContentColor = MaterialTheme.colorScheme.primary,
+                    unselectedContentColor = MaterialTheme.colorScheme.onSurface,
                     icon = {
                         Icon(
                             icon,
                             contentDescription = null,
-                            tint = if (uiState.selectedTab == tab) iconTint else Gray700
+                            tint = if (uiState.selectedTab == tab) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
                         )
                     },
                     text = {
@@ -109,13 +109,13 @@ fun RoadmapsContent(roadmaps: List<io.github.hul0.btechbuddy.data.model.CareerRo
         roadmaps.forEach { category ->
             item {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(Icons.Default.Timeline, contentDescription = null, tint = Blue700, modifier = Modifier.size(18.dp))
+                    Icon(Icons.Default.Timeline, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(18.dp))
                     Spacer(Modifier.width(6.dp))
                     Text(
                         text = category.category,
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.SemiBold,
-                        color = Gray900
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
             }
@@ -136,13 +136,13 @@ fun FaqsContent(faqs: List<io.github.hul0.btechbuddy.data.model.FaqCategory>) {
         faqs.forEach { category ->
             item {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(Icons.AutoMirrored.Filled.Help, contentDescription = null, tint = Indigo700, modifier = Modifier.size(18.dp))
+                    Icon(Icons.AutoMirrored.Filled.Help, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(18.dp))
                     Spacer(Modifier.width(6.dp))
                     Text(
                         text = category.category,
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.SemiBold,
-                        color = Gray900
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
             }
@@ -157,12 +157,11 @@ fun FaqsContent(faqs: List<io.github.hul0.btechbuddy.data.model.FaqCategory>) {
 fun RoadmapCard(roadmap: Roadmap) {
     var expanded by remember { mutableStateOf(false) }
 
-    // Outlined style, no elevation/shadows/gradients
     OutlinedCard(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = Blue50),
-        border = BorderStroke(1.dp, Blue100)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
     ) {
         Column(
             modifier = Modifier
@@ -177,13 +176,14 @@ fun RoadmapCard(roadmap: Roadmap) {
                     modifier = Modifier
                         .size(34.dp)
                         .clip(CircleShape)
-                        .background(Blue100),
+                        .background(MaterialTheme.colorScheme.surface)
+                        .border(1.dp, MaterialTheme.colorScheme.outline, CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         imageVector = Icons.Default.Route,
                         contentDescription = null,
-                        tint = Blue700,
+                        tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(18.dp)
                     )
                 }
@@ -193,19 +193,19 @@ fun RoadmapCard(roadmap: Roadmap) {
                         text = roadmap.title,
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Bold,
-                        color = Blue900
+                        color = MaterialTheme.colorScheme.primary
                     )
                     Text(
                         text = roadmap.description,
                         style = MaterialTheme.typography.bodySmall,
-                        color = Gray800,
+                        color = MaterialTheme.colorScheme.onSurface,
                         maxLines = 2
                     )
                 }
                 Icon(
                     imageVector = if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
                     contentDescription = if (expanded) "Collapse" else "Expand",
-                    tint = Blue700
+                    tint = MaterialTheme.colorScheme.primary
                 )
             }
 
@@ -217,13 +217,13 @@ fun RoadmapCard(roadmap: Roadmap) {
                                 modifier = Modifier
                                     .size(6.dp)
                                     .clip(CircleShape)
-                                    .background(Blue700)
+                                    .background(MaterialTheme.colorScheme.primary)
                             )
                             Spacer(Modifier.width(8.dp))
                             Text(
                                 text = "${index + 1}. $step",
                                 style = MaterialTheme.typography.bodySmall,
-                                color = Gray900,
+                                color = MaterialTheme.colorScheme.onSurface,
                                 modifier = Modifier.padding(bottom = 6.dp)
                             )
                         }
@@ -238,12 +238,11 @@ fun RoadmapCard(roadmap: Roadmap) {
 fun FaqCard(faq: Faq) {
     var expanded by remember { mutableStateOf(false) }
 
-    // Outlined style, no elevation/shadows/gradients
     OutlinedCard(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = Indigo100),
-        border = BorderStroke(1.dp, Gray200)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
     ) {
         Column(
             modifier = Modifier
@@ -258,13 +257,14 @@ fun FaqCard(faq: Faq) {
                     modifier = Modifier
                         .size(34.dp)
                         .clip(CircleShape)
-                        .background(Gray100),
+                        .background(MaterialTheme.colorScheme.surface)
+                        .border(1.dp, MaterialTheme.colorScheme.outline, CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.Help,
                         contentDescription = null,
-                        tint = Indigo700,
+                        tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(18.dp)
                     )
                 }
@@ -273,13 +273,13 @@ fun FaqCard(faq: Faq) {
                     text = faq.question,
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.SemiBold,
-                    color = Gray900,
+                    color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.weight(1f)
                 )
                 Icon(
                     imageVector = if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
                     contentDescription = if (expanded) "Collapse" else "Expand",
-                    tint = Indigo700
+                    tint = MaterialTheme.colorScheme.primary
                 )
             }
 
@@ -287,7 +287,7 @@ fun FaqCard(faq: Faq) {
                 Text(
                     text = faq.answer,
                     style = MaterialTheme.typography.bodySmall,
-                    color = Gray800,
+                    color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.padding(top = 10.dp)
                 )
             }

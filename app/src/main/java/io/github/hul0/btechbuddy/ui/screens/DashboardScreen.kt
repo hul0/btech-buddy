@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.github.hul0.btechbuddy.data.model.Roadmap
 import io.github.hul0.btechbuddy.viewmodel.DashboardViewModel
-import io.github.hul0.btechbuddy.ui.theme.* // Uses Color.kt palette
+import io.github.hul0.btechbuddy.ui.theme.*
 
 @Composable
 fun DashboardScreen(viewModel: DashboardViewModel) {
@@ -33,7 +33,7 @@ fun DashboardScreen(viewModel: DashboardViewModel) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.surface),
+            .background(MaterialTheme.colorScheme.background),
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
@@ -74,32 +74,31 @@ fun GreetingHeader(greeting: String) {
             Text(
                 text = "Hello there,",
                 style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = MaterialTheme.colorScheme.onBackground
             )
             Text(
                 text = greeting,
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onBackground
             )
         }
-        // Compact icon actions, no elevation/shadows/gradients
         CompactIconChip(
             icon = Icons.Default.Notifications,
-            container = Blue50,
-            tint = Blue700
+            container = MaterialTheme.colorScheme.surface,
+            tint = MaterialTheme.colorScheme.onSurface
         )
         Spacer(Modifier.width(8.dp))
         CompactIconChip(
             icon = Icons.Default.Settings,
-            container = Gray100,
-            tint = Gray800
+            container = MaterialTheme.colorScheme.surface,
+            tint = MaterialTheme.colorScheme.onSurface
         )
         Spacer(Modifier.width(8.dp))
         CompactIconChip(
             icon = Icons.Default.Person,
-            container = Green50,
-            tint = Green700
+            container = MaterialTheme.colorScheme.surface,
+            tint = MaterialTheme.colorScheme.onSurface
         )
     }
 }
@@ -115,7 +114,7 @@ private fun CompactIconChip(
             .size(36.dp)
             .clip(RoundedCornerShape(10.dp))
             .background(container)
-            .border(BorderStroke(1.dp, Gray200), RoundedCornerShape(10.dp)),
+            .border(BorderStroke(1.dp, MaterialTheme.colorScheme.outline), RoundedCornerShape(10.dp)),
         contentAlignment = Alignment.Center
     ) {
         Icon(imageVector = icon, contentDescription = null, tint = tint, modifier = Modifier.size(18.dp))
@@ -126,7 +125,7 @@ private fun CompactIconChip(
 fun StatisticsGrid(progress: Float, modulesCompleted: Int, totalModules: Int) {
     Column {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(Icons.Default.Insights, contentDescription = null, tint = Blue700, modifier = Modifier.size(18.dp))
+            Icon(Icons.Default.Insights, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(18.dp))
             Spacer(Modifier.width(6.dp))
             Text(
                 text = "Your Progress",
@@ -145,25 +144,25 @@ fun StatisticsGrid(progress: Float, modulesCompleted: Int, totalModules: Int) {
                 value = {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         CircularProgressIndicator(
-                            progress = progress,
+                            progress = { progress },
                             modifier = Modifier.size(48.dp),
                             strokeWidth = 4.dp,
-                            color = Blue700,
-                            trackColor = Blue100
+                            color = MaterialTheme.colorScheme.primary,
+                            trackColor = MaterialTheme.colorScheme.surface
                         )
                         Spacer(Modifier.height(6.dp))
                         Text(
                             text = "${(progress * 100).toInt()}%",
                             fontWeight = FontWeight.Bold,
                             fontSize = 12.sp,
-                            color = Blue800
+                            color = MaterialTheme.colorScheme.primary
                         )
                     }
                 },
                 icon = Icons.Default.CheckCircle,
-                color = Blue700,
-                container = Blue50,
-                border = Blue100
+                color = MaterialTheme.colorScheme.primary,
+                container = MaterialTheme.colorScheme.surface,
+                border = MaterialTheme.colorScheme.outline
             )
             StatCard(
                 modifier = Modifier.weight(1f),
@@ -173,13 +172,13 @@ fun StatisticsGrid(progress: Float, modulesCompleted: Int, totalModules: Int) {
                         text = "$modulesCompleted/$totalModules",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
-                        color = Green800
+                        color = MaterialTheme.colorScheme.primary
                     )
                 },
                 icon = Icons.Default.School,
-                color = Green700,
-                container = Green50,
-                border = Green100
+                color = MaterialTheme.colorScheme.primary,
+                container = MaterialTheme.colorScheme.surface,
+                border = MaterialTheme.colorScheme.outline
             )
         }
     }
@@ -223,7 +222,7 @@ fun StatCard(
                     text = label,
                     style = MaterialTheme.typography.labelLarge,
                     fontWeight = FontWeight.SemiBold,
-                    color = Gray800
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
             value()
@@ -236,19 +235,18 @@ fun QuoteOfTheDayCard(quote: String, author: String) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(14.dp),
-        color = Indigo100,
-        border = BorderStroke(1.dp, Gray200)
+        color = MaterialTheme.colorScheme.surface,
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
     ) {
         Row(
             modifier = Modifier.padding(12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Accent bar without elevation/shadow
             Box(
                 modifier = Modifier
                     .width(3.dp)
                     .height(IntrinsicSize.Min)
-                    .background(Indigo700)
+                    .background(MaterialTheme.colorScheme.primary)
             )
             Spacer(Modifier.width(12.dp))
             Column(modifier = Modifier.weight(1f)) {
@@ -256,7 +254,7 @@ fun QuoteOfTheDayCard(quote: String, author: String) {
                     Icon(
                         Icons.Default.FormatQuote,
                         contentDescription = null,
-                        tint = Indigo700,
+                        tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(18.dp)
                     )
                     Spacer(Modifier.width(6.dp))
@@ -264,14 +262,14 @@ fun QuoteOfTheDayCard(quote: String, author: String) {
                         text = "\"$quote\"",
                         style = MaterialTheme.typography.bodyMedium,
                         fontStyle = FontStyle.Italic,
-                        color = Charcoal
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
                 Spacer(Modifier.height(4.dp))
                 Text(
                     text = "- $author",
                     style = MaterialTheme.typography.labelSmall,
-                    color = Slate,
+                    color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.align(Alignment.End)
                 )
             }
@@ -284,8 +282,8 @@ fun RecommendedRoadmapCard(roadmap: Roadmap) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(14.dp),
-        color = Orange50,
-        border = BorderStroke(1.dp, Orange100)
+        color = MaterialTheme.colorScheme.surface,
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
     ) {
         Row(
             modifier = Modifier.padding(12.dp),
@@ -295,14 +293,14 @@ fun RecommendedRoadmapCard(roadmap: Roadmap) {
                 modifier = Modifier
                     .size(36.dp)
                     .clip(CircleShape)
-                    .background(Orange100),
+                    .background(MaterialTheme.colorScheme.surface),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = Icons.Default.AutoAwesome,
                     contentDescription = null,
                     modifier = Modifier.size(18.dp),
-                    tint = Orange700
+                    tint = MaterialTheme.colorScheme.primary
                 )
             }
             Spacer(modifier = Modifier.width(12.dp))
@@ -311,12 +309,12 @@ fun RecommendedRoadmapCard(roadmap: Roadmap) {
                     text = "Recommended for you",
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
-                    color = Orange800
+                    color = MaterialTheme.colorScheme.primary
                 )
                 Text(
                     text = "Explore the ${roadmap.title} roadmap",
                     style = MaterialTheme.typography.bodySmall,
-                    color = Gray800
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
         }
@@ -327,7 +325,7 @@ fun RecommendedRoadmapCard(roadmap: Roadmap) {
 fun QuickActions() {
     Column {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(Icons.Default.Bolt, contentDescription = null, tint = Purple700, modifier = Modifier.size(18.dp))
+            Icon(Icons.Default.Bolt, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(18.dp))
             Spacer(Modifier.width(6.dp))
             Text(
                 text = "Quick Actions",
@@ -341,15 +339,15 @@ fun QuickActions() {
                 title = "Daily Challenge",
                 subtitle = "Solve today's aptitude question",
                 icon = Icons.Default.Lightbulb,
-                container = Yellow100,
-                accent = Amber
+                container = MaterialTheme.colorScheme.surface,
+                accent = MaterialTheme.colorScheme.primary
             )
             QuickActionCard(
                 title = "Community Forum",
                 subtitle = "Ask questions and help peers",
                 icon = Icons.Default.Groups,
-                container = Blue100,
-                accent = Blue700
+                container = MaterialTheme.colorScheme.surface,
+                accent = MaterialTheme.colorScheme.primary
             )
         }
     }
@@ -369,7 +367,7 @@ fun QuickActionCard(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(14.dp),
         colors = CardDefaults.cardColors(containerColor = container),
-        border = BorderStroke(1.dp, container.copy(alpha = 0.7f)),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
         elevation = CardDefaults.cardElevation(0.dp)
     ) {
         Row(
@@ -392,10 +390,10 @@ fun QuickActionCard(
             }
             Spacer(modifier = Modifier.width(12.dp))
             Column(modifier = Modifier.weight(1f)) {
-                Text(text = title, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold, color = Gray900)
-                Text(text = subtitle, style = MaterialTheme.typography.bodySmall, color = Gray700)
+                Text(text = title, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurface)
+                Text(text = subtitle, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurface)
             }
-            Icon(Icons.Default.ChevronRight, contentDescription = null, tint = Gray700, modifier = Modifier.size(18.dp))
+            Icon(Icons.Default.ChevronRight, contentDescription = null, tint = MaterialTheme.colorScheme.onSurface, modifier = Modifier.size(18.dp))
         }
     }
 }

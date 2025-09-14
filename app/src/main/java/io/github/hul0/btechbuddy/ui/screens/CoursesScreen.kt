@@ -39,7 +39,7 @@ import coil.compose.AsyncImage
 import io.github.hul0.btechbuddy.data.model.Course
 import io.github.hul0.btechbuddy.viewmodel.CoursesViewModel
 import me.saket.unfurl.UnfurlResult
-import io.github.hul0.btechbuddy.ui.theme.* // use Color.kt palette
+import io.github.hul0.btechbuddy.ui.theme.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -63,7 +63,6 @@ fun CoursesScreen(viewModel: CoursesViewModel) {
 fun CategorySelectionScreen(viewModel: CoursesViewModel) {
     val uiState by viewModel.uiState.collectAsState()
 
-    // Show one tile per distinct tag (or curated category if you prefer)
     val categories = uiState.distinctTags
 
     LazyVerticalGrid(
@@ -95,8 +94,8 @@ fun CategoryCard(categoryName: String, onClick: () -> Unit) {
                 onClick = onClick
             ),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = Blue50),
-        border = BorderStroke(1.dp, Blue100)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
     ) {
         Box(
             modifier = Modifier
@@ -108,7 +107,7 @@ fun CategoryCard(categoryName: String, onClick: () -> Unit) {
                 text = categoryName,
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Bold,
-                color = Blue900,
+                color = MaterialTheme.colorScheme.onSurface,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
@@ -125,22 +124,22 @@ fun CourseListScreen(viewModel: CoursesViewModel, categoryName: String) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(categoryName, fontWeight = FontWeight.SemiBold, color = Gray900) },
+                title = { Text(categoryName, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurface) },
                 navigationIcon = {
                     IconButton(onClick = { viewModel.onCategorySelected(null) }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back", tint = Blue700)
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back", tint = MaterialTheme.colorScheme.primary)
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Gray50,
-                    titleContentColor = Gray900,
-                    navigationIconContentColor = Blue700
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    titleContentColor = MaterialTheme.colorScheme.onSurface,
+                    navigationIconContentColor = MaterialTheme.colorScheme.primary
                 )
             )
         }
     ) { paddingValues ->
         Column(Modifier.padding(paddingValues)) {
-            Divider(color = Gray200, thickness = 1.dp)
+            Divider(color = MaterialTheme.colorScheme.outline, thickness = 1.dp)
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
@@ -153,7 +152,7 @@ fun CourseListScreen(viewModel: CoursesViewModel, categoryName: String) {
                             modifier = Modifier.fillParentMaxSize(),
                             contentAlignment = Alignment.Center
                         ) {
-                            Text("No courses available in this category yet.", color = Gray700)
+                            Text("No courses available in this category yet.", color = MaterialTheme.colorScheme.onSurface)
                         }
                     }
                 } else {
@@ -163,7 +162,7 @@ fun CourseListScreen(viewModel: CoursesViewModel, categoryName: String) {
                                 text = subcategory.subcategory,
                                 style = MaterialTheme.typography.titleSmall,
                                 fontWeight = FontWeight.SemiBold,
-                                color = Gray900
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                         }
                         items(subcategory.courses, key = { it.id }) { course ->
@@ -207,8 +206,8 @@ fun PremiumCourseCard(
                 onClick = onClick
             ),
         shape = RoundedCornerShape(14.dp),
-        colors = CardDefaults.cardColors(containerColor = Gray50),
-        border = BorderStroke(1.dp, Gray200)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
     ) {
         Column {
             Column(modifier = Modifier.padding(12.dp)) {
@@ -216,7 +215,7 @@ fun PremiumCourseCard(
                     text = course.title,
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.ExtraBold,
-                    color = Gray900,
+                    color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -224,7 +223,7 @@ fun PremiumCourseCard(
                 Text(
                     text = course.description,
                     style = MaterialTheme.typography.bodySmall,
-                    color = Gray800,
+                    color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 3,
                     overflow = TextOverflow.Ellipsis,
                     fontWeight = FontWeight.Medium
@@ -234,22 +233,22 @@ fun PremiumCourseCard(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    Surface(shape = RoundedCornerShape(8.dp), color = Green100) {
+                    Surface(shape = RoundedCornerShape(8.dp), color = MaterialTheme.colorScheme.surface, border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)) {
                         Text(
                             text = course.difficulty,
                             style = MaterialTheme.typography.labelMedium,
                             fontWeight = FontWeight.Bold,
-                            color = Green700,
+                            color = MaterialTheme.colorScheme.onSurface,
                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
                         )
                     }
                     LazyRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                         items(course.tags) { tag ->
-                            Surface(shape = RoundedCornerShape(8.dp), color = Blue100) {
+                            Surface(shape = RoundedCornerShape(8.dp), color = MaterialTheme.colorScheme.surface, border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)) {
                                 Text(
                                     text = tag,
                                     style = MaterialTheme.typography.labelMedium,
-                                    color = Blue700,
+                                    color = MaterialTheme.colorScheme.onSurface,
                                     fontWeight = FontWeight.Bold,
                                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
                                 )
@@ -283,10 +282,10 @@ fun PremiumLoadingState() {
         modifier = Modifier
             .fillMaxWidth()
             .height(120.dp)
-            .background(Gray100),
+            .background(MaterialTheme.colorScheme.surface),
         contentAlignment = Alignment.Center
     ) {
-        CircularProgressIndicator(modifier = Modifier.size(24.dp), color = Blue700)
+        CircularProgressIndicator(modifier = Modifier.size(24.dp), color = MaterialTheme.colorScheme.primary)
     }
 }
 
@@ -311,23 +310,22 @@ fun PremiumLinkPreview(data: UnfurlResult, onClick: () -> Unit) {
                     .aspectRatio(16f / 9f),
                 contentScale = androidx.compose.ui.layout.ContentScale.Crop
             )
-            // No gradient overlay; keep a minimal solid scrim if desired
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
                     .fillMaxWidth()
                     .height(32.dp)
-                    .background(Gray900.copy(alpha = 0.35f))
+                    .background(PureBlack.copy(alpha = 0.35f))
             )
             Box(
                 modifier = Modifier
                     .align(Alignment.Center)
                     .size(46.dp)
                     .clip(CircleShape)
-                    .background(Blue700),
+                    .background(MaterialTheme.colorScheme.primary),
                 contentAlignment = Alignment.Center
             ) {
-                Icon(Icons.Outlined.PlayArrow, contentDescription = "Play", tint = Gray50)
+                Icon(Icons.Outlined.PlayArrow, contentDescription = "Play", tint = MaterialTheme.colorScheme.onPrimary)
             }
         }
     }

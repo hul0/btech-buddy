@@ -26,7 +26,7 @@ import androidx.navigation.NavController
 import io.github.hul0.btechbuddy.navigation.Screen
 import io.github.hul0.btechbuddy.viewmodel.OnboardingViewModel
 import kotlinx.coroutines.launch
-import io.github.hul0.btechbuddy.ui.theme.* // Color.kt palette
+import io.github.hul0.btechbuddy.ui.theme.*
 
 @Composable
 fun OnboardingScreen(navController: NavController, viewModel: OnboardingViewModel) {
@@ -46,15 +46,14 @@ fun OnboardingScreen(navController: NavController, viewModel: OnboardingViewMode
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Gray50)
+            .background(MaterialTheme.colorScheme.background)
             .padding(horizontal = 16.dp, vertical = 12.dp)
     ) {
-        // Header
         Spacer(modifier = Modifier.size(30.dp))
         Text(
             text = "Welcome to Your Learning & Career Companion",
             style = MaterialTheme.typography.titleMedium,
-            color = Gray900,
+            color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
         )
@@ -62,22 +61,20 @@ fun OnboardingScreen(navController: NavController, viewModel: OnboardingViewMode
         Text(
             text = "Let's personalize your journey. Please fill in your details.",
             style = MaterialTheme.typography.bodySmall,
-            color = Gray700,
+            color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(Modifier.height(16.dp))
-        Divider(color = Gray200, thickness = 1.dp)
+        Divider(color = MaterialTheme.colorScheme.outline, thickness = 1.dp)
         Spacer(Modifier.height(12.dp))
 
-        // Content
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(12.dp),
             contentPadding = PaddingValues(bottom = 24.dp)
         ) {
-            // Identity
-            item { SectionLabel("Identity", Icons.Filled.Badge, Blue700) }
+            item { SectionLabel("Identity", Icons.Filled.Badge, MaterialTheme.colorScheme.primary) }
             item {
                 CompactOutlinedTextField(
                     value = name,
@@ -95,8 +92,7 @@ fun OnboardingScreen(navController: NavController, viewModel: OnboardingViewMode
                 )
             }
 
-            // Academics
-            item { SectionLabel("Academics", Icons.Filled.Apartment, Indigo700) }
+            item { SectionLabel("Academics", Icons.Filled.Apartment, MaterialTheme.colorScheme.primary) }
             item {
                 OnboardingSelection(
                     label = "Select Your Branch",
@@ -124,8 +120,7 @@ fun OnboardingScreen(navController: NavController, viewModel: OnboardingViewMode
                 )
             }
 
-            // Interests & goals
-            item { SectionLabel("Interests & Goals", Icons.Filled.Interests, Purple700) }
+            item { SectionLabel("Interests & Goals", Icons.Filled.Interests, MaterialTheme.colorScheme.primary) }
             item {
                 OnboardingSelection(
                     label = "Select Your Interests",
@@ -143,8 +138,7 @@ fun OnboardingScreen(navController: NavController, viewModel: OnboardingViewMode
                 )
             }
 
-            // Time & companies
-            item { SectionLabel("Plan", Icons.Filled.Timer, Green700) }
+            item { SectionLabel("Plan", Icons.Filled.Timer, MaterialTheme.colorScheme.primary) }
             item {
                 CompactOutlinedTextField(
                     value = hoursPerWeek,
@@ -164,7 +158,7 @@ fun OnboardingScreen(navController: NavController, viewModel: OnboardingViewMode
             }
 
             item { Spacer(Modifier.height(8.dp)) }
-            item { Divider(color = Gray200, thickness = 1.dp) }
+            item { Divider(color = MaterialTheme.colorScheme.outline, thickness = 1.dp) }
             item {
                 Button(
                     onClick = {
@@ -190,10 +184,10 @@ fun OnboardingScreen(navController: NavController, viewModel: OnboardingViewMode
                     enabled = canProceed,
                     shape = RoundedCornerShape(12.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Blue700,
-                        contentColor = Gray50,
-                        disabledContainerColor = Gray300,
-                        disabledContentColor = Gray600
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary,
+                        disabledContainerColor = MaterialTheme.colorScheme.surface,
+                        disabledContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                     )
                 ) {
                     Icon(Icons.Filled.CheckCircle, contentDescription = null)
@@ -213,7 +207,7 @@ private fun SectionLabel(title: String, icon: androidx.compose.ui.graphics.vecto
         Text(
             text = title,
             style = MaterialTheme.typography.titleSmall,
-            color = Gray900
+            color = MaterialTheme.colorScheme.onBackground
         )
     }
 }
@@ -230,22 +224,22 @@ private fun CompactOutlinedTextField(
         value = value,
         onValueChange = onValueChange,
         label = { Text(label) },
-        leadingIcon = { Icon(leadingIcon, contentDescription = null, tint = Blue700) },
+        leadingIcon = { Icon(leadingIcon, contentDescription = null, tint = MaterialTheme.colorScheme.primary) },
         singleLine = true,
         shape = RoundedCornerShape(12.dp),
         keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(keyboardType = keyboardType),
         modifier = Modifier.fillMaxWidth(),
         colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = Blue700,
-            unfocusedBorderColor = Gray300,
-            focusedLabelColor = Blue700,
-            cursorColor = Blue700,
-            focusedTextColor = Gray900,
-            unfocusedTextColor = Gray900,
-            focusedContainerColor = Gray50,
-            unfocusedContainerColor = Gray50,
-            focusedPlaceholderColor = Gray500,
-            unfocusedPlaceholderColor = Gray500
+            focusedBorderColor = MaterialTheme.colorScheme.primary,
+            unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+            focusedLabelColor = MaterialTheme.colorScheme.primary,
+            cursorColor = MaterialTheme.colorScheme.primary,
+            focusedTextColor = MaterialTheme.colorScheme.onSurface,
+            unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+            focusedContainerColor = MaterialTheme.colorScheme.surface,
+            unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+            focusedPlaceholderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+            unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
         )
     )
 }
@@ -276,14 +270,14 @@ fun OnboardingSelection(
             singleLine = true,
             shape = RoundedCornerShape(12.dp),
             colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Blue700,
-                unfocusedBorderColor = Gray300,
-                focusedLabelColor = Blue700,
-                cursorColor = Blue700,
-                focusedTextColor = Gray900,
-                unfocusedTextColor = Gray900,
-                focusedContainerColor = Gray50,
-                unfocusedContainerColor = Gray50
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
+                unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                focusedLabelColor = MaterialTheme.colorScheme.primary,
+                cursorColor = MaterialTheme.colorScheme.primary,
+                focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                focusedContainerColor = MaterialTheme.colorScheme.surface,
+                unfocusedContainerColor = MaterialTheme.colorScheme.surface
             )
         )
         ExposedDropdownMenu(
@@ -298,7 +292,7 @@ fun OnboardingSelection(
                         expanded = false
                     },
                     colors = MenuDefaults.itemColors(
-                        textColor = Gray900
+                        textColor = MaterialTheme.colorScheme.onSurface
                     )
                 )
             }

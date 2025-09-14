@@ -20,7 +20,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import io.github.hul0.btechbuddy.data.model.TodoItem
 import io.github.hul0.btechbuddy.viewmodel.TodoViewModel
-import io.github.hul0.btechbuddy.ui.theme.* // Color.kt palette
+import io.github.hul0.btechbuddy.ui.theme.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -31,12 +31,12 @@ fun TodoScreen(viewModel: TodoViewModel) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("To‑Do List", color = Gray900) },
+                title = { Text("To‑Do List", color = MaterialTheme.colorScheme.onSurface) },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Gray50,
-                    titleContentColor = Gray900,
-                    navigationIconContentColor = Blue700,
-                    actionIconContentColor = Gray800
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    titleContentColor = MaterialTheme.colorScheme.onSurface,
+                    navigationIconContentColor = MaterialTheme.colorScheme.primary,
+                    actionIconContentColor = MaterialTheme.colorScheme.onSurface
                 )
             )
         }
@@ -46,9 +46,8 @@ fun TodoScreen(viewModel: TodoViewModel) {
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            Divider(color = Gray200, thickness = 1.dp)
+            Divider(color = MaterialTheme.colorScheme.outline, thickness = 1.dp)
 
-            // Input row
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -70,16 +69,16 @@ fun TodoScreen(viewModel: TodoViewModel) {
                     }),
                     shape = RoundedCornerShape(12.dp),
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = Blue700,
-                        unfocusedBorderColor = Gray300,
-                        focusedLabelColor = Blue700,
-                        cursorColor = Blue700,
-                        focusedTextColor = Gray900,
-                        unfocusedTextColor = Gray900,
-                        focusedContainerColor = Gray50,
-                        unfocusedContainerColor = Gray50,
-                        focusedPlaceholderColor = Gray500,
-                        unfocusedPlaceholderColor = Gray500
+                        focusedBorderColor = MaterialTheme.colorScheme.primary,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                        focusedLabelColor = MaterialTheme.colorScheme.primary,
+                        cursorColor = MaterialTheme.colorScheme.primary,
+                        focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                        unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                        focusedContainerColor = MaterialTheme.colorScheme.surface,
+                        unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                        focusedPlaceholderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                        unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                     )
                 )
                 Spacer(modifier = Modifier.width(10.dp))
@@ -93,17 +92,16 @@ fun TodoScreen(viewModel: TodoViewModel) {
                     enabled = newTodoText.isNotBlank(),
                     shape = RoundedCornerShape(12.dp),
                     colors = IconButtonDefaults.filledIconButtonColors(
-                        containerColor = Blue700,
-                        contentColor = Gray50,
-                        disabledContainerColor = Gray300,
-                        disabledContentColor = Gray600
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary,
+                        disabledContainerColor = MaterialTheme.colorScheme.surface,
+                        disabledContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                     )
                 ) {
                     Icon(Icons.Default.Add, contentDescription = "Add Task")
                 }
             }
 
-            // List
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
@@ -129,14 +127,13 @@ fun TodoListItem(
     onCompletedChange: () -> Unit,
     onDelete: () -> Unit
 ) {
-    // Outlined, compact, no elevation/shadows/gradients
     OutlinedCard(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
-            containerColor = if (item.isCompleted) Green50 else Gray50
+            containerColor = MaterialTheme.colorScheme.surface
         ),
-        border = BorderStroke(1.dp, if (item.isCompleted) Green100 else Gray200)
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
@@ -146,19 +143,18 @@ fun TodoListItem(
                 checked = item.isCompleted,
                 onCheckedChange = { onCompletedChange() },
                 colors = CheckboxDefaults.colors(
-                    checkedColor = Green700,
-                    uncheckedColor = Gray500,
-                    checkmarkColor = Gray50
+                    checkedColor = MaterialTheme.colorScheme.primary,
+                    uncheckedColor = MaterialTheme.colorScheme.outline,
+                    checkmarkColor = MaterialTheme.colorScheme.onPrimary
                 )
             )
             Spacer(modifier = Modifier.width(10.dp))
 
-            // Status dot + text
             Box(
                 modifier = Modifier
                     .size(10.dp)
                     .clip(CircleShape)
-                    .background(if (item.isCompleted) Green700 else Blue700)
+                    .background(if (item.isCompleted) MaterialTheme.colorScheme.outline else MaterialTheme.colorScheme.primary)
             )
             Spacer(modifier = Modifier.width(8.dp))
 
@@ -166,17 +162,16 @@ fun TodoListItem(
                 text = item.text,
                 modifier = Modifier.weight(1f),
                 style = MaterialTheme.typography.bodyMedium,
-                color = if (item.isCompleted) Gray700 else Gray900,
+                color = if (item.isCompleted) MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f) else MaterialTheme.colorScheme.onSurface,
                 textDecoration = if (item.isCompleted) TextDecoration.LineThrough else TextDecoration.None
             )
 
-            // Delete
             FilledIconButton(
                 onClick = onDelete,
                 shape = RoundedCornerShape(10.dp),
                 colors = IconButtonDefaults.filledIconButtonColors(
-                    containerColor = Red100,
-                    contentColor = Red700
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    contentColor = MaterialTheme.colorScheme.primary
                 )
             ) {
                 Icon(Icons.Default.Delete, contentDescription = "Delete Task")

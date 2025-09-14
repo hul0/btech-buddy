@@ -62,7 +62,7 @@ fun ProfileScreen(
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TopAppBar(
-                title = { Text(text = "My Profile", fontWeight = FontWeight.Bold, color = Gray900) },
+                title = { Text(text = "My Profile", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface) },
                 actions = {
                     IconButton(
                         onClick = onEditProfile,
@@ -71,23 +71,21 @@ fun ProfileScreen(
                         Icon(
                             imageVector = Icons.Outlined.Edit,
                             contentDescription = "Edit Profile",
-                            tint = Blue700
+                            tint = MaterialTheme.colorScheme.primary
                         )
                     }
-                    // Logout Button
-
                 },
                 scrollBehavior = scrollBehavior,
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Gray50,
-                    titleContentColor = Gray900,
-                    actionIconContentColor = Gray800
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    titleContentColor = MaterialTheme.colorScheme.onSurface,
+                    actionIconContentColor = MaterialTheme.colorScheme.onSurface
                 )
             )
         }
     ) { innerPadding ->
         Column(Modifier.fillMaxSize().padding(innerPadding)) {
-            Divider(color = Gray200, thickness = 1.dp)
+            Divider(color = MaterialTheme.colorScheme.outline, thickness = 1.dp)
             AnimatedVisibility(
                 visible = contentVisible,
                 enter = fadeIn(animationSpec = spring(stiffness = Spring.StiffnessMedium, dampingRatio = Spring.DampingRatioNoBouncy)) +
@@ -110,21 +108,18 @@ fun ProfileScreen(
                         )
                     }
 
-                    // ... The rest of your ProfileScreen items ...
                     item {
                         AnimatedSectionTitle(
                             text = "Academic Information",
                             icon = Icons.Filled.School
                         )
                     }
-                    // ... etc. ...
                 }
             }
         }
     }
 }
 
-// ... Keep the rest of the file (EnhancedProfileHeader, etc.) as it is ...
 @Composable
 private fun AnimatedSectionTitle(
     text: String,
@@ -144,8 +139,8 @@ private fun AnimatedSectionTitle(
         OutlinedCard(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12.dp),
-            colors = CardDefaults.cardColors(containerColor = Gray50),
-            border = BorderStroke(1.dp, Gray200)
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth().padding(12.dp),
@@ -155,13 +150,13 @@ private fun AnimatedSectionTitle(
                     modifier = Modifier
                         .size(32.dp)
                         .clip(CircleShape)
-                        .background(Blue100),
+                        .background(MaterialTheme.colorScheme.surface),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         imageVector = icon,
                         contentDescription = null,
-                        tint = Blue700
+                        tint = MaterialTheme.colorScheme.primary
                     )
                 }
                 Spacer(modifier = Modifier.width(10.dp))
@@ -169,7 +164,7 @@ private fun AnimatedSectionTitle(
                     text = text,
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
-                    color = Gray900
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
         }
@@ -185,26 +180,25 @@ private fun EnhancedProfileHeader(
     OutlinedCard(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = Blue50),
-        border = BorderStroke(1.dp, Blue100)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth().padding(16.dp)
         ) {
-            // Avatar with initials (no shadow)
             Box(
                 modifier = Modifier
                     .size(72.dp)
                     .clip(CircleShape)
-                    .background(Blue100),
+                    .background(MaterialTheme.colorScheme.surface),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
                     text = getInitials(name),
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold,
-                    color = Blue900
+                    color = MaterialTheme.colorScheme.primary
                 )
             }
 
@@ -218,7 +212,7 @@ private fun EnhancedProfileHeader(
                     text = if (name.isNotBlank()) name else "Dear Student",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
-                    color = Gray900,
+                    color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -226,7 +220,7 @@ private fun EnhancedProfileHeader(
                     Text(
                         text = branch,
                         style = MaterialTheme.typography.bodySmall,
-                        color = Gray800,
+                        color = MaterialTheme.colorScheme.onSurface,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -235,7 +229,7 @@ private fun EnhancedProfileHeader(
                     Text(
                         text = college,
                         style = MaterialTheme.typography.bodySmall,
-                        color = Gray700,
+                        color = MaterialTheme.colorScheme.onSurface,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -251,7 +245,7 @@ private fun EnhancedChipInfoCard(
     title: String,
     csv: String,
     icon: ImageVector,
-    headerColor: androidx.compose.ui.graphics.Color = Blue700
+    headerColor: androidx.compose.ui.graphics.Color = MaterialTheme.colorScheme.primary
 ) {
     val items = csv.split(",").map { it.trim() }.filter { it.isNotEmpty() }
     if (items.isEmpty()) return
@@ -259,8 +253,8 @@ private fun EnhancedChipInfoCard(
     OutlinedCard(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = Gray50),
-        border = BorderStroke(1.dp, Gray200)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
     ) {
         Column(
             modifier = Modifier.padding(14.dp),
@@ -284,7 +278,7 @@ private fun EnhancedChipInfoCard(
                     text = title,
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.SemiBold,
-                    color = Gray900
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
 
@@ -308,11 +302,12 @@ private fun EnhancedChipInfoCard(
                             )
                         },
                         colors = AssistChipDefaults.assistChipColors(
-                            containerColor = Blue100,
-                            labelColor = Blue900,
-                            leadingIconContentColor = Blue700
+                            containerColor = MaterialTheme.colorScheme.surface,
+                            labelColor = MaterialTheme.colorScheme.onSurface,
+                            leadingIconContentColor = MaterialTheme.colorScheme.primary
                         ),
-                        shape = RoundedCornerShape(20.dp)
+                        shape = RoundedCornerShape(20.dp),
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
                     )
                 }
             }
