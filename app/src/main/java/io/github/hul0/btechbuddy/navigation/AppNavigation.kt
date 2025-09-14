@@ -3,6 +3,7 @@ package io.github.hul0.btechbuddy.navigation
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -10,14 +11,12 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import io.github.hul0.btechbuddy.data.repository.ContentRepository
 import io.github.hul0.btechbuddy.data.repository.UserPreferencesRepository
-import io.github.hul0.btechbuddy.ui.screens.AboutScreen
-import io.github.hul0.btechbuddy.ui.screens.LearningPathDetailScreen
-import io.github.hul0.btechbuddy.ui.screens.MainScreen
-import io.github.hul0.btechbuddy.ui.screens.OnboardingScreen
+import io.github.hul0.btechbuddy.ui.screens.*
 import io.github.hul0.btechbuddy.viewmodel.*
 
 sealed class Screen(val route: String) {
     object Onboarding : Screen("onboarding")
+    object Auth : Screen("auth") // Auth screen route
     object Main : Screen("main")
     object LearningPathDetail : Screen("learningPathDetail/{pathId}") {
         fun createRoute(pathId: String) = "learningPathDetail/$pathId"
@@ -26,8 +25,11 @@ sealed class Screen(val route: String) {
 }
 
 @Composable
-fun AppNavigation(context: Context, startDestination: String) {
-    val navController = rememberNavController()
+fun AppNavigation(
+    context: Context,
+    navController: NavHostController,
+    startDestination: String
+) {
     val contentRepository = ContentRepository(context)
     val userPreferencesRepository = UserPreferencesRepository(context)
 
@@ -40,6 +42,18 @@ fun AppNavigation(context: Context, startDestination: String) {
                 navController = navController,
                 viewModel = onboardingViewModel
             )
+        }
+        composable(Screen.Auth.route) {
+            val authViewModel: AuthViewModel = viewModel(
+                factory = AuthViewModel.provideFactory(userPreferencesRepository)
+            )
+            AuthScreen(onTokensReceived = { fragment ->
+                authViewModel.saveSessionFromUrl(fragment)
+                // Navigate to main, clearing the auth screen from backstack
+                navController.navigate(Screen.Main.route) {
+                    popUpTo(Screen.Auth.route) { inclusive = true }
+                }
+            })
         }
         composable(Screen.Main.route) {
             val learningViewModel: LearningViewModel = viewModel(
@@ -96,4 +110,3 @@ fun AppNavigation(context: Context, startDestination: String) {
         }
     }
 }
-

@@ -18,40 +18,47 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 class UserPreferencesRepository(context: Context) {
     private val dataStore = context.dataStore
 
-    private data class UserPreferencesKeys(
-        val NAME_KEY: Preferences.Key<String> = stringPreferencesKey("name"),
-        val COLLEGE_KEY: Preferences.Key<String> = stringPreferencesKey("college"),
-        val YEAR_OF_STUDY_KEY: Preferences.Key<String> = stringPreferencesKey("year_of_study"),
-        val GRADUATION_YEAR_KEY: Preferences.Key<String> = stringPreferencesKey("graduation_year"),
-        val LEARNING_GOALS_KEY: Preferences.Key<String> = stringPreferencesKey("learning_goals"),
-        val LEARNING_STYLE_KEY: Preferences.Key<String> = stringPreferencesKey("learning_style"),
-        val HOURS_PER_WEEK_KEY: Preferences.Key<String> = stringPreferencesKey("hours_per_week"),
-        val DREAM_COMPANIES_KEY: Preferences.Key<String> = stringPreferencesKey("dream_companies"),
-        val BRANCH_KEY: Preferences.Key<String> = stringPreferencesKey("branch"),
-        val INTERESTS_KEY: Preferences.Key<String> = stringPreferencesKey("interests"),
-        val COMPLETED_MODULES_KEY: Preferences.Key<Set<String>> = stringSetPreferencesKey("completed_modules"),
-        val TODO_LIST_KEY: Preferences.Key<Set<String>> = stringSetPreferencesKey("todo_list")
-    )
+    private object PrefKeys {
+        val NAME_KEY = stringPreferencesKey("name")
+        val COLLEGE_KEY = stringPreferencesKey("college")
+        val YEAR_OF_STUDY_KEY = stringPreferencesKey("year_of_study")
+        val GRADUATION_YEAR_KEY = stringPreferencesKey("graduation_year")
+        val LEARNING_GOALS_KEY = stringPreferencesKey("learning_goals")
+        val LEARNING_STYLE_KEY = stringPreferencesKey("learning_style")
+        val HOURS_PER_WEEK_KEY = stringPreferencesKey("hours_per_week")
+        val DREAM_COMPANIES_KEY = stringPreferencesKey("dream_companies")
+        val BRANCH_KEY = stringPreferencesKey("branch")
+        val INTERESTS_KEY = stringPreferencesKey("interests")
+        val COMPLETED_MODULES_KEY = stringSetPreferencesKey("completed_modules")
+        val TODO_LIST_KEY = stringSetPreferencesKey("todo_list")
 
-    private val keys = UserPreferencesKeys()
+        // Keys for Authentication Tokens
+        val ACCESS_TOKEN_KEY = stringPreferencesKey("access_token")
+        val REFRESH_TOKEN_KEY = stringPreferencesKey("refresh_token")
+    }
 
     val userPreferences: Flow<UserPreferences> = dataStore.data.map { preferences ->
         UserPreferences(
-            name = preferences[keys.NAME_KEY] ?: "",
-            college = preferences[keys.COLLEGE_KEY] ?: "",
-            yearOfStudy = preferences[keys.YEAR_OF_STUDY_KEY] ?: "",
-            expectedGraduationYear = preferences[keys.GRADUATION_YEAR_KEY] ?: "",
-            learningGoals = preferences[keys.LEARNING_GOALS_KEY] ?: "",
-            preferredLearningStyle = preferences[keys.LEARNING_STYLE_KEY] ?: "",
-            hoursPerWeek = preferences[keys.HOURS_PER_WEEK_KEY] ?: "",
-            dreamCompanies = preferences[keys.DREAM_COMPANIES_KEY] ?: "",
-            branch = preferences[keys.BRANCH_KEY] ?: "",
-            interests = preferences[keys.INTERESTS_KEY] ?: ""
+            name = preferences[PrefKeys.NAME_KEY] ?: "",
+            college = preferences[PrefKeys.COLLEGE_KEY] ?: "",
+            yearOfStudy = preferences[PrefKeys.YEAR_OF_STUDY_KEY] ?: "",
+            expectedGraduationYear = preferences[PrefKeys.GRADUATION_YEAR_KEY] ?: "",
+            learningGoals = preferences[PrefKeys.LEARNING_GOALS_KEY] ?: "",
+            preferredLearningStyle = preferences[PrefKeys.LEARNING_STYLE_KEY] ?: "",
+            hoursPerWeek = preferences[PrefKeys.HOURS_PER_WEEK_KEY] ?: "",
+            dreamCompanies = preferences[PrefKeys.DREAM_COMPANIES_KEY] ?: "",
+            branch = preferences[PrefKeys.BRANCH_KEY] ?: "",
+            interests = preferences[PrefKeys.INTERESTS_KEY] ?: ""
         )
     }
 
+    // Flow to observe the access token
+    val accessToken: Flow<String?> = dataStore.data.map { preferences ->
+        preferences[PrefKeys.ACCESS_TOKEN_KEY]
+    }
+
     val todos: Flow<List<TodoItem>> = dataStore.data.map { preferences ->
-        preferences[keys.TODO_LIST_KEY]?.mapNotNull {
+        preferences[PrefKeys.TODO_LIST_KEY]?.mapNotNull {
             try {
                 Json.decodeFromString<TodoItem>(it)
             } catch (e: Exception) {
@@ -62,8 +69,25 @@ class UserPreferencesRepository(context: Context) {
 
     val completedModuleIds: Flow<Set<String>> = dataStore.data
         .map { preferences ->
-            preferences[keys.COMPLETED_MODULES_KEY] ?: emptySet()
+            preferences[PrefKeys.COMPLETED_MODULES_KEY] ?: emptySet()
         }
+
+    // Save tokens to DataStore
+    suspend fun saveAuthTokens(accessToken: String, refreshToken: String) {
+        dataStore.edit { preferences ->
+            preferences[PrefKeys.ACCESS_TOKEN_KEY] = accessToken
+            preferences[PrefKeys.REFRESH_TOKEN_KEY] = refreshToken
+        }
+    }
+
+    // Clear tokens on logout
+    suspend fun clearAuthTokens() {
+        dataStore.edit { preferences ->
+            preferences.remove(PrefKeys.ACCESS_TOKEN_KEY)
+            preferences.remove(PrefKeys.REFRESH_TOKEN_KEY)
+        }
+    }
+
 
     suspend fun updateUserPreferences(
         name: String,
@@ -78,42 +102,42 @@ class UserPreferencesRepository(context: Context) {
         interests: String
     ) {
         dataStore.edit { preferences ->
-            preferences[keys.NAME_KEY] = name
-            preferences[keys.COLLEGE_KEY] = college
-            preferences[keys.YEAR_OF_STUDY_KEY] = yearOfStudy
-            preferences[keys.GRADUATION_YEAR_KEY] = expectedGraduationYear
-            preferences[keys.LEARNING_GOALS_KEY] = learningGoals
-            preferences[keys.LEARNING_STYLE_KEY] = preferredLearningStyle
-            preferences[keys.HOURS_PER_WEEK_KEY] = hoursPerWeek
-            preferences[keys.DREAM_COMPANIES_KEY] = dreamCompanies
-            preferences[keys.BRANCH_KEY] = branch
-            preferences[keys.INTERESTS_KEY] = interests
+            preferences[PrefKeys.NAME_KEY] = name
+            preferences[PrefKeys.COLLEGE_KEY] = college
+            preferences[PrefKeys.YEAR_OF_STUDY_KEY] = yearOfStudy
+            preferences[PrefKeys.GRADUATION_YEAR_KEY] = expectedGraduationYear
+            preferences[PrefKeys.LEARNING_GOALS_KEY] = learningGoals
+            preferences[PrefKeys.LEARNING_STYLE_KEY] = preferredLearningStyle
+            preferences[PrefKeys.HOURS_PER_WEEK_KEY] = hoursPerWeek
+            preferences[PrefKeys.DREAM_COMPANIES_KEY] = dreamCompanies
+            preferences[PrefKeys.BRANCH_KEY] = branch
+            preferences[PrefKeys.INTERESTS_KEY] = interests
         }
     }
 
     suspend fun saveTodos(todos: List<TodoItem>) {
         dataStore.edit { preferences ->
             val jsonSet = todos.map { Json.encodeToString(it) }.toSet()
-            preferences[keys.TODO_LIST_KEY] = jsonSet
+            preferences[PrefKeys.TODO_LIST_KEY] = jsonSet
         }
     }
 
     fun isModuleCompleted(moduleId: String): Flow<Boolean> {
         return dataStore.data
             .map { preferences ->
-                preferences[keys.COMPLETED_MODULES_KEY]?.contains(moduleId) ?: false
+                preferences[PrefKeys.COMPLETED_MODULES_KEY]?.contains(moduleId) ?: false
             }
     }
 
     suspend fun setModuleCompleted(moduleId: String, isCompleted: Boolean) {
         dataStore.edit { preferences ->
-            val currentCompleted = preferences[keys.COMPLETED_MODULES_KEY]?.toMutableSet() ?: mutableSetOf()
+            val currentCompleted = preferences[PrefKeys.COMPLETED_MODULES_KEY]?.toMutableSet() ?: mutableSetOf()
             if (isCompleted) {
                 currentCompleted.add(moduleId)
             } else {
                 currentCompleted.remove(moduleId)
             }
-            preferences[keys.COMPLETED_MODULES_KEY] = currentCompleted
+            preferences[PrefKeys.COMPLETED_MODULES_KEY] = currentCompleted
         }
     }
 }
@@ -130,5 +154,3 @@ data class UserPreferences(
     val branch: String,
     val interests: String
 )
-
-

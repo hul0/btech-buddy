@@ -11,6 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.compose.rememberNavController
 import io.github.hul0.btechbuddy.data.repository.UserPreferencesRepository
 import io.github.hul0.btechbuddy.navigation.AppNavigation
 import io.github.hul0.btechbuddy.navigation.Screen
@@ -19,18 +20,25 @@ import kotlinx.coroutines.flow.map
 @Composable
 fun AppHost() {
     val context = LocalContext.current
-    // Use remember to create a single instance of the repository
+    val navController = rememberNavController()
     val userPreferencesRepository = remember { UserPreferencesRepository(context) }
 
-    // Check if onboarding is complete. Start with `null` to represent the loading state.
+    // Combine checks for a cohesive loading state
+    val authState by remember(userPreferencesRepository) {
+        userPreferencesRepository.accessToken.map { token ->
+            if (token == null) AuthState.UNAUTHENTICATED
+            else AuthState.AUTHENTICATED
+        }
+    }.collectAsState(initial = AuthState.LOADING)
+
     val onboardingComplete by userPreferencesRepository.userPreferences.map {
-        it.branch.isNotBlank() && it.interests.isNotBlank() && it.name.isNotBlank() && it.college.isNotBlank()
+        it.branch.isNotBlank() && it.name.isNotBlank()
     }.collectAsState(initial = null)
 
     Surface(modifier = Modifier.fillMaxSize()) {
-        when (onboardingComplete) {
-            // While loading preferences, show a spinner
-            null -> {
+        when {
+            // Show loading indicator while checking auth and onboarding status
+            authState == AuthState.LOADING || onboardingComplete == null -> {
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
@@ -38,14 +46,24 @@ fun AppHost() {
                     CircularProgressIndicator()
                 }
             }
-            // If onboarding is complete, start at the Main screen
-            true -> {
-                AppNavigation(context = context, startDestination = Screen.Main.route)
+            // If authenticated and onboarding is done, go to Main
+            authState == AuthState.AUTHENTICATED && onboardingComplete == true -> {
+                AppNavigation(context = context, navController = navController, startDestination = Screen.Main.route)
             }
-            // If onboarding is not complete, start at the Onboarding screen
-            false -> {
-                AppNavigation(context = context, startDestination = Screen.Onboarding.route)
+            // If not authenticated, go to Auth screen
+            authState == AuthState.UNAUTHENTICATED -> {
+                AppNavigation(context = context, navController = navController, startDestination = Screen.Auth.route)
+            }
+            // If authenticated but onboarding is not done, go to Onboarding
+            else -> {
+                AppNavigation(context = context, navController = navController, startDestination = Screen.Onboarding.route)
             }
         }
     }
+}
+
+enum class AuthState {
+    LOADING,
+    AUTHENTICATED,
+    UNAUTHENTICATED
 }

@@ -99,7 +99,9 @@ fun MainScreen(
             composable(BottomNavScreen.Courses.route) { CoursesScreen(coursesViewModel) }
             composable(BottomNavScreen.Guidance.route) { GuidanceScreen(guidanceViewModel) }
             composable(BottomNavScreen.Todo.route) { TodoScreen(todoViewModel) }
-            composable(BottomNavScreen.Profile.route) { ProfileScreen(profileViewModel, onEditProfile = {}) }
+            composable(BottomNavScreen.Profile.route) { ProfileScreen(
+                profileViewModel
+            ) }
         }
     }
 }
