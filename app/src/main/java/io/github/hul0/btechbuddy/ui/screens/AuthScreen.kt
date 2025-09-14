@@ -20,8 +20,10 @@ import com.google.accompanist.web.rememberWebViewState
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
 fun AuthScreen(onTokensReceived: (String) -> Unit) {
+    val appScheme = "btechbuddy"
+    val redirectUrl = "callback"
     // IMPORTANT: Replace this with the actual URL of your deployed Vercel auth page
-    val authPageUrl = "https://btechbuddy.hulobiral.online/auth/login"
+    val authPageUrl = "https://btechbuddy.hulobiral.online/auth/login?app_scheme=$appScheme&redirect_url=$redirectUrl"
     val state = rememberWebViewState(url = authPageUrl)
     var isLoading by remember { mutableStateOf(true) }
 
