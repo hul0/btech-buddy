@@ -40,54 +40,687 @@
           "Study for certifications like CompTIA Security+ or CEH",
           "Participate in Capture The Flag (CTF) competitions"
         ]
-      }
-    ]
-  },
-  {
-    "category": "Government Exams (India)",
-    "roadmaps": [
+      },
       {
-        "id": "cr4",
-        "title": "UPSC Civil Services (IAS/IPS)",
-        "description": "A comprehensive preparation strategy for one of the toughest exams in India.",
+        "id": "cr7",
+        "title": "Frontend Developer",
+        "description": "The path to becoming a master of user interfaces and web experiences.",
         "steps": [
-          "Thoroughly understand the exam pattern and syllabus",
-          "Build a strong foundation with NCERTs (Class 6-12)",
-          "Cover standard reference books for each subject (e.g., Laxmikanth for Polity)",
-          "Focus on daily current affairs and newspaper reading (The Hindu/Indian Express)",
-          "Practice answer writing for Mains and solve previous year papers",
-          "Regularly attempt mock tests for both Prelims and Mains"
+          "Learn HTML, CSS, and JavaScript fundamentals",
+          "Master a modern JavaScript framework (React, Angular, or Vue.js)",
+          "Understand state management and API integration",
+          "Build responsive and accessible web pages",
+          "Learn build tools like Webpack or Vite",
+          "Create a portfolio with 3-5 diverse projects"
         ]
       },
       {
-        "id": "cr5",
-        "title": "SSC CGL (Combined Graduate Level)",
-        "description": "A focused plan to crack the SSC CGL exam for various Group 'B' and 'C' posts.",
+        "id": "cr8",
+        "title": "Backend Developer",
+        "description": "A roadmap for building the server-side logic and databases that power applications.",
         "steps": [
-          "Master the four sections: Quantitative Aptitude, Reasoning, English, General Awareness",
-          "Develop speed and accuracy in solving math problems",
-          "Improve vocabulary and grammar for the English section",
-          "Stay updated with static GK and current events for General Awareness",
-          "Solve a large number of previous year question papers",
-          "Take online mock tests to manage time effectively"
+          "Choose a backend language (Python, Node.js, Java, Go, Ruby)",
+          "Learn a web framework (e.g., Django, Express.js, Spring)",
+          "Understand database management (SQL and NoSQL)",
+          "Learn RESTful API design and implementation",
+          "Master version control with Git",
+          "Deploy your applications to the cloud"
+        ]
+      },
+      {
+        "id": "cr9",
+        "title": "Full Stack Developer",
+        "description": "A comprehensive guide to becoming proficient in both frontend and backend development.",
+        "steps": [
+          "Complete the Frontend and Backend Developer roadmaps",
+          "Integrate frontend and backend applications using APIs",
+          "Learn about authentication and authorization",
+          "Understand CI/CD pipelines",
+          "Familiarize yourself with containerization (Docker)",
+          "Build and deploy a full-stack application"
+        ]
+      },
+      {
+        "id": "cr10",
+        "title": "DevOps Engineer",
+        "description": "The route to bridging the gap between development and operations for seamless delivery.",
+        "steps": [
+          "Learn Linux fundamentals and command line interface",
+          "Master a scripting language (Bash, Python)",
+          "Understand CI/CD principles and tools (e.g., Jenkins, GitLab CI)",
+          "Learn containerization with Docker and orchestration with Kubernetes",
+          "Get familiar with cloud platforms (AWS, Azure, GCP)",
+          "Learn infrastructure as code (IaC) with tools like Terraform"
+        ]
+      },
+      {
+        "id": "cr11",
+        "title": "Android Developer (Kotlin)",
+        "description": "A roadmap for creating native mobile applications for the Android platform.",
+        "steps": [
+          "Learn Kotlin programming language",
+          "Understand Android SDK and Android Studio",
+          "Learn about UI design with XML layouts and Jetpack Compose",
+          "Understand data persistence (SQLite, Room)",
+          "Learn about RESTful APIs and networking",
+          "Build and publish a personal app on the Google Play Store"
+        ]
+      },
+      {
+        "id": "cr12",
+        "title": "iOS Developer (Swift)",
+        "description": "The definitive path to building native apps for iPhones and iPads.",
+        "steps": [
+          "Learn Swift programming language",
+          "Familiarize yourself with Xcode and Apple's development ecosystem",
+          "Master UI development with SwiftUI or UIKit",
+          "Learn about Core Data for data storage",
+          "Understand concurrency and networking",
+          "Build and publish an app on the Apple App Store"
+        ]
+      },
+      {
+        "id": "cr13",
+        "title": "Cloud Engineer (AWS)",
+        "description": "A focused plan to become an expert in building and managing cloud infrastructure.",
+        "steps": [
+          "Understand core cloud concepts and AWS services (EC2, S3, VPC)",
+          "Study for the AWS Certified Solutions Architect – Associate exam",
+          "Learn infrastructure as code with CloudFormation or Terraform",
+          "Master container services (ECS/EKS)",
+          "Understand serverless computing with AWS Lambda",
+          "Gain experience with monitoring and logging tools (CloudWatch)"
+        ]
+      },
+      {
+        "id": "cr14",
+        "title": "Machine Learning Engineer",
+        "description": "A guide for those who want to build and deploy ML models into production systems.",
+        "steps": [
+          "Master Python and core data science libraries (Numpy, Pandas, Scikit-learn)",
+          "Learn about different ML models and their applications",
+          "Understand data preprocessing and feature engineering",
+          "Learn about model deployment and MLOps principles",
+          "Gain experience with frameworks like TensorFlow or PyTorch",
+          "Build end-to-end ML projects and add them to a portfolio"
         ]
       }
     ]
   },
   {
-    "category": "Management & Other Roles",
+    "category": "Frontend Frameworks",
     "roadmaps": [
       {
-        "id": "cr6",
-        "title": "Product Manager (Entry-Level)",
-        "description": "A guide to breaking into the field of Product Management, a blend of tech, business, and user experience.",
+        "id": "fr1",
+        "title": "React Developer",
+        "description": "Your journey to becoming a proficient React.js developer.",
         "steps": [
-          "Understand the role of a Product Manager and the product lifecycle",
-          "Develop business acumen and market analysis skills",
-          "Learn about UI/UX principles and user-centric design",
-          "Practice case studies (e.g., 'Improve product X', 'Design product Y')",
-          "Build a side project or gain experience through internships",
-          "Network with existing Product Managers"
+          "Master JavaScript (ES6+ features)",
+          "Understand React fundamentals (Components, Props, State)",
+          "Learn Hooks (useState, useEffect, useContext)",
+          "Get familiar with a state management library (Redux, Zustand)",
+          "Practice building with React Router for navigation",
+          "Integrate with APIs using fetch or Axios"
+        ]
+      },
+      {
+        "id": "fr2",
+        "title": "Angular Developer",
+        "description": "A structured path to learning the Angular framework.",
+        "steps": [
+          "Learn TypeScript fundamentals",
+          "Understand Angular CLI and its command-line tools",
+          "Master components, services, and dependency injection",
+          "Learn about routing and forms",
+          "Practice with RxJS for reactive programming",
+          "Build a single-page application (SPA)"
+        ]
+      },
+      {
+        "id": "fr3",
+        "title": "Vue.js Developer",
+        "description": "A roadmap to becoming a skilled Vue.js developer.",
+        "steps": [
+          "Master JavaScript fundamentals",
+          "Understand Vue.js core concepts (Components, Directives)",
+          "Learn about state management with Pinia or Vuex",
+          "Practice building with Vue Router",
+          "Get familiar with the Composition API",
+          "Build several projects to solidify your skills"
+        ]
+      },
+      {
+        "id": "fr4",
+        "title": "Svelte Developer",
+        "description": "A guide to building lightning-fast web applications with Svelte.",
+        "steps": [
+          "Master HTML, CSS, and JavaScript",
+          "Understand how Svelte compiles code and its reactivity model",
+          "Learn about components, props, and state",
+          "Build applications using SvelteKit",
+          "Learn about store management",
+          "Create interactive and dynamic web pages"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Backend Frameworks",
+    "roadmaps": [
+      {
+        "id": "br1",
+        "title": "Node.js (Express.js) Developer",
+        "description": "A guide to building scalable backend services with Node.js.",
+        "steps": [
+          "Master JavaScript for the server-side",
+          "Understand Node.js event loop and asynchronous nature",
+          "Learn to build APIs with Express.js",
+          "Connect to a database (e.g., MongoDB, PostgreSQL)",
+          "Implement authentication with JWTs",
+          "Practice error handling and logging"
+        ]
+      },
+      {
+        "id": "br2",
+        "title": "Django Developer",
+        "description": "A roadmap for creating powerful web applications with the Python-based Django framework.",
+        "steps": [
+          "Learn Python programming language",
+          "Understand Django's MVT (Model-View-Template) architecture",
+          "Master the Django ORM for database interaction",
+          "Learn to use Django's built-in Admin panel",
+          "Build RESTful APIs with Django REST Framework",
+          "Deploy a Django application to a cloud server"
+        ]
+      },
+      {
+        "id": "br3",
+        "title": "Spring Boot (Java) Developer",
+        "description": "The path to building robust enterprise applications with Spring Boot.",
+        "steps": [
+          "Learn Core Java concepts and OOP",
+          "Understand Spring Framework basics (IoC, DI)",
+          "Learn to build REST APIs with Spring Boot",
+          "Master data access with Spring Data JPA",
+          "Understand dependency management with Maven or Gradle",
+          "Practice unit and integration testing"
+        ]
+      },
+      {
+        "id": "br4",
+        "title": "Ruby on Rails Developer",
+        "description": "A guide to becoming proficient in the convention-over-configuration framework.",
+        "steps": [
+          "Learn Ruby programming language",
+          "Understand the Rails MVC architecture",
+          "Master ActiveRecord for database interactions",
+          "Learn about routing and forms",
+          "Practice building full-stack web applications",
+          "Get familiar with RSpec for testing"
+        ]
+      },
+      {
+        "id": "br5",
+        "title": "ASP.NET Core Developer",
+        "description": "The journey to building cross-platform web apps with Microsoft's framework.",
+        "steps": [
+          "Learn C# programming language",
+          "Understand the .NET Core ecosystem",
+          "Learn to build web APIs with ASP.NET Core",
+          "Master Entity Framework Core for data access",
+          "Get familiar with Razor Pages or MVC",
+          "Practice building and deploying web applications"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Mobile Development",
+    "roadmaps": [
+      {
+        "id": "mr1",
+        "title": "React Native Developer",
+        "description": "A roadmap for building cross-platform mobile apps using JavaScript.",
+        "steps": [
+          "Master JavaScript and React fundamentals",
+          "Understand React Native components and styling",
+          "Learn state management for mobile apps",
+          "Integrate device features (camera, GPS)",
+          "Practice with Expo CLI and React Native CLI",
+          "Build a full-featured mobile app"
+        ]
+      },
+      {
+        "id": "mr2",
+        "title": "Flutter Developer",
+        "description": "The path to creating beautiful, natively compiled apps for mobile, web, and desktop from a single codebase.",
+        "steps": [
+          "Learn Dart programming language",
+          "Understand the widget tree concept in Flutter",
+          "Learn state management (Provider, Riverpod, Bloc)",
+          "Integrate with Firebase for backend services",
+          "Practice building responsive UI for different screen sizes",
+          "Publish an app on both the Google Play and Apple App Stores"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Data Engineering & Analytics",
+    "roadmaps": [
+      {
+        "id": "de1",
+        "title": "Data Engineer",
+        "description": "A roadmap to designing and building systems for collecting, managing, and converting raw data into usable information.",
+        "steps": [
+          "Master Python or Scala for data processing",
+          "Learn SQL for querying and managing databases",
+          "Understand ETL/ELT concepts",
+          "Get familiar with cloud data warehouses (e.g., Snowflake, BigQuery)",
+          "Learn about data orchestration tools (e.g., Apache Airflow)",
+          "Build a data pipeline project from scratch"
+        ]
+      },
+      {
+        "id": "de2",
+        "title": "Big Data Engineer",
+        "description": "A focused plan for working with large datasets and distributed systems.",
+        "steps": [
+          "Master data engineering fundamentals",
+          "Learn about the Hadoop ecosystem (HDFS, MapReduce)",
+          "Get hands-on with Apache Spark for large-scale data processing",
+          "Understand NoSQL databases (e.g., Cassandra, HBase)",
+          "Familiarize yourself with streaming data technologies (Kafka, Flink)",
+          "Practice optimizing performance for big data workloads"
+        ]
+      },
+      {
+        "id": "de3",
+        "title": "Data Analyst",
+        "description": "A guide to collecting, processing, and performing statistical analysis on data to inform business decisions.",
+        "steps": [
+          "Master SQL for data extraction and manipulation",
+          "Learn Python or R for data analysis and visualization",
+          "Understand statistical analysis and hypothesis testing",
+          "Get proficient with data visualization tools (Tableau, Power BI)",
+          "Learn to create clear and compelling reports and dashboards",
+          "Work on case studies and real-world datasets"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Game Development",
+    "roadmaps": [
+      {
+        "id": "gr1",
+        "title": "Unity Game Developer",
+        "description": "The path to building 2D and 3D games with the popular Unity engine.",
+        "steps": [
+          "Learn C# programming language",
+          "Understand the Unity editor and core concepts (GameObjects, Components)",
+          "Master scripting in Unity for game logic",
+          "Learn about physics, animations, and particle systems",
+          "Practice with asset integration and scene management",
+          "Build and publish a small game"
+        ]
+      },
+      {
+        "id": "gr2",
+        "title": "Unreal Engine Game Developer",
+        "description": "A roadmap to creating high-fidelity games with the powerful Unreal Engine.",
+        "steps": [
+          "Learn C++ programming language",
+          "Understand the Unreal Engine editor and its features",
+          "Master Blueprint visual scripting for rapid prototyping",
+          "Learn about rendering, lighting, and materials",
+          "Practice creating interactive environments and gameplay mechanics",
+          "Build a demo project or a short playable game"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Cybersecurity Specializations",
+    "roadmaps": [
+      {
+        "id": "cs1",
+        "title": "Penetration Tester / Ethical Hacker",
+        "description": "A guide to legally testing the security of systems and networks to find vulnerabilities.",
+        "steps": [
+          "Master networking fundamentals (TCP/IP, OSI Model)",
+          "Learn about reconnaissance and scanning tools (Nmap)",
+          "Understand common web vulnerabilities (OWASP Top 10)",
+          "Practice with exploitation frameworks (Metasploit)",
+          "Study for certifications like OSCP or eJPT",
+          "Participate in bug bounty programs"
+        ]
+      },
+      {
+        "id": "cs2",
+        "title": "Incident Responder",
+        "description": "The path to becoming a first responder to security breaches and cyberattacks.",
+        "steps": [
+          "Build a strong foundation in cybersecurity and networking",
+          "Learn about digital forensics tools (Wireshark, FTK Imager)",
+          "Understand the incident response lifecycle (NIST framework)",
+          "Practice analyzing logs and network traffic to identify threats",
+          "Study for certifications like GCIH or GIAC",
+          "Participate in simulated cyberattack exercises"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Blockchain & Web3",
+    "roadmaps": [
+      {
+        "id": "w31",
+        "title": "Blockchain Developer",
+        "description": "A guide to building decentralized applications (dApps) and smart contracts.",
+        "steps": [
+          "Understand blockchain fundamentals (public/private keys, hashing)",
+          "Learn Solidity programming language for Ethereum",
+          "Get familiar with development tools (Truffle, Hardhat)",
+          "Learn about web3.js or ethers.js to interact with the blockchain",
+          "Understand token standards (ERC-20, ERC-721)",
+          "Build a simple dApp like a decentralized voting system"
+        ]
+      },
+      {
+        "id": "w32",
+        "title": "Smart Contract Auditor",
+        "description": "The path to specializing in securing smart contracts by identifying vulnerabilities.",
+        "steps": [
+          "Master blockchain development fundamentals and Solidity",
+          "Learn about common smart contract vulnerabilities (reentrancy, integer overflow)",
+          "Get familiar with security tools (Slither, Mythril)",
+          "Study past security incidents and hacks",
+          "Practice auditing open-source smart contracts",
+          "Develop a portfolio of audit reports"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Programming Languages",
+    "roadmaps": [
+      {
+        "id": "pl1",
+        "title": "Python Developer",
+        "description": "A comprehensive roadmap for mastering the versatile Python language.",
+        "steps": [
+          "Master Python fundamentals (syntax, data types, control flow)",
+          "Understand object-oriented programming (OOP) in Python",
+          "Learn to use popular libraries (Requests, BeautifulSoup, Pandas)",
+          "Practice building projects (Web Scraper, REST API, CLI tool)",
+          "Learn about testing frameworks (pytest, unittest)",
+          "Get familiar with virtual environments and package managers"
+        ]
+      },
+      {
+        "id": "pl2",
+        "title": "C++ Developer",
+        "description": "A structured path to becoming a proficient C++ developer for high-performance applications.",
+        "steps": [
+          "Master C++ fundamentals (pointers, memory management)",
+          "Understand object-oriented programming (OOP) concepts",
+          "Learn about the Standard Template Library (STL)",
+          "Practice with modern C++ features (C++11, C++14, etc.)",
+          "Learn about data structures and algorithms",
+          "Build projects that require high performance"
+        ]
+      },
+      {
+        "id": "pl3",
+        "title": "Go (Golang) Developer",
+        "description": "A roadmap for building simple, reliable, and efficient software with Go.",
+        "steps": [
+          "Master Go fundamentals (syntax, concurrency)",
+          "Understand interfaces and structs",
+          "Learn to build REST APIs with Go",
+          "Get familiar with Go modules and package management",
+          "Practice with Go's standard library",
+          "Build a microservice or a network-based application"
+        ]
+      },
+      {
+        "id": "pl4",
+        "title": "Rust Developer",
+        "description": "The path to building safe and performant applications with Rust.",
+        "steps": [
+          "Understand Rust's ownership model and borrowing",
+          "Learn about traits and generics",
+          "Master error handling with `Result` and `Option`",
+          "Get familiar with Cargo and the crate ecosystem",
+          "Practice building CLI tools or web backends",
+          "Learn about concurrency in Rust"
+        ]
+      },
+      {
+        "id": "pl5",
+        "title": "Java Developer",
+        "description": "A guide to mastering the widely-used Java programming language.",
+        "steps": [
+          "Master Java syntax and Object-Oriented Programming (OOP) concepts",
+          "Learn about the Java Collections Framework",
+          "Understand multithreading and concurrency",
+          "Get familiar with build tools like Maven or Gradle",
+          "Practice with Spring Framework for enterprise applications",
+          "Work on personal projects to gain hands-on experience"
+        ]
+      },
+      {
+        "id": "pl6",
+        "title": "C# Developer",
+        "description": "A roadmap for building a variety of applications using C# and the .NET ecosystem.",
+        "steps": [
+          "Master C# fundamentals and OOP principles",
+          "Understand the .NET framework and .NET Core",
+          "Learn to use Visual Studio for development",
+          "Get familiar with ASP.NET for web development or Unity for games",
+          "Practice with LINQ for data manipulation",
+          "Build and deploy a desktop, web, or game application"
+        ]
+      }
+    ]
+  },
+  {
+    "category": "General Skills & Other Roles",
+    "roadmaps": [
+      {
+        "id": "gs1",
+        "title": "Competitive Programmer",
+        "description": "The roadmap to mastering algorithms and data structures for competitive programming contests.",
+        "steps": [
+          "Master C++ or Java programming languages",
+          "Learn core data structures (Arrays, Linked Lists, Trees, Graphs)",
+          "Understand key algorithms (Sorting, Searching, Dynamic Programming)",
+          "Practice on platforms like Codeforces, LeetCode, or HackerRank",
+          "Learn about time and space complexity analysis",
+          "Participate in contests regularly"
+        ]
+      },
+      {
+        "id": "gs2",
+        "title": "Technical Writer",
+        "description": "A guide to creating clear and concise technical documentation and content.",
+        "steps": [
+          "Develop strong writing and communication skills",
+          "Understand how to explain complex topics simply",
+          "Learn about documentation tools (Markdown, Sphinx, GitBook)",
+          "Get familiar with a version control system like Git",
+          "Build a portfolio of writing samples (tutorials, API docs)",
+          "Contribute to open-source documentation"
+        ]
+      },
+      {
+        "id": "gs3",
+        "title": "UI/UX Designer",
+        "description": "The path to designing user-friendly and aesthetically pleasing digital products.",
+        "steps": [
+          "Understand core design principles and human-computer interaction",
+          "Learn about user research and journey mapping",
+          "Master design tools (Figma, Sketch, Adobe XD)",
+          "Create wireframes, mockups, and prototypes",
+          "Learn about usability testing and A/B testing",
+          "Build a portfolio of design projects"
+        ]
+      },
+      {
+        "id": "gs4",
+        "title": "Quality Assurance (QA) Engineer",
+        "description": "A roadmap to ensuring the quality and reliability of software products.",
+        "steps": [
+          "Learn software development lifecycle (SDLC) and QA methodologies",
+          "Understand different types of testing (manual, automated, regression)",
+          "Learn a scripting language for test automation (e.g., Python, JavaScript)",
+          "Get familiar with test automation frameworks (Selenium, Cypress)",
+          "Master bug tracking tools (Jira, Trello)",
+          "Practice writing test cases and test plans"
+        ]
+      },
+      {
+        "id": "gs5",
+        "title": "Site Reliability Engineer (SRE)",
+        "description": "A guide to building highly reliable and scalable systems.",
+        "steps": [
+          "Master Linux and networking fundamentals",
+          "Learn a scripting language (Python, Go)",
+          "Understand monitoring and alerting tools (Prometheus, Grafana)",
+          "Get familiar with CI/CD and automation",
+          "Learn about container orchestration (Kubernetes)",
+          "Practice incident response and post-mortems"
+        ]
+      },
+      {
+        "id": "gs6",
+        "title": "Cloud Architect",
+        "description": "A roadmap for designing and implementing scalable cloud solutions.",
+        "steps": [
+          "Gain deep knowledge of one or more cloud providers (AWS, Azure, GCP)",
+          "Master core services (compute, storage, networking, database)",
+          "Learn about security best practices in the cloud",
+          "Understand microservices architecture and serverless computing",
+          "Get certified (e.g., AWS Certified Solutions Architect - Professional)",
+          "Practice designing complex systems for real-world scenarios"
+        ]
+      },
+      {
+        "id": "gs7",
+        "title": "System Administrator",
+        "description": "The path to managing and maintaining computer systems and servers.",
+        "steps": [
+          "Master Linux or Windows Server administration",
+          "Learn about networking protocols and hardware",
+          "Understand system security and user management",
+          "Get familiar with scripting for automation (Bash, PowerShell)",
+          "Learn about virtualization and containerization",
+          "Practice with monitoring and troubleshooting tools"
+        ]
+      },
+      {
+        "id": "gs8",
+        "title": "Database Administrator (DBA)",
+        "description": "A guide to managing and maintaining database systems.",
+        "steps": [
+          "Master SQL and database theory",
+          "Learn about different database systems (MySQL, PostgreSQL, Oracle)",
+          "Understand database design, normalization, and indexing",
+          "Practice with backup and recovery strategies",
+          "Get familiar with performance tuning and optimization",
+          "Learn about database security and user permissions"
+        ]
+      },
+      {
+        "id": "gs9",
+        "title": "AI/ML Ethicist",
+        "description": "A roadmap to ensuring responsible development of AI and machine learning systems.",
+        "steps": [
+          "Gain a strong understanding of AI/ML fundamentals",
+          "Study ethical frameworks and principles for technology",
+          "Learn about AI bias and fairness",
+          "Understand data privacy and security regulations (e.g., GDPR)",
+          "Collaborate with AI engineers and policymakers",
+          "Analyze case studies of ethical issues in AI"
+        ]
+      },
+      {
+        "id": "gs10",
+        "title": "AR/VR Developer",
+        "description": "The path to building immersive augmented and virtual reality experiences.",
+        "steps": [
+          "Learn C# and the Unity engine or C++ and Unreal Engine",
+          "Understand 3D modeling and asset creation",
+          "Get familiar with AR/VR SDKs (e.g., ARKit, OpenXR)",
+          "Master UI/UX design for immersive environments",
+          "Practice with physics and spatial audio",
+          "Build a demo or interactive experience"
+        ]
+      },
+      {
+        "id": "gs11",
+        "title": "Embedded Systems Engineer",
+        "description": "A guide to building software for embedded systems and hardware.",
+        "steps": [
+          "Master C and C++ programming languages",
+          "Understand microcontrollers and hardware components",
+          "Learn about real-time operating systems (RTOS)",
+          "Practice with circuit design and schematics",
+          "Get hands-on with a development board (Arduino, Raspberry Pi)",
+          "Work on projects involving robotics or IoT"
+        ]
+      },
+      {
+        "id": "gs12",
+        "title": "Network Engineer",
+        "description": "A roadmap for designing, implementing, and managing computer networks.",
+        "steps": [
+          "Master networking fundamentals (TCP/IP, OSI Model)",
+          "Learn about routing and switching protocols",
+          "Get familiar with network hardware (routers, switches)",
+          "Study for certifications like CCNA or Network+",
+          "Learn network security principles",
+          "Practice troubleshooting network issues"
+        ]
+      },
+      {
+        "id": "gs13",
+        "title": "Systems Analyst",
+        "description": "The path to analyzing and designing information systems to solve business problems.",
+        "steps": [
+          "Understand business processes and requirements gathering",
+          "Learn about data modeling and process mapping",
+          "Master project management principles",
+          "Get familiar with system design and architecture",
+          "Practice with flowcharts and UML diagrams",
+          "Develop strong communication skills to bridge tech and business teams"
+        ]
+      },
+      {
+        "id": "gs14",
+        "title": "Robotics Engineer",
+        "description": "A guide to designing, building, and programming robots.",
+        "steps": [
+          "Master C++ or Python programming",
+          "Understand electronics and circuit design",
+          "Learn about control systems and kinematics",
+          "Get familiar with Robot Operating System (ROS)",
+          "Practice with robot simulation tools",
+          "Build a small robot or automation project"
+        ]
+      },
+      {
+        "id": "gs15",
+        "title": "Quantum Computing Engineer",
+        "description": "A forward-looking roadmap for entering the field of quantum computing.",
+        "steps": [
+          "Master linear algebra and quantum mechanics basics",
+          "Learn about qubits and quantum gates",
+          "Get familiar with a quantum programming language (Qiskit, Cirq)",
+          "Understand quantum algorithms (Grover's, Shor's)",
+          "Practice with a quantum simulator",
+          "Work on a project to solve a small problem using quantum computing"
         ]
       }
     ]

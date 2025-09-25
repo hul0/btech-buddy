@@ -13,9 +13,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontStyle
@@ -26,6 +28,40 @@ import io.github.hul0.btechbuddy.data.model.Roadmap
 import io.github.hul0.btechbuddy.viewmodel.DashboardViewModel
 import io.github.hul0.btechbuddy.ui.theme.*
 
+// Legendary palette (aligned with other screens)
+private val DeepSpace = Color(0xFF0D1421)
+private val NearBlack = Color(0xFF070B14)
+private val CyberTeal = Color(0xFF1BFFFF)
+private val ElectricPurple = Color(0xFF8458B3)
+private val NeonPink = Color(0xFFD4145A)
+private val GlowWhite = Color(0xFFFFFFFF)
+
+// Background gradient
+private val DarkHeroGradient = Brush.verticalGradient(
+    colors = listOf(
+        DeepSpace,
+        Color(0xFF0B0F1A),
+        NearBlack
+    )
+)
+
+// Glass brushes
+private val GlassCard = Brush.linearGradient(
+    colors = listOf(
+        GlowWhite.copy(alpha = 0.10f),
+        GlowWhite.copy(alpha = 0.06f),
+        GlowWhite.copy(alpha = 0.04f)
+    )
+)
+
+private val AccentBorder = Brush.linearGradient(
+    colors = listOf(
+        CyberTeal.copy(alpha = 0.45f),
+        ElectricPurple.copy(alpha = 0.30f),
+        GlowWhite.copy(alpha = 0.08f)
+    )
+)
+
 @Composable
 fun DashboardScreen(viewModel: DashboardViewModel) {
     val uiState by viewModel.uiState.collectAsState()
@@ -33,9 +69,9 @@ fun DashboardScreen(viewModel: DashboardViewModel) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
-        verticalArrangement = Arrangement.spacedBy(14.dp)
+            .background(DarkHeroGradient),
+        contentPadding = PaddingValues(horizontal = 20.dp, vertical = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         item {
             GreetingHeader(greeting = uiState.greeting)
@@ -61,6 +97,8 @@ fun DashboardScreen(viewModel: DashboardViewModel) {
         item {
             QuickActions()
         }
+
+        item { Spacer(Modifier.height(80.dp)) }
     }
 }
 
@@ -74,31 +112,31 @@ fun GreetingHeader(greeting: String) {
             Text(
                 text = "Hello there,",
                 style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.onBackground
+                color = GlowWhite.copy(alpha = 0.8f)
             )
             Text(
                 text = greeting,
                 style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onBackground
+                fontWeight = FontWeight.ExtraBold,
+                color = GlowWhite
             )
         }
         CompactIconChip(
             icon = Icons.Default.Notifications,
-            container = MaterialTheme.colorScheme.surface,
-            tint = MaterialTheme.colorScheme.onSurface
+            container = GlowWhite.copy(alpha = 0.10f),
+            tint = GlowWhite
         )
         Spacer(Modifier.width(8.dp))
         CompactIconChip(
             icon = Icons.Default.Settings,
-            container = MaterialTheme.colorScheme.surface,
-            tint = MaterialTheme.colorScheme.onSurface
+            container = GlowWhite.copy(alpha = 0.10f),
+            tint = GlowWhite
         )
         Spacer(Modifier.width(8.dp))
         CompactIconChip(
             icon = Icons.Default.Person,
-            container = MaterialTheme.colorScheme.surface,
-            tint = MaterialTheme.colorScheme.onSurface
+            container = GlowWhite.copy(alpha = 0.10f),
+            tint = GlowWhite
         )
     }
 }
@@ -111,10 +149,10 @@ private fun CompactIconChip(
 ) {
     Box(
         modifier = Modifier
-            .size(36.dp)
-            .clip(RoundedCornerShape(10.dp))
+            .size(38.dp)
+            .clip(RoundedCornerShape(12.dp))
             .background(container)
-            .border(BorderStroke(1.dp, MaterialTheme.colorScheme.outline), RoundedCornerShape(10.dp)),
+            .border(BorderStroke(1.dp, GlowWhite.copy(alpha = 0.22f)), RoundedCornerShape(12.dp)),
         contentAlignment = Alignment.Center
     ) {
         Icon(imageVector = icon, contentDescription = null, tint = tint, modifier = Modifier.size(18.dp))
@@ -125,44 +163,45 @@ private fun CompactIconChip(
 fun StatisticsGrid(progress: Float, modulesCompleted: Int, totalModules: Int) {
     Column {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(Icons.Default.Insights, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(18.dp))
-            Spacer(Modifier.width(6.dp))
+            Icon(Icons.Default.Insights, contentDescription = null, tint = CyberTeal, modifier = Modifier.size(18.dp))
+            Spacer(Modifier.width(8.dp))
             Text(
                 text = "Your Progress",
-                style = MaterialTheme.typography.titleSmall,
-                fontWeight = FontWeight.SemiBold
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.ExtraBold,
+                color = GlowWhite
             )
         }
-        Spacer(Modifier.height(10.dp))
+        Spacer(Modifier.height(12.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            horizontalArrangement = Arrangement.spacedBy(14.dp)
         ) {
             StatCard(
                 modifier = Modifier.weight(1f),
                 label = "Completion",
                 value = {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        // Animated circular indicator
+                        val pct = remember(progress) { (progress.coerceIn(0f, 1f) * 100).toInt() }
                         CircularProgressIndicator(
-                            progress = { progress },
-                            modifier = Modifier.size(48.dp),
-                            strokeWidth = 4.dp,
-                            color = MaterialTheme.colorScheme.primary,
-                            trackColor = MaterialTheme.colorScheme.surface
+                            progress = { progress.coerceIn(0f, 1f) },
+                            modifier = Modifier.size(56.dp),
+                            strokeWidth = 5.dp,
+                            color = CyberTeal,
+                            trackColor = GlowWhite.copy(alpha = 0.12f)
                         )
-                        Spacer(Modifier.height(6.dp))
+                        Spacer(Modifier.height(8.dp))
                         Text(
-                            text = "${(progress * 100).toInt()}%",
+                            text = "$pct%",
                             fontWeight = FontWeight.Bold,
-                            fontSize = 12.sp,
-                            color = MaterialTheme.colorScheme.primary
+                            fontSize = 13.sp,
+                            color = CyberTeal
                         )
                     }
                 },
                 icon = Icons.Default.CheckCircle,
-                color = MaterialTheme.colorScheme.primary,
-                container = MaterialTheme.colorScheme.surface,
-                border = MaterialTheme.colorScheme.outline
+                color = CyberTeal
             )
             StatCard(
                 modifier = Modifier.weight(1f),
@@ -170,15 +209,13 @@ fun StatisticsGrid(progress: Float, modulesCompleted: Int, totalModules: Int) {
                 value = {
                     Text(
                         text = "$modulesCompleted/$totalModules",
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = GlowWhite
                     )
                 },
                 icon = Icons.Default.School,
-                color = MaterialTheme.colorScheme.primary,
-                container = MaterialTheme.colorScheme.surface,
-                border = MaterialTheme.colorScheme.outline
+                color = ElectricPurple
             )
         }
     }
@@ -190,39 +227,40 @@ fun StatCard(
     label: String,
     value: @Composable () -> Unit,
     icon: ImageVector,
-    color: Color,
-    container: Color,
-    border: Color
+    color: Color
 ) {
     Surface(
         modifier = modifier,
-        shape = RoundedCornerShape(14.dp),
-        color = container,
-        border = BorderStroke(1.dp, border)
+        shape = RoundedCornerShape(16.dp),
+        color = Color.Transparent,
+        border = BorderStroke(1.dp, GlowWhite.copy(alpha = 0.20f))
     ) {
         Column(
-            modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
+            modifier = Modifier
+                .background(GlassCard, RoundedCornerShape(16.dp))
+                .padding(horizontal = 14.dp, vertical = 12.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(6.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(6.dp)
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Box(
                     modifier = Modifier
-                        .size(22.dp)
+                        .size(26.dp)
                         .clip(CircleShape)
-                        .background(color.copy(alpha = 0.12f)),
+                        .background(color.copy(alpha = 0.16f))
+                        .border(1.dp, color.copy(alpha = 0.45f), CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
-                    Icon(icon, contentDescription = null, tint = color, modifier = Modifier.size(14.dp))
+                    Icon(icon, contentDescription = null, tint = color, modifier = Modifier.size(16.dp))
                 }
                 Text(
                     text = label,
                     style = MaterialTheme.typography.labelLarge,
                     fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = GlowWhite.copy(alpha = 0.9f)
                 )
             }
             value()
@@ -234,19 +272,21 @@ fun StatCard(
 fun QuoteOfTheDayCard(quote: String, author: String) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(14.dp),
-        color = MaterialTheme.colorScheme.surface,
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
+        shape = RoundedCornerShape(16.dp),
+        color = Color.Transparent,
+        border = BorderStroke(1.dp, GlowWhite.copy(alpha = 0.20f))
     ) {
         Row(
-            modifier = Modifier.padding(12.dp),
+            modifier = Modifier
+                .background(GlassCard, RoundedCornerShape(16.dp))
+                .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(
                 modifier = Modifier
                     .width(3.dp)
                     .height(IntrinsicSize.Min)
-                    .background(MaterialTheme.colorScheme.primary)
+                    .background(CyberTeal)
             )
             Spacer(Modifier.width(12.dp))
             Column(modifier = Modifier.weight(1f)) {
@@ -254,22 +294,22 @@ fun QuoteOfTheDayCard(quote: String, author: String) {
                     Icon(
                         Icons.Default.FormatQuote,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary,
+                        tint = GlowWhite,
                         modifier = Modifier.size(18.dp)
                     )
-                    Spacer(Modifier.width(6.dp))
+                    Spacer(Modifier.width(8.dp))
                     Text(
                         text = "\"$quote\"",
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = MaterialTheme.typography.bodyLarge,
                         fontStyle = FontStyle.Italic,
-                        color = MaterialTheme.colorScheme.onSurface
+                        color = GlowWhite
                     )
                 }
-                Spacer(Modifier.height(4.dp))
+                Spacer(Modifier.height(6.dp))
                 Text(
                     text = "- $author",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurface,
+                    style = MaterialTheme.typography.labelMedium,
+                    color = GlowWhite.copy(alpha = 0.9f),
                     modifier = Modifier.align(Alignment.End)
                 )
             }
@@ -281,40 +321,43 @@ fun QuoteOfTheDayCard(quote: String, author: String) {
 fun RecommendedRoadmapCard(roadmap: Roadmap) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(14.dp),
-        color = MaterialTheme.colorScheme.surface,
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
+        shape = RoundedCornerShape(16.dp),
+        color = Color.Transparent,
+        border = BorderStroke(1.dp, GlowWhite.copy(alpha = 0.20f))
     ) {
         Row(
-            modifier = Modifier.padding(12.dp),
+            modifier = Modifier
+                .background(GlassCard, RoundedCornerShape(16.dp))
+                .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(
                 modifier = Modifier
-                    .size(36.dp)
+                    .size(44.dp)
                     .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.surface),
+                    .background(NeonPink.copy(alpha = 0.16f))
+                    .border(1.dp, NeonPink.copy(alpha = 0.45f), CircleShape),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = Icons.Default.AutoAwesome,
                     contentDescription = null,
-                    modifier = Modifier.size(18.dp),
-                    tint = MaterialTheme.colorScheme.primary
+                    modifier = Modifier.size(20.dp),
+                    tint = NeonPink
                 )
             }
             Spacer(modifier = Modifier.width(12.dp))
             Column {
                 Text(
                     text = "Recommended for you",
-                    style = MaterialTheme.typography.titleSmall,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = GlowWhite
                 )
                 Text(
                     text = "Explore the ${roadmap.title} roadmap",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurface
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = GlowWhite.copy(alpha = 0.9f)
                 )
             }
         }
@@ -325,29 +368,28 @@ fun RecommendedRoadmapCard(roadmap: Roadmap) {
 fun QuickActions() {
     Column {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(Icons.Default.Bolt, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(18.dp))
-            Spacer(Modifier.width(6.dp))
+            Icon(Icons.Default.Bolt, contentDescription = null, tint = ElectricPurple, modifier = Modifier.size(18.dp))
+            Spacer(Modifier.width(8.dp))
             Text(
                 text = "Quick Actions",
-                style = MaterialTheme.typography.titleSmall,
-                fontWeight = FontWeight.SemiBold
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.ExtraBold,
+                color = GlowWhite
             )
         }
-        Spacer(Modifier.height(10.dp))
-        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        Spacer(Modifier.height(12.dp))
+        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
             QuickActionCard(
                 title = "Daily Challenge",
                 subtitle = "Solve today's aptitude question",
                 icon = Icons.Default.Lightbulb,
-                container = MaterialTheme.colorScheme.surface,
-                accent = MaterialTheme.colorScheme.primary
+                accent = CyberTeal
             )
             QuickActionCard(
                 title = "Community Forum",
                 subtitle = "Ask questions and help peers",
                 icon = Icons.Default.Groups,
-                container = MaterialTheme.colorScheme.surface,
-                accent = MaterialTheme.colorScheme.primary
+                accent = ElectricPurple
             )
         }
     }
@@ -359,26 +401,28 @@ fun QuickActionCard(
     title: String,
     subtitle: String,
     icon: ImageVector,
-    container: Color,
     accent: Color
 ) {
     Card(
         onClick = {},
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(14.dp),
-        colors = CardDefaults.cardColors(containerColor = container),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent),
+        border = BorderStroke(1.dp, GlowWhite.copy(alpha = 0.20f)),
         elevation = CardDefaults.cardElevation(0.dp)
     ) {
         Row(
-            modifier = Modifier.padding(12.dp),
+            modifier = Modifier
+                .background(GlassCard, RoundedCornerShape(16.dp))
+                .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(
                 modifier = Modifier
-                    .size(40.dp)
+                    .size(42.dp)
                     .clip(CircleShape)
-                    .background(accent.copy(alpha = 0.12f)),
+                    .background(accent.copy(alpha = 0.16f))
+                    .border(1.dp, accent.copy(alpha = 0.45f), CircleShape),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
@@ -390,10 +434,10 @@ fun QuickActionCard(
             }
             Spacer(modifier = Modifier.width(12.dp))
             Column(modifier = Modifier.weight(1f)) {
-                Text(text = title, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurface)
-                Text(text = subtitle, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurface)
+                Text(text = title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.ExtraBold, color = GlowWhite)
+                Text(text = subtitle, style = MaterialTheme.typography.bodyMedium, color = GlowWhite.copy(alpha = 0.9f))
             }
-            Icon(Icons.Default.ChevronRight, contentDescription = null, tint = MaterialTheme.colorScheme.onSurface, modifier = Modifier.size(18.dp))
+            Icon(Icons.Default.ChevronRight, contentDescription = null, tint = GlowWhite, modifier = Modifier.size(20.dp))
         }
     }
 }

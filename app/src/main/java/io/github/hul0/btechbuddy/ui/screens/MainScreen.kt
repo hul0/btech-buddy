@@ -3,7 +3,6 @@ package io.github.hul0.btechbuddy.ui.screens
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -30,6 +29,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.onSizeChanged
@@ -46,6 +47,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import io.github.hul0.btechbuddy.viewmodel.*
+
+// Legendary palette for the bar
+private val GlowWhite = Color(0xFFFFFFFF)
+private val CyberTeal = Color(0xFF1BFFFF)
+private val ElectricPurple = Color(0xFF8458B3)
+private val NeonPink = Color(0xFFD4145A)
 
 sealed class BottomNavScreen(
     val route: String,
@@ -99,9 +106,7 @@ fun MainScreen(
             composable(BottomNavScreen.Courses.route) { CoursesScreen(coursesViewModel) }
             composable(BottomNavScreen.Guidance.route) { GuidanceScreen(guidanceViewModel) }
             composable(BottomNavScreen.Todo.route) { TodoScreen(todoViewModel) }
-            composable(BottomNavScreen.Profile.route) { ProfileScreen(
-
-            ) }
+            composable(BottomNavScreen.Profile.route) { ProfileScreen() }
         }
     }
 }
@@ -118,7 +123,7 @@ fun EnhancedCoolBottomNavBar(
     var containerSize by remember { mutableStateOf(IntSize.Zero) }
     val density = LocalDensity.current
 
-    val indicatorWidth = 22.dp
+    val indicatorWidth = 26.dp
     val indicatorHeight = 3.dp
 
     val indicatorOffset: Dp by animateDpAsState(
@@ -142,21 +147,31 @@ fun EnhancedCoolBottomNavBar(
             .padding(horizontal = 20.dp, vertical = 12.dp),
         contentAlignment = Alignment.Center
     ) {
+        // Glass pill container
         Surface(
             modifier = Modifier
                 .height(70.dp)
                 .fillMaxWidth(),
             shape = RoundedCornerShape(35.dp),
-            color = MaterialTheme.colorScheme.surface,
-            shadowElevation = 0.dp,
-            tonalElevation = 0.dp,
-            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
+            color = Color.Transparent,
+            border = BorderStroke(1.dp, GlowWhite.copy(alpha = 0.20f))
         ) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
+                    .background(
+                        brush = Brush.linearGradient(
+                            colors = listOf(
+                                GlowWhite.copy(alpha = 0.10f),
+                                GlowWhite.copy(alpha = 0.06f),
+                                GlowWhite.copy(alpha = 0.04f)
+                            )
+                        ),
+                        shape = RoundedCornerShape(35.dp)
+                    )
                     .onSizeChanged { containerSize = it }
             ) {
+                // Neon gradient line indicator
                 Box(
                     modifier = Modifier
                         .align(Alignment.BottomStart)
@@ -164,7 +179,11 @@ fun EnhancedCoolBottomNavBar(
                         .width(indicatorWidth)
                         .height(indicatorHeight)
                         .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.primary)
+                        .background(
+                            Brush.horizontalGradient(
+                                listOf(CyberTeal, ElectricPurple, NeonPink)
+                            )
+                        )
                 )
 
                 Row(
@@ -206,7 +225,6 @@ fun EnhancedCoolBottomNavItem(
     onClick: () -> Unit
 ) {
     val haptic = LocalHapticFeedback.current
-
     val scale by animateFloatAsState(
         targetValue = if (isSelected) 1.12f else 1.0f,
         animationSpec = spring(dampingRatio = 1f, stiffness = 300f),
@@ -236,8 +254,7 @@ fun EnhancedCoolBottomNavItem(
         Icon(
             imageVector = if (isSelected) screen.selectedIcon else screen.unselectedIcon,
             contentDescription = screen.label,
-            tint = if (isSelected) MaterialTheme.colorScheme.primary
-            else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f),
+            tint = if (isSelected) GlowWhite else GlowWhite.copy(alpha = 0.8f),
             modifier = Modifier
                 .scale(scale)
                 .size(iconSize)
