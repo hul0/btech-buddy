@@ -100,7 +100,7 @@ fun MainScreen(
             composable(BottomNavScreen.Guidance.route) { GuidanceScreen(guidanceViewModel) }
             composable(BottomNavScreen.Todo.route) { TodoScreen(todoViewModel) }
             composable(BottomNavScreen.Profile.route) { ProfileScreen(
-                profileViewModel
+
             ) }
         }
     }

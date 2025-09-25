@@ -2,8 +2,8 @@ package io.github.hul0.btechbuddy.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val PureBlack = Color(0xFF000000)
-val PureWhite = Color(0xFFFFFFFF)
+val PureBlack = Color(0xFFFFFFFF)
+val PureWhite = Color(0xFF272728)
 
 // Original colors (keeping for compatibility, but mapped to monochrome)
 val Purple80 = PureBlack
@@ -58,8 +58,8 @@ val Amber = PureBlack
 // NEUTRAL PALETTE
 val Gray50 = PureWhite
 val Gray100 = PureWhite
-val Gray200 = Color(0xFFDDDDDD) // A light gray for dividers
-val Gray300 = Color(0xFFCCCCCC)
+val Gray200 = Color(0xFFCCCCCC) // A light gray for dividers
+val Gray300 = Color(0xFFDDDDDD)
 val Gray700 = PureBlack
 val Gray800 = PureBlack
 val Gray900 = PureBlack

@@ -2,6 +2,7 @@ package io.github.hul0.btechbuddy.ui.screens
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,7 +12,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Article
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Article
 import androidx.compose.material.icons.filled.Timeline
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -20,12 +20,49 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import io.github.hul0.btechbuddy.data.model.Module
 import io.github.hul0.btechbuddy.viewmodel.LearningViewModel
-import io.github.hul0.btechbuddy.ui.theme.* // Color.kt palette
+import io.github.hul0.btechbuddy.ui.theme.*
+
+// Legendary palette hooks (reuse your palette if already defined)
+private val DeepSpace = Color(0xFF0D1421)
+private val NearBlack = Color(0xFF070B14)
+private val CyberTeal = Color(0xFF1BFFFF)
+private val ElectricPurple = Color(0xFF8458B3)
+private val NeonPink = Color(0xFFD4145A)
+private val GlowWhite = Color(0xFFFFFFFF)
+private val SuccessGreen = Color(0xFF00C853)
+
+// Background gradient
+private val DarkHeroGradient = Brush.verticalGradient(
+    colors = listOf(
+        DeepSpace,
+        Color(0xFF0B0F1A),
+        NearBlack
+    )
+)
+
+// Glass brushes
+private val GlassCard = Brush.linearGradient(
+    colors = listOf(
+        GlowWhite.copy(alpha = 0.10f),
+        GlowWhite.copy(alpha = 0.06f),
+        GlowWhite.copy(alpha = 0.04f)
+    )
+)
+
+private val CardBorder = Brush.linearGradient(
+    colors = listOf(
+        CyberTeal.copy(alpha = 0.45f),
+        ElectricPurple.copy(alpha = 0.30f),
+        GlowWhite.copy(alpha = 0.08f)
+    )
+)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,96 +73,140 @@ fun LearningPathDetailScreen(
 ) {
     val learningPath by viewModel.getLearningPathById(pathId).collectAsState(initial = null)
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        learningPath?.title ?: "Details",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = Gray900
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = { navController.navigateUp() }) {
-                        Icon(
-                            Icons.Default.ArrowBack,
-                            contentDescription = "Back",
-                            tint = Blue700
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(DarkHeroGradient)
+    ) {
+        Scaffold(
+            containerColor = Color.Transparent,
+            topBar = {
+                // Scrim behind top bar for legibility
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(
+                            brush = Brush.verticalGradient(
+                                colors = listOf(
+                                    Color.Black.copy(alpha = 0.22f),
+                                    Color.Transparent
+                                )
+                            )
                         )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Gray50,
-                    titleContentColor = Gray900,
-                    navigationIconContentColor = Blue700,
-                    actionIconContentColor = Gray800
-                )
-            )
-        }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-        ) {
-            Divider(color = Gray200, thickness = 1.dp)
-            LazyColumn(
+                ) {
+                    TopAppBar(
+                        title = {
+                            Text(
+                                learningPath?.title ?: "Details",
+                                style = MaterialTheme.typography.titleLarge,
+                                color = GlowWhite
+                            )
+                        },
+                        navigationIcon = {
+                            IconButton(onClick = { navController.navigateUp() }) {
+                                Icon(
+                                    Icons.Default.ArrowBack,
+                                    contentDescription = "Back",
+                                    tint = GlowWhite
+                                )
+                            }
+                        },
+                        colors = TopAppBarDefaults.topAppBarColors(
+                            containerColor = Color.Transparent,
+                            titleContentColor = GlowWhite,
+                            navigationIconContentColor = GlowWhite,
+                            actionIconContentColor = GlowWhite
+                        )
+                    )
+                }
+            }
+        ) { paddingValues ->
+            Column(
                 modifier = Modifier
+                    .padding(paddingValues)
                     .fillMaxSize()
-                    .padding(horizontal = 16.dp, vertical = 12.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                item {
-                    learningPath?.let {
-                        // Header: outlined and compact (no elevation/shadows/gradients)
-                        OutlinedCard(
-                            shape = RoundedCornerShape(12.dp),
-                            colors = CardDefaults.cardColors(containerColor = Blue50),
-                            border = BorderStroke(1.dp, Blue100)
-                        ) {
-                            Row(
-                                modifier = Modifier.padding(12.dp),
-                                verticalAlignment = Alignment.CenterVertically
+                // Section label to orient users
+                Text(
+                    text = if (learningPath?.modules?.isNotEmpty() == true) "Modules" else "",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = GlowWhite.copy(alpha = 0.8f),
+                    modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 12.dp, bottom = 4.dp)
+                )
+
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 20.dp, vertical = 12.dp),
+                    verticalArrangement = Arrangement.spacedBy(14.dp)
+                ) {
+                    // Header card with path info
+                    item {
+                        learningPath?.let { itLp ->
+                            Surface(
+                                modifier = Modifier.fillMaxWidth(),
+                                shape = RoundedCornerShape(16.dp),
+                                tonalElevation = 0.dp,
+                                shadowElevation = 0.dp,
+                                color = Color.Transparent,
+                                border = BorderStroke(1.dp, Color.Unspecified)
                             ) {
+                                // Card background + border layers
                                 Box(
                                     modifier = Modifier
-                                        .size(36.dp)
-                                        .clip(CircleShape)
-                                        .background(Blue100),
-                                    contentAlignment = Alignment.Center
+                                        .background(GlassCard, RoundedCornerShape(16.dp))
+                                        .border(
+                                            BorderStroke(1.dp, Color(0x33FFFFFF)),
+                                            shape = RoundedCornerShape(16.dp)
+                                        )
                                 ) {
-                                    Icon(
-                                        Icons.Filled.Timeline,
-                                        contentDescription = null,
-                                        tint = Blue700
-                                    )
-                                }
-                                Spacer(Modifier.width(10.dp))
-                                Column(modifier = Modifier.weight(1f)) {
-                                    Text(
-                                        it.title,
-                                        style = MaterialTheme.typography.titleMedium,
-                                        fontWeight = FontWeight.Bold,
-                                        color = Blue900
-                                    )
-                                    Spacer(modifier = Modifier.height(4.dp))
-                                    Text(
-                                        it.description,
-                                        style = MaterialTheme.typography.bodySmall,
-                                        color = Gray800
-                                    )
+                                    Row(
+                                        modifier = Modifier.padding(16.dp),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Box(
+                                            modifier = Modifier
+                                                .size(44.dp)
+                                                .clip(CircleShape)
+                                                .background(CyberTeal.copy(alpha = 0.16f)),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Icon(
+                                                Icons.Filled.Timeline,
+                                                contentDescription = null,
+                                                tint = CyberTeal
+                                            )
+                                        }
+                                        Spacer(Modifier.width(12.dp))
+                                        Column(modifier = Modifier.weight(1f)) {
+                                            Text(
+                                                itLp.title,
+                                                style = MaterialTheme.typography.titleLarge,
+                                                fontWeight = FontWeight.ExtraBold,
+                                                color = GlowWhite
+                                            )
+                                            Spacer(modifier = Modifier.height(6.dp))
+                                            Text(
+                                                itLp.description,
+                                                style = MaterialTheme.typography.bodyMedium,
+                                                color = GlowWhite.copy(alpha = 0.8f)
+                                            )
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
-                }
 
-                items(learningPath?.modules ?: emptyList()) { module ->
-                    ModuleItem(
-                        module = module,
-                        viewModel = viewModel
-                    )
+                    // Module items
+                    items(learningPath?.modules ?: emptyList()) { module ->
+                        ModuleItem(
+                            module = module,
+                            viewModel = viewModel
+                        )
+                    }
+
+                    item { Spacer(Modifier.height(80.dp)) }
                 }
             }
         }
@@ -139,52 +220,83 @@ fun ModuleItem(
 ) {
     val isCompleted by viewModel.isModuleCompleted(module.id).collectAsState(initial = false)
 
-    // Outlined row card: compact, colorful, no elevation/shadows/gradients
-    OutlinedCard(
+    // Dark list row using glass surface and accent states
+    Surface(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = if (isCompleted) Green50 else Gray50),
-        border = BorderStroke(1.dp, if (isCompleted) Green100 else Gray200)
+        shape = RoundedCornerShape(14.dp),
+        tonalElevation = 0.dp,
+        shadowElevation = 0.dp,
+        color = Color.Transparent
     ) {
-        Row(
+        val containerBrush = if (isCompleted) {
+            // Slight success tint for completed state
+            Brush.linearGradient(
+                listOf(
+                    SuccessGreen.copy(alpha = 0.14f),
+                    GlowWhite.copy(alpha = 0.05f)
+                )
+            )
+        } else {
+            GlassCard
+        }
+
+        Box(
             modifier = Modifier
-                .fillMaxWidth()
+                .background(containerBrush, RoundedCornerShape(14.dp))
+                .border(
+                    BorderStroke(
+                        1.dp,
+                        if (isCompleted) SuccessGreen.copy(alpha = 0.45f) else Color(0x33FFFFFF)
+                    ),
+                    shape = RoundedCornerShape(14.dp)
+                )
                 .clickable {
+                    // Keep existing interaction: toggle completion on whole row
                     viewModel.setModuleCompleted(module.id, !isCompleted)
                 }
-                .padding(horizontal = 12.dp, vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .padding(horizontal = 14.dp, vertical = 12.dp)
         ) {
-            Checkbox(
-                checked = isCompleted,
-                onCheckedChange = { viewModel.setModuleCompleted(module.id, it) },
-                colors = CheckboxDefaults.colors(
-                    checkedColor = Green700,
-                    uncheckedColor = Gray50.copy(0.5f),
-                    checkmarkColor = Gray50
-                )
-            )
-            Spacer(modifier = Modifier.width(10.dp))
-            Box(
-                modifier = Modifier
-                    .size(28.dp)
-                    .clip(CircleShape)
-                    .background(if (isCompleted) Green100 else Blue100),
-                contentAlignment = Alignment.Center
+            Row(
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.Article,
-                    contentDescription = null,
-                    tint = if (isCompleted) Green700 else Blue700
+                Checkbox(
+                    checked = isCompleted,
+                    onCheckedChange = { viewModel.setModuleCompleted(module.id, it) },
+                    colors = CheckboxDefaults.colors(
+                        checkedColor = SuccessGreen,
+                        uncheckedColor = GlowWhite.copy(alpha = 0.45f),
+                        checkmarkColor = Color.Black, // strong contrast over success
+                        disabledCheckedColor = SuccessGreen.copy(alpha = 0.6f),
+                        disabledUncheckedColor = GlowWhite.copy(alpha = 0.25f)
+                    )
+                )
+                Spacer(modifier = Modifier.width(12.dp))
+
+                Box(
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clip(CircleShape)
+                        .background(
+                            if (isCompleted) SuccessGreen.copy(alpha = 0.20f) else CyberTeal.copy(alpha = 0.16f)
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.Article,
+                        contentDescription = null,
+                        tint = if (isCompleted) SuccessGreen else CyberTeal
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(12.dp))
+
+                Text(
+                    text = module.title,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = if (isCompleted) GlowWhite.copy(alpha = 0.85f) else GlowWhite,
+                    modifier = Modifier.weight(1f)
                 )
             }
-            Spacer(modifier = Modifier.width(10.dp))
-            Text(
-                text = module.title,
-                style = MaterialTheme.typography.bodyMedium,
-                color = if (isCompleted) Charcoal else Gray900,
-                modifier = Modifier.weight(1f)
-            )
         }
     }
 }
